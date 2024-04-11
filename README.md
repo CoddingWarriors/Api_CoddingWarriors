@@ -13,25 +13,22 @@
 
 <span id="objetivo">
   
-## Objetivo da Sprint
+## 🎯 Objetivo da Sprint
 Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, sendo possível o usuário suporte visualizar os pedidos criados e assim os responder, finalizando o atendimento do chamado e o concluindo.
 
 <br>
 
 <span id="dor">
 
-## DoR
-- User Stories
-- Mockup
-- Tarefas
+## 📋 DoR
+- Tarefas definidas
 - Modelo do banco de dados
-
 
 <br>
 
 <span id="dod">
 
-## DoD
+## 📈 DoD
 - Código
 - Vídeo utilizando o sistema
 
@@ -39,7 +36,7 @@ Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, s
 
 <span id="backlog">
 
-## Sprint Backlog
+## 📖 Sprint Backlog
 | User Storie | Estimativa (horas) | Critério de aceitação | Tarefas |
 | :---------: | :----------------: | :-------------------: | :-----: |
 | Como cliente, quero poder me cadastrar para utilizar todas as funcionalidades que o site tem a oferecer | 6 | [front] Efetuar cadastro informando seus dados pessoais <br> [front] Exibição de um pop-up de cadastro concluído <br> [front] Exibição da tela de login <br> [back] Usuário criado no banco | [front] Tela de cadastro (cliente) – formulário <br> [back] Cadastro (cliente) – validar os dados <br> [back] Cadastro (cliente) – criar persistência dos dados no banco |
@@ -50,5 +47,5 @@ Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, s
 | Como suporte, quero poder aceitar chamados pendentes para resolver o problema do cliente | 7 | [front] Selecionar um chamado para mais detalhes <br> [front] Enviar a resposta do chamado selecionado com templates ou uma nova resposta <br> [front] Exibição do pop-up de chamado respondido <br> [front] Exibição da tela de chamados <br> [back] Resposta criada no banco | [front] Tela de chamados (suporte) <br> [back] Chamados (suporte) - função onclick() para alteração de status <br> [back] Chamados (suporte) - validar a alteração <br> [back] Chamados (suporte) - alterar o status do chamdo no banco |
 | Como suporte, quero poder visualizar chamados pendentes para administrar melhor o tempo de cada solicitação | 6 | [front] Exibição apenas dos chamados pendentes | [front] Tela de chamados (suporte) <br> [back] Chamados (suporte) - encaminhar os dados do banco para tela <br> [back] Chamados (suporte) - filtar os dados por pendentes |
 | Como cliente, quero poder visualizar meus chamados pendentes, em andamento e concluídos para poder acompanhar o andamento da minha solicitação | 6 | [front] Exibição dos chamados agrupados em categoria (pendentes, em andamente, concluído) | [front] Tela de atendimento (cliente) <br> [back] Atendimento (cliente) - encaminhar os dados do banco para tela <br> [back] Atendimento (cliente) - filtrar os dados por pendentes, em andamento e concluídos |
-| Como cliente, suporte e ADM quero poder realizar o logout para encerrar minha seção e proteger meus dados | 5 |  | [front] Pop-up de logout (cliente, suporte, ADM) <br> [back] Logout (cliente, suporte, ADM) - invalidar a sessão atual do usuário |
-| Como suporte, quero poder responder aos chamados para atender aos clientes | 5 |  | [front] Tela de responder chamados (suporte) - formulário <br> [back] Responder chamados (suporte) - validar dados <br> [back] Responder chamados (suporte) - criar permanência da resposta no banco |
+| Como cliente, suporte e ADM quero poder realizar o logout para encerrar minha seção e proteger meus dados | 5 | [front] Exibição do pop-up de logout <br> [front] Retornar a tela inicial e visualizar o header sem usuário logado | [front] Pop-up de logout (cliente, suporte, ADM) <br> [back] Logout (cliente, suporte, ADM) - invalidar a sessão atual do usuário |
+| Como suporte, quero poder responder aos chamados para atender aos clientes | 5 | [front] Exibição do pop-up de chamado respondido <br> [front] Na tela do suporte e na tela do cliente, agora o chamado aparece na aba de “chamados concluídos” <br> [back] Chamado foi registrado no banco  | [front] Tela de responder chamados (suporte) - formulário <br> [back] Responder chamados (suporte) - validar dados <br> [back] Responder chamados (suporte) - criar permanência da resposta no banco <br> [back] Responder chamados (suporte) – mudar o status do chamado para concluído |
