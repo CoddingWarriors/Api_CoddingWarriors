@@ -4,8 +4,8 @@
 
 <p align="center">
   <a href="#objetivo">Objetivo da Sprint </a>  |
-  <a href="dor">DoR</a> |
-  <a href="dod">DoD</a> |
+  <a href="#dor">DoR</a> |
+  <a href="#dod">DoD</a> |
   <a href="#backlog">Sprint Backlog</a>
 </p>
 
@@ -21,7 +21,10 @@ Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, s
 <span id="dor">
 
 ## 📋 DoR
+- Protótipo navegável
 - Tarefas definidas
+- Critérios de aceitação
+- Estimativa de horas
 - Modelo do banco de dados
 
 <br>
