@@ -6,9 +6,9 @@
   <a href="#objetivo">Objetivo do Projeto </a>  |
   <a href="#tecnologias">Tecnologias </a>  |
   <a href="#sprints">Sprints</a>  |
-  <a href="requisitos">Requisitos do parceiro</a>
+  <a href="#requisitos">Requisitos do parceiro</a> |
   <a href="#backlog">Product Backlog</a>  | 
-  <a href="#equipe">Equipe</a>  |
+  <a href="#equipe">Equipe</a>
 </p>
 
 </br>
@@ -32,9 +32,10 @@ O projeto Internet Ocean tem como objetivo realizar o gerenciamento de chamados 
 <span id="sprints">
 
 ## 🗓 Sprints
-[Sprint 2](): em andamento   <br>
-[Sprint 3](): em andamento   <br>
-[Sprint 4](): em andamento  
+[Sprint 1](https://github.com/CoddingWarriors/Api_CoddingWarriors/tree/sprint1): em andamento 🔁  <br>
+[Sprint 2](https://github.com/CoddingWarriors/Api_CoddingWarriors/tree/sprint2): em andamento 🔁  <br>
+Sprint 3: em andamento 🔁  <br>
+Sprint 4: em andamento 🔁 
 
 <br>
 
@@ -94,8 +95,8 @@ O projeto Internet Ocean tem como objetivo realizar o gerenciamento de chamados 
 ## 👥 Equipe
 |   Foto  |     Nome      |     Função     |     Github     |     Linkedin     |
 | :-----: | :-----------: | :------------: | :------------: | :--------------: |
-| <img src=""> | Ivan          | Scrum Master | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> | 
+| <img src=""> | Ivan Suiyama Silva | Scrum Master | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> | 
 | <img src=""> | Erika Dias Ribeiro | Product Owner | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
-| <img src=""> | Igor | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
-| <img src=""> | Digo Palharini | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
-| <img src=""> | Juan | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
+| <img src=""> | Igor Kenzo Miyazaki Sasaki | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
+| <img src=""> | Diogo Palharini | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
+| <img src=""> | Juan Garcia Soares | Desenvolvedor | <a href=""><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a> | <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> |
