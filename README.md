@@ -6,6 +6,7 @@
   <a href="#objetivo">Objetivo da Sprint </a>  |
   <a href="#dor">DoR</a> |
   <a href="#dod">DoD</a> |
+  <a href="#modelo">Modelo conceitual do banco</a>
   <a href="#backlog">Sprint Backlog</a>
 </p>
 
@@ -34,6 +35,13 @@ Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, s
 ## 📈 DoD
 - Código
 - Vídeo utilizando o sistema
+
+<br>
+
+<span id="modelo">
+
+## ✉️ Modelo conceitual do banco
+<img src="documents/img/sprint2/banco-sprint2.png">
 
 <br>
 
