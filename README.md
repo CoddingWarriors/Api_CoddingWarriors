@@ -1,4 +1,4 @@
-<img src="documents/img/ImagemInicialMain.png">
+<img src="documents/img/apresentacaoSprint1.png">
 
 <br>
 
