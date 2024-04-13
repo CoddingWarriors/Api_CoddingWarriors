@@ -15,7 +15,7 @@
 <span id="objetivo">
   
 ## 🎯 Objetivo da Sprint
-Essa sprint teve como objetivo o desenvolvimento de um protótipo navegável.
+Essa sprint teve como objetivo o desenvolvimento de um protótipo navegável, que após a validação do cliente, será utilizado nas próximas sprints para nos guiar na codificação do sistema. 
 
 <br>
 
