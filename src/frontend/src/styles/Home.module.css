@@ -1,0 +1,95 @@
+.containerCard {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.containerCard img {
+    width: 100%;
+    height: 830px;
+    display: block;
+}
+
+.textoImagemh1 {
+    position: absolute;
+    top: 32%;
+    left: 5%;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    max-width: 850px;
+}
+
+.textoImagemp {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    color: white;
+    font-size: 25px;
+    max-width: 850px;
+}
+
+.containerImagemTexto {
+    display: flex;
+    margin: 150px;
+}
+
+.containerImagemTexto img {
+    border-radius: 20%;
+    margin-bottom: 50px;
+    height: 450px;
+}
+
+.containerImagemTexto div {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 20px;
+}
+
+.containerImagemTexto h1 {
+    font-size: 35px;
+    margin-bottom: 10px;
+    color: #000469;
+}
+
+.motivosTitulo {
+    text-align: center;
+    font-size: 45px;
+    color: #000469;
+}
+
+.pensativa {
+    width: 45%;
+    height: 60%;
+}
+
+.containerMotivos {
+    display: flex;
+    margin: 70px;
+}
+
+.containerMotivosCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.containerMotivo {
+    background-color: #000469;
+    margin-bottom: 50px;
+    padding: 50px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.containerMotivo h1 {
+    margin-bottom: 20px;
+}
+
+
+
+.tituloMotivos, .conteudoMotivos {
+    color: white;
+}

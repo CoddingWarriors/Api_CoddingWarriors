@@ -1,0 +1,42 @@
+.accordion {
+    margin: 50px 150px;
+}
+
+.titulo {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    background-color: #0029FF; 
+    border-radius: 10px 10px 0 0;
+    color: white;
+}
+
+.titulo h2 {
+    margin: 0 auto;
+}
+
+.conteudo {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    border-radius: 0 0 15px 15px;
+    will-change: max-height;
+}
+
+.conteudoShow {
+    background-color: #B2BFFF;
+    padding: 40px;
+    height: auto;
+    transition: max-height 0.5s ease-in-out;
+    will-change: max-height;
+    border-radius: 0 0 10px 10px;
+}
+
+.conteudoChamado {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}

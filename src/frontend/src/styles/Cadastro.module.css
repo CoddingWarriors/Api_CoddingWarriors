@@ -1,0 +1,48 @@
+.containerCadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 140px;
+}
+
+.form input {
+    border: none;
+    border-bottom: 1px solid #0029FF;
+    width: 500px;
+    margin: 10px 0 20px;
+}
+
+.containerCadastro h1 {
+    margin-bottom: 60px;
+    color: #000469;
+}
+
+.form label {
+    color: #000469;
+    font-weight: bold;
+}
+
+.form input::placeholder {
+    color: #606894;
+}
+
+.containerBotoes {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.cadastrar {
+    background-color: #000469;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+.descartar {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+}

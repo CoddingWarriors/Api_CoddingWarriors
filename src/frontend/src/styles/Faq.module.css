@@ -1,0 +1,35 @@
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin: 70px;
+}
+
+.titulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #5772FF;
+}
+
+.conteudo {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+    border-radius: 0 0 15px 15px;
+    will-change: max-height;
+}
+
+.conteudoShow {
+    background: #DDDEFF;
+    height: auto;
+    transition: max-height 0.5s ease-in-out;
+    will-change: max-height;
+    padding: 30px 20px;
+    border-radius: 0 0 10px 10px;
+}
+
+.filtro {
+    display: flex;
+}
