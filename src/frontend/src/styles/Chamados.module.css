@@ -2,18 +2,29 @@
     margin: 50px 150px;
 }
 
-.titulo {
+.tituloLaranja {
+    background-color: #FF7A00;
+}
+
+.tituloAzul {
+    background-color: #0029FF;
+}
+
+.tituloVerde {
+    background-color: #00BD57;
+}
+
+.tituloAzul, .tituloLaranja, .tituloVerde {
     padding: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
-    background-color: #0029FF; 
     border-radius: 10px 10px 0 0;
     color: white;
 }
 
-.titulo h2 {
+.tituloAzul h2, .tituloLaranja h2, .tituloVerde h2 {
     margin: 0 auto;
 }
 

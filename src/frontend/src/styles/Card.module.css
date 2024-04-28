@@ -1,0 +1,30 @@
+.containerCard {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.containerCard img {
+    width: 100%;
+    height: 830px;
+    display: block;
+}
+
+.textoImagemh1 {
+    position: absolute;
+    top: 32%;
+    left: 5%;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    max-width: 850px;
+}
+
+.textoImagemp {
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    color: white;
+    font-size: 25px;
+    max-width: 850px;
+}

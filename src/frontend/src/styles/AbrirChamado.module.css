@@ -1,0 +1,108 @@
+.containerAbrirChamado {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 200px;
+}
+
+.containerAbrirChamado p, .containerAbrirChamado h1 {
+    text-align: center;
+}
+
+.containerAbrirChamado h1 {
+    color: #000469;
+    margin-bottom: 10px;
+}
+
+.formAbrirChamado {
+    margin-top: 50px;
+}
+
+.labelText {
+    font-size: 25px;
+    font-weight: bold;
+    color: #000469;
+}
+
+.inputTitulo {
+    border: none;
+    border-bottom: 1px solid #000469;
+    width: 100%;
+    margin: 20px 0 50px;
+}
+
+.textareaDescricao {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    overflow-wrap: break-word;
+    text-align: start;
+    vertical-align: top;
+    margin: 20px 0 50px;
+}
+
+.categoriasTitulo {
+    color: #000469;
+    margin-bottom: 20px;
+}
+
+.spanRadio {
+    margin-left: 15px;
+}
+
+.insiraImagem {
+    color: #000469;
+    margin: 40px 0 20px;
+}
+
+.botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.enviar {
+    background: none;
+    width: 120px;
+    height: 50px;
+    border: 2px solid green;
+    font-size: 15px;
+    color: green;
+    border-radius: 10px;
+}
+
+.descartar {
+    background: none;
+    width: 120px;
+    height: 50px;
+    border: 2px solid red;
+    font-size: 15px;
+    color: red;
+    border-radius: 10px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.enviarImagem {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    height: 50px;
+    color: #0029FF;
+    border: 2px solid #002aff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 15px;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.enviarImagem img {
+    width: 30px;
+    height: 30px;
+}

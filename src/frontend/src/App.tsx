@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
+import EsqueciSenha from './pages/EsqueciSenha';
+import AbrirChamado from './pages/AbrirChamado';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/faq" element={<Faq />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/esquecisenha" element={<EsqueciSenha />} />
+        <Route path="/abrirchamado" element={<AbrirChamado />} />
       </Routes>
       <Footer />
     </Router>

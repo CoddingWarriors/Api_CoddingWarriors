@@ -13,7 +13,7 @@ const [selecionado, setSelecionado] = useState<boolean | null>(null)
         <div className={styles.wrapper}>
             <div className={styles.accordion}>
                 <div className={styles.chamado}>
-                    <div className={styles.titulo} onClick={toggle}>
+                    <div className={props.className} onClick={toggle}>
                         <h2>{props.titulo}</h2>
                         <span>{selecionado ?
                             <img src="../img/setaCimaBranca.png" alt="-" />

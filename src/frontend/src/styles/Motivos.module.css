@@ -1,0 +1,26 @@
+.containerAzulEscuro {
+    background-color: #000469;
+}
+
+.containerAzulPrimario {
+    background-color: #3152FF;
+}
+
+.containerAzulClaro {
+    background-color: #778DFF;
+}
+
+.containerAzulEscuro, .containerAzulPrimario, .containerAzulClaro {
+    margin-bottom: 50px;
+    padding: 60px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.containerAzulClaro h1, .containerAzulEscuro h1, .containerAzulPrimario h1 {
+    margin-bottom: 20px;
+}
+
+.tituloMotivos, .conteudoMotivos {
+    color: white;
+}

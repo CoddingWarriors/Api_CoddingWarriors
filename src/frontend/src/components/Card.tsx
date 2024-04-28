@@ -1,4 +1,4 @@
-import styles from "../styles/Home.module.css"
+import styles from "../styles/Card.module.css"
 
 function Card(props:any) {
     return (
