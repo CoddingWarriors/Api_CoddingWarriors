@@ -9,6 +9,7 @@ import Footer from './components/Footer';
 import Login from './pages/Login';
 import Cadastro from './pages/Cadastro';
 import EsqueciSenha from './pages/EsqueciSenha';
+import NovaSenha from './pages/NovaSenha';
 import AbrirChamado from './pages/AbrirChamado';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/esquecisenha" element={<EsqueciSenha />} />
+        <Route path="/novasenha" element={<NovaSenha />} />
         <Route path="/abrirchamado" element={<AbrirChamado />} />
       </Routes>
       <Footer />

@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.equipamento = exports.chamado = exports.faq = exports.usuario = exports.conexao = void 0;
 const conexao_1 = require("./conexao");
-const usuario_1 = require("./ususario/usuario");
-const faq_1 = require("./faq/faq");
-const chamado_1 = require("./chamado/chamado");
-const equipamento_1 = require("./equipamento/equipamento");
+const usuario_1 = require("./usuario");
+const faq_1 = require("./faq");
+const chamado_1 = require("./chamado");
+const equipamento_1 = require("./equipamento");
 const dbName = 'Ocean';
 const conexao = new conexao_1.Conecta();
 exports.conexao = conexao;

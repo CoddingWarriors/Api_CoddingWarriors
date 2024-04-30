@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
 import styles from "../styles/EsqueciSenha.module.css"
 
-function EsqueciSenha() {
+function NovaSenha() {
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -11,11 +11,13 @@ function EsqueciSenha() {
     return (
         <div className={styles.body}>
             <div className={styles.containerEsqueciSenha}>
-                <h1>Recupere a sua senha</h1>
+                <h1>Altere a sua senha</h1>
                 <form className={styles.formEsqueciSenha} action="">
-                    <label htmlFor="">Email</label> <br />
-                    <input type="text" placeholder="Insira o seu email"/> <br />
-                    <Link to="/novasenha"><button>Enviar</button></Link>
+                    <label htmlFor="">Nova Senha</label> <br />
+                    <input type="password" placeholder="Insira a sua nova senha"/> <br />
+                    <label htmlFor="">Confirme sua nova senha</label> <br />
+                    <input type="password" placeholder="Digite novamente a sua senha"/> <br />
+                    <Link to="/login"><button>Alterar</button></Link>
                 </form>
                 <p onClick={handleClick}>
                     <Link to="/esquecisenha">Voltar</Link>
@@ -25,4 +27,4 @@ function EsqueciSenha() {
     )
 }
 
-export default EsqueciSenha
+export default NovaSenha
