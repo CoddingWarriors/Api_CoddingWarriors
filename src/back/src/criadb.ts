@@ -1,9 +1,9 @@
 import { Connection } from 'mysql';
 import { Conecta } from './conexao';
-import { Usuario } from './ususario/usuario';
-import { Faq } from './faq/faq';
-import { Chamado } from './chamado/chamado';
-import { Equipamento } from './equipamento/equipamento';
+import { Usuario } from './usuario';
+import { Faq } from './faq';
+import { Chamado } from './chamado';
+import { Equipamento } from './equipamento';
 
 const dbName = 'Ocean';
 const conexao = new Conecta();
@@ -32,3 +32,5 @@ conexao.connectToOcean(() => {
       console.error('Erro ao criar tabelas:', error);
     });
 });
+
+export { conexao, usuario, faq, chamado, equipamento };

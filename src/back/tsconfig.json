@@ -1,12 +1,11 @@
 {
     "compilerOptions": {
-      "esModuleInterop": true,
-      "types": ["node", "mysql"],
-      "target": "es6",
-      "module": "commonjs",
-      "outDir": "./dist",
-      "strict": true
+        "esModuleInterop": true,
+        "types": ["node", "mysql"],
+        "target": "ESNext",
+        "module": "commonjs",
+        "outDir": "./dist",
+        "strict": true
     },
     "include": ["src/**/*.ts"]
-  }
-  
+}
