@@ -23,11 +23,11 @@ function Cadastro() {
             cpf,
             rg,
             nome,
-            foto: null,
             telefone,
             email,
             senha,
             endereco,
+            numero,
             cep,
             tipo: 1, // Definindo tipo como 1
         };

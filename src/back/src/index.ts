@@ -1,30 +1,51 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-import { chamado, usuario } from './criadb';
+import { usuario } from './criadb';
 import Chamados from './chamado/chamados';
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-const dbName = 'Ocean';
+const app = express()
+const PORT = process.env.PORT || 5000
+const dbName = "Ocean"
 
-app.use(express.json());
+app.use(express.json())
+
+app.use(
+    session({
+        secret: "your-secret-key",
+        resave: false,
+        saveUninitialized: true,
+        cookie: { secure: false }, // Note que 'secure' deve ser verdadeiro em produção se estiver usando HTTPS
+    })
+)
+
 const corsOptions = {
-  origin: 'http://localhost:3000', // Permitir apenas solicitações da origem http://localhost:3000
-  methods: ['GET', 'POST'], // Permitir apenas os métodos GET e POST
-  optionsSuccessStatus: 200 // Define o código de status de sucesso para as solicitações OPTIONS
-};
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    optionsSuccessStatus: 200,
+}
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions))
 
-app.post('/login', async (req: Request, res: Response) => {
-  const { username, password } = req.body;
-  const verificaLogin = await usuario.loginUsuario(dbName, username, password)
-  if (verificaLogin) {
-    
-  } else {
-    
-  }
-});
+app.post("/login", async (req: Request, res: Response) => {
+    const { username, password } = req.body
+    const verificaLogin = await usuario.loginUsuario(dbName, username, password)
+    if (verificaLogin) {
+        // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
+        (req.session as any).loggedIn = true
+        res.status(200).json({ message: "Login bem-sucedido" })
+    } else {
+        res.status(401).json({ message: "Credenciais inválidas" })
+    }
+})
+
+app.get("/check-login", (req: Request, res: Response) => {
+    // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
+    if ((req.session as any).loggedIn) {
+        res.status(200).json({ message: "Usuário está logado" })
+    } else {
+        res.status(200).json({ message: "Usuário não está logado" })
+    }
+})
 
 app.post('/cadastro', async (req: Request, res: Response) => {
   const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui
@@ -50,11 +71,6 @@ app.post('/chamado', async (req: Request, res: Response) => {
 
   try {
     const novoChamado = new Chamados(id, descricao, data_inicio, data_fim, resposta, status);
-    
-    // Chamar o método para criar o chamado no banco de dados, se necessário
-    // Exemplo:
-    // await novoChamado.novoChamados();
-
 
     res.status(200).send('Chamado criado com sucesso');
   } catch (error) {
@@ -63,6 +79,8 @@ app.post('/chamado', async (req: Request, res: Response) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor está rodando na porta ${PORT}`);
-});
+app.listen(PORT, () => {})
+
+function session(arg0: { secret: string; resave: boolean; saveUninitialized: boolean; cookie: { secure: boolean; }; }): any {
+    throw new Error('Function not implemented.');
+}
