@@ -30,7 +30,6 @@ app.post("/login", async (req, res) => {
         // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
         req.session.loggedIn = true;
         res.status(200).json({ message: "Login bem-sucedido" });
-        res.render("http://localhost:3000/home");
     }
     else {
         res.status(401).json({ message: "Credenciais inválidas" });
@@ -48,7 +47,7 @@ app.get("/check-login", (req, res) => {
 app.post("/cadastro", async (req, res) => {
     const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body;
     try {
-        const verificaCadastrado = await criadb_1.usuario.cadastroUsuario(dbName, cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto);
+        const verificaCadastrado = await criadb_1.usuario.cadastroUsuario(dbName, cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo);
         if (verificaCadastrado) {
             console.log("Usuário cadastrado");
             res.status(200).send("Usuário cadastrado com sucesso");

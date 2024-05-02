@@ -17,7 +17,7 @@ class Usuario {
                     console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(`create table if not exists usuario(
                         id_usuario int auto_increment primary key,
-                        cpf int, rg varchar(9), nome varchar(50), foto varchar(50),
+                        cpf int, rg varchar(9), nome varchar(50),
                         telefone varchar(14), email varchar(30), senha varchar(10),
                         endereco varchar(50), numero int, cep varchar(8), tipo int
                         );`, (error, results) => {
@@ -36,7 +36,7 @@ class Usuario {
     }
     async loginUsuario(dbName, credencial, senha) {
         return new Promise((resolve, reject) => {
-            this.connection.query(`Use ${dbName};`, (useErro, useResults) => {
+            this.connection.query(`USE ${dbName};`, (useErro, useResults) => {
                 if (useErro) {
                     console.error("Erro ao selecionar o banco de dados:", useErro);
                     reject(useErro);
@@ -45,8 +45,8 @@ class Usuario {
                     console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(`SELECT * 
                         FROM usuario 
-                        WHERE (email = '${credencial} or cpf = '${credencial}) 
-                        AND senha = '${senha}';`, (error, results) => {
+                        WHERE (email = ? OR cpf = ?) 
+                        AND senha = ?;`, [credencial, credencial, senha], (error, results) => {
                         if (error) {
                             console.error("Erro ao buscar usuário:", error);
                             reject(error);
@@ -66,7 +66,7 @@ class Usuario {
             });
         });
     }
-    async cadastroUsuario(dbName, cpf, rg, nome, foto, telefone, email, senha, endereco, numero, cep, tipo) {
+    async cadastroUsuario(dbName, cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo) {
         return new Promise((resolve, reject) => {
             this.connection.query(`Use ${dbName};`, (useError, useResults) => {
                 if (useError) {
@@ -77,8 +77,8 @@ class Usuario {
                     console.log("Banco de dados selecionado com sucesso!");
                     // Use placeholders (?) para os valores e passe-os como um array na query
                     this.connection.query(`INSERT INTO usuario (
-                            cpf, rg, nome, foto, telefone, email, senha, endereco, numero, cep, tipo
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`, [cpf, rg, nome, foto, telefone, email, senha, endereco, numero, cep, tipo], (error, results) => {
+                            cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`, [cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo], (error, results) => {
                         if (error) {
                             console.error("Erro ao cadastrar usuário:", error);
                             reject(error);

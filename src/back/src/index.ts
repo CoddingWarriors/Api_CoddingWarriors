@@ -33,7 +33,6 @@ app.post("/login", async (req: Request, res: Response) => {
         // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
         (req.session as any).loggedIn = true
         res.status(200).json({ message: "Login bem-sucedido" })
-        res.render("http://localhost:3000/home")
     } else {
         res.status(401).json({ message: "Credenciais inválidas" })
     }
@@ -63,8 +62,7 @@ app.post("/cadastro", async (req: Request, res: Response) => {
             endereco,
             numero,
             cep,
-            tipo,
-            foto
+            tipo
         )
 
         if (verificaCadastrado) {
