@@ -74,9 +74,15 @@ app.post('/esquecisenha', async (req: Request, res:Response) => {
 })
 
 app.post(`/novasenha`, async (req: Request, res:Response) => {
-  const token2 = usuario.pegaToken('email do usuario ou outra forma de autencicar o usuario') 
+  
   const {password} = req.body
-  /* usuario.alterarSenha(password, token2)   */
+  const emailUser = usuario.pegaEmail(password)
+  const token2 = usuario.pegaToken(`${emailUser}`) 
+  usuario.alterarSenha(password, `${token2}`)
+  res.json({ token: token2 });
+
+  //verificar antes
+  return `/novasenha/${token2}`
  
 })
 

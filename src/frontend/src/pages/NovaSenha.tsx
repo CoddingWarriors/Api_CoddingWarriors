@@ -3,9 +3,13 @@ import styles from "../styles/EsqueciSenha.module.css"
 import React, { useState, FormEvent } from "react";
 
 
+
 function NovaSenha() {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
+    
+    const navigate = useNavigate();
+    
    // const token = token(banco de dados)
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
@@ -20,16 +24,16 @@ function NovaSenha() {
                 body: JSON.stringify({ password, password2 }), // Envia os dados do formulário no corpo da requisição
             });
 
-
+            const data = await response.json();
+        // Por exemplo, redirecione para outra página
+        navigate(`/novasenha/${data.token}`);
+    } catch (error) {
+        console.error("Erro:", error);
+    }
+};
            
 
-          
-        } catch (error) {
-            console.error("Erro:", error);
-        }
-       
-    };
-    const navigate = useNavigate();
+    
 
     const handleClick = () => {
       navigate('/login');

@@ -206,5 +206,41 @@ export class Usuario {
         });
     }
 
+    async pegaEmail(password: string): Promise<string | null> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ocean;`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+
+                    this.connection.query(
+                        `SELECT email FROM usuario WHERE password = ?`,
+                        [password],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao encontrar email:", error);
+                                reject(error);
+                            } else {
+                                if (results.length > 0) {
+                                    const email = results[0].email;
+                                    console.log("E-mail encontrado com sucesso:", email);
+                                    resolve(email);
+                                } else {
+                                    console.log("Nenhum registro encontrado.");
+                                    resolve(null);
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+
+
+
+
 
 }
