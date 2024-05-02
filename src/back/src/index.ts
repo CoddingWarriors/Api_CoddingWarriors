@@ -9,14 +9,6 @@ const dbName = "Ocean"
 
 app.use(express.json())
 
-app.use(
-    session({
-        secret: "your-secret-key",
-        resave: false,
-        saveUninitialized: true,
-        cookie: { secure: false }, // Note que 'secure' deve ser verdadeiro em produção se estiver usando HTTPS
-    })
-)
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -31,21 +23,12 @@ app.post("/login", async (req: Request, res: Response) => {
     const verificaLogin = await usuario.loginUsuario(dbName, username, password)
     if (verificaLogin) {
         // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
-        (req.session as any).loggedIn = true
         res.status(200).json({ message: "Login bem-sucedido" })
     } else {
         res.status(401).json({ message: "Credenciais inválidas" })
     }
 })
 
-app.get("/check-login", (req: Request, res: Response) => {
-    // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
-    if ((req.session as any).loggedIn) {
-        res.status(200).json({ message: "Usuário está logado" })
-    } else {
-        res.status(200).json({ message: "Usuário não está logado" })
-    }
-})
 
 app.post('/cadastro', async (req: Request, res: Response) => {
   const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui

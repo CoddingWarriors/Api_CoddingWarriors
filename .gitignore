@@ -2,7 +2,7 @@
 
 # dependencies
 /src/back/node_modules
-/src/back/dist
+dist
 /node_modules
 /.pnp
 .pnp.js

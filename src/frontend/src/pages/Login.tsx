@@ -1,34 +1,33 @@
 import React, { useState, FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importe useNavigate em vez de useHistory
 import styles from "../styles/Login.module.css";
 
 function Login() {
-  // Define estados para armazenar o email/CPF e senha do formulário
+  // Use useNavigate para navegação
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(""); // Estado para armazenar mensagens de feedback
+  const [message, setMessage] = useState("");
 
-  // Função para lidar com a submissão do formulário
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
+    e.preventDefault();
 
     try {
-      // Envia uma requisição POST para o endpoint /login no servidor
       const response = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }), // Envia os dados do formulário no corpo da requisição
+        body: JSON.stringify({ username, password }),
       });
 
-      const data = await response.json(); // Converte a resposta para JSON
+      const data = await response.json();
 
       if (response.ok) {
-        // Se a resposta for bem-sucedida (status 2xx), exibe mensagem de sucesso
-        setMessage(data.message);
+        // Navegue para a página /home se o login for bem-sucedido
+        navigate("/");
       } else {
-        // Se a resposta não for bem-sucedida, exibe mensagem de erro
         setMessage(data.message);
       }
     } catch (error) {
@@ -46,15 +45,15 @@ function Login() {
             type="text"
             placeholder="Insira seu Login"
             value={username}
-            onChange={(e) => setUsername(e.target.value)} // Atualiza o estado 'username' com o valor do campo
+            onChange={(e) => setUsername(e.target.value)}
           />{" "}
           <br />
           <label htmlFor="">Senha</label> <br />
           <input
-            type="password" // Usa type="password" para esconder a senha
+            type="password"
             placeholder="Insira sua senha"
             value={password}
-            onChange={(e) => setPassword(e.target.value)} // Atualiza o estado 'password' com o valor do campo
+            onChange={(e) => setPassword(e.target.value)}
           />{" "}
           <br />
           <p className={styles.esquecisenha}>
@@ -67,7 +66,7 @@ function Login() {
           <p className={styles.linkCadastrar}>
             Ou <Link to="/cadastro">cadastre-se</Link>
           </p>
-          {message !== "" && <p>{message}</p>} {/* Exibe a mensagem de feedback se houver uma mensagem definida */}
+          {message !== "" && <p>{message}</p>}
         </form>
       </div>
     </div>
