@@ -70,10 +70,10 @@ export class Usuario {
             })
         })
     }
-    
+
 
     async cadastroUsuario(
-dbName: string, cpf: number, rg: string, nome: string, telefone: string, email: string, senha: string, endereco: string, numero: number, cep: string, tipo: number, foto: any    ): Promise<boolean> {
+        dbName: string, cpf: number, rg: string, nome: string, telefone: string, email: string, senha: string, endereco: string, numero: number, cep: string, tipo: number, foto: any): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`Use ${dbName};`, (useError, useResults) => {
                 if (useError) {
@@ -101,4 +101,110 @@ dbName: string, cpf: number, rg: string, nome: string, telefone: string, email: 
             })
         })
     }
+    async inserirToken(
+        token: string,
+        email: string,
+
+    ): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ocean;`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+
+                    this.connection.query(
+                        `UPDATE usuario SET token = ? WHERE email = ?`,
+                        [token, email],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar token:", error);
+                                reject(error);
+                            } else {
+                                if (results.affectedRows > 0) {
+                                    console.log("Token atualizado no banco com sucesso!");
+                                    resolve(true);
+                                } else {
+                                    console.log("Nenhum registro atualizado.");
+                                    resolve(false);
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+
+    async alterarSenha(
+        token: string,
+        password: string
+
+    ): Promise<boolean> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ocean;`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+
+                    this.connection.query(
+                        `UPDATE usuario SET senha = ? where token = ?`,
+                        [password, token],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar token:", error);
+                                reject(error);
+                            } else {
+                                if (results.affectedRows > 0) {
+                                    console.log("Token atualizado no banco com sucesso!");
+                                    resolve(true);
+                                } else {
+                                    console.log("Nenhum registro atualizado.");
+                                    resolve(false);
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+
+    async pegaToken(email: string): Promise<string | null> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ocean;`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+
+                    this.connection.query(
+                        `SELECT token FROM usuario WHERE email = ?`,
+                        [email],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao encontrar token:", error);
+                                reject(error);
+                            } else {
+                                if (results.length > 0) {
+                                    const token = results[0].token; // Atribui o valor do token
+                                    console.log("Token encontrado com sucesso");
+                                    resolve(token);
+                                } else {
+                                    console.log("Nenhum registro encontrado.");
+                                    resolve(null); // Retorna null se nenhum token for encontrado
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+
+
 }

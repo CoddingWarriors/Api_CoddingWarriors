@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { usuario } from './criadb';
 import Chamados from './chamado/chamados';
+import enviarEmail from './senha/email';
+import gerarTokenTemporario from './senha/token';
+
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -61,6 +64,22 @@ app.post('/chamado', async (req: Request, res: Response) => {
     res.status(500).send('Erro ao criar chamado');
   }
 });
+
+
+app.post('/esquecisenha', async (req: Request, res:Response) => {
+  const {username} = req.body
+  const token = gerarTokenTemporario(30)
+  usuario.inserirToken(username, token)
+  enviarEmail(username, token) //verificar onde vai mandar o email
+})
+
+app.post(`/novasenha`, async (req: Request, res:Response) => {
+  const token2 = usuario.pegaToken('email do usuario ou outra forma de autencicar o usuario') 
+  const {password} = req.body
+  /* usuario.alterarSenha(password, token2)   */
+ 
+})
+
 
 app.listen(PORT, () => {})
 

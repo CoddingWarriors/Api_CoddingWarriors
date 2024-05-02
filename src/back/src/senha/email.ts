@@ -1,11 +1,11 @@
 import nodemailer from 'nodemailer';
-import gerarTokenTemporario from './token'; // Supondo que você tenha exportado a função gerarTokenTemporario de um arquivo separado
+ // Supondo que você tenha exportado a função gerarTokenTemporario de um arquivo separado
 
 
-const enviarEmail = async (destinatario: string): Promise<void> => {
+const enviarEmail = async (destinatario: string, token: string): Promise<void> => {
     // Gerar token temporário
-    const token = gerarTokenTemporario(30); // Gerando um token temporário com duração de 30 minutos
-
+    // Gerando um token temporário com duração de 30 minutos
+    // depois de criar o token, criar variavel para guardar o token no banco
     // Configurações do Nodemailer
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -16,13 +16,12 @@ const enviarEmail = async (destinatario: string): Promise<void> => {
             pass: 'ynfs anjn xzsv wlzp'
         },
     });
-
     // Opções do email
     const mailOptions: nodemailer.SendMailOptions = {
         from: "coddingwarriors@gmail.com",
         to: destinatario, // Substitua pelo endereço de e-mail do destinatário
         subject: "Redefinir Senha",
-        html: `<a href="http://localhost:3000/novasenha">${token}</a>`,
+        html: `<a href="http://localhost:3000/novasenha/${token}">Redefinir Senha</a>`,
     };
 
     try {
@@ -34,11 +33,10 @@ const enviarEmail = async (destinatario: string): Promise<void> => {
     }
 };
 
-// Chamando a função para enviar o email
-enviarEmail('ivan.suiya@gmail.com');
 
 
 
 export default enviarEmail;
+
 
 
