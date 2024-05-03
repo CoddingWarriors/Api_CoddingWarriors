@@ -11,12 +11,23 @@ import realizarLogin from "../img/realizarLogin.png"
 
 function Atendimento() {
     const navigate = useNavigate();
-
-    const handleClick = () => {
-      navigate('/login');
-    };
-
     const [openModal, setOpenModal] = useState(false)
+
+    const handleClick = async () => {
+        const response = await fetch("http://localhost:5000/verificar-token", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}` // Envia o token no header Authorization
+            }
+        });
+
+        if (response.ok) {
+            navigate('/abrirchamado'); // Direciona para /abrirchamado se o token for válido
+        } else {
+            setOpenModal(true); // Abre o modal de login se o token for inválido
+        }
+    };
 
     return (
         <div>
@@ -29,18 +40,18 @@ function Atendimento() {
 
             <div className={styles.containerImagemTexto}>
                 <img src={atendente} alt="Não carregou o atendente" />
-                     <div>
-                        <h1>Precisa de ajuda?</h1>
-                        <p>Nossa equipe está sempre disposta a ajudar! Para solicitar assistência técnica especializada, por favor, clique no botão abaixo.</p>
-                        <button className={styles.abrirChamado} onClick={() => setOpenModal(true)}>Abrir chamado</button>
-                        <Modal isOpen={openModal} setOpenModal={() => setOpenModal(!openModal)}>
-                            <div className={styles.containerModal}>
-                                <img src={realizarLogin} alt="" />
-                                <h2>Para prosseguir com a abertura do chamado, por favor, realize o login</h2>
-                                <button onClick={handleClick}>Login</button>
-                            </div>
-                        </Modal>
-                    </div>
+                <div>
+                    <h1>Precisa de ajuda?</h1>
+                    <p>Nossa equipe está sempre disposta a ajudar! Para solicitar assistência técnica especializada, por favor, clique no botão abaixo.</p>
+                    <button className={styles.abrirChamado} onClick={handleClick}>Abrir chamado</button>
+                    <Modal isOpen={openModal} setOpenModal={() => setOpenModal(!openModal)}>
+                        <div className={styles.containerModal}>
+                            <img src={realizarLogin} alt="" />
+                            <h2>Para prosseguir com a abertura do chamado, por favor, realize o login</h2>
+                            <button onClick={() => navigate('/login')}>Login</button>
+                        </div>
+                    </Modal>
+                </div>
             </div>
 
             <h1 className={styles.titulo}>Já abriu o seu chamado?</h1>

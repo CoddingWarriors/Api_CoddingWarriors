@@ -1,17 +1,17 @@
-import express, { Request, Response } from 'express';
-import cors from 'cors';
-import { usuario } from './criadb';
-import Chamados from './chamado/chamados';
-import enviarEmail from './senha/email';
-import gerarTokenTemporario from './senha/token';
-
+import express, { Request, Response } from "express"
+import jwt from "jsonwebtoken";
+import cors from "cors"
+import { usuario } from "./criadb"
+import Chamados from "./DB/chamado/chamados"
+import enviarEmail from "./DB/senha/email"
+import gerarTokenTemporario from "./DB/senha/token"
+import { Authentication } from "./Middleware"
 
 const app = express()
 const PORT = process.env.PORT || 5000
 const dbName = "Ocean"
 
 app.use(express.json())
-
 
 const corsOptions = {
     origin: "http://localhost:3000",
@@ -22,73 +22,97 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.post("/login", async (req: Request, res: Response) => {
-    const { username, password } = req.body
-    const verificaLogin = await usuario.loginUsuario(dbName, username, password)
-    if (verificaLogin) {
-        // Use a assertiva para dizer ao TypeScript que você sabe que loggedIn existe
-        res.status(200).json({ message: "Login bem-sucedido" })
-    } else {
-        res.status(401).json({ message: "Credenciais inválidas" })
+  const { username, password } = req.body
+  const verificaLogin = await usuario.loginUsuario(dbName, username, password)
+
+  if (verificaLogin) {
+      const token = Authentication.generateToken(username); // Gera o token JWT
+
+      res.status(200).json({token});
+  } else {
+      res.status(401)
+  }
+})
+
+app.post("/cadastro", async (req: Request, res: Response) => {
+    const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body // Inclua 'foto' aqui
+
+    try {
+        const verificaCadastrado = await usuario.cadastroUsuario(
+            dbName,
+            cpf,
+            rg,
+            nome,
+            telefone,
+            email,
+            senha,
+            endereco,
+            numero,
+            cep,
+            tipo,
+            foto
+        ) // Passe 'foto' para a função
+
+        if (verificaCadastrado) {
+            console.log("Usuário cadastrado")
+            res.status(200).send("Usuário cadastrado com sucesso")
+        } else {
+            console.log("Erro ao cadastrar usuário")
+            res.status(500).send("Erro ao cadastrar usuário")
+        }
+    } catch (error) {
+        console.error("Erro ao cadastrar usuário:", error)
+        res.status(500).send("Erro ao cadastrar usuário")
     }
 })
 
+app.post("/chamado", async (req: Request, res: Response) => {
+    const { id, descricao, data_inicio, data_fim, resposta, status } = req.body
 
-app.post('/cadastro', async (req: Request, res: Response) => {
-  const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui
-  
-  try {
-    const verificaCadastrado = await usuario.cadastroUsuario(dbName, cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto); // Passe 'foto' para a função
-    
-    if (verificaCadastrado) {
-      console.log('Usuário cadastrado');
-      res.status(200).send('Usuário cadastrado com sucesso');
-    } else {
-      console.log('Erro ao cadastrar usuário');
-      res.status(500).send('Erro ao cadastrar usuário');
+    try {
+        const novoChamado = new Chamados(id, descricao, data_inicio, data_fim, resposta, status)
+
+        res.status(200).send("Chamado criado com sucesso")
+    } catch (error) {
+        console.error("Erro ao criar chamado:", error)
+        res.status(500).send("Erro ao criar chamado")
     }
-  } catch (error) {
-    console.error('Erro ao cadastrar usuário:', error);
-    res.status(500).send('Erro ao cadastrar usuário');
-  }
-});
+})
 
-app.post('/chamado', async (req: Request, res: Response) => {
-  const { id, descricao, data_inicio, data_fim, resposta, status } = req.body;
+app.post("/esquecisenha", async (req: Request, res: Response) => {
+    const { username } = req.body
+    const token = gerarTokenTemporario(30)
+    usuario.inserirToken(username, token)
+    enviarEmail(username, token) //verificar onde vai mandar o email
+})
+
+app.post(`/novasenha`, async (req: Request, res: Response) => {
+    const { password } = req.body
+    const emailUser = usuario.pegaEmail(password)
+    const token2 = usuario.pegaToken(`${emailUser}`)
+    usuario.alterarSenha(password, `${token2}`)
+    res.json({ token: token2 })
+
+    //verificar antes
+    return `/novasenha/${token2}`
+})
+
+// Rota para verificar a validade do token
+app.post("/verificar-token", (req: Request, res: Response) => {
+  const token = req.headers.authorization?.split(" ")[1]; // Pega o token do header Authorization
+
+  if (!token) {
+      return res.status(401).json({ message: "Token não fornecido" });
+  }
 
   try {
-    const novoChamado = new Chamados(id, descricao, data_inicio, data_fim, resposta, status);
-
-    res.status(200).send('Chamado criado com sucesso');
+      jwt.verify(token, "secreto"); // Verifica a validade do token utilizando a mesma chave secreta
+      res.status(200).json({ message: "Token válido" });
   } catch (error) {
-    console.error('Erro ao criar chamado:', error);
-    res.status(500).send('Erro ao criar chamado');
+      res.status(401).json({ message: "Token inválido" });
   }
 });
-
-
-app.post('/esquecisenha', async (req: Request, res:Response) => {
-  const {username} = req.body
-  const token = gerarTokenTemporario(30)
-  usuario.inserirToken(username, token)
-  enviarEmail(username, token) //verificar onde vai mandar o email
-})
-
-app.post(`/novasenha`, async (req: Request, res:Response) => {
-  
-  const {password} = req.body
-  const emailUser = usuario.pegaEmail(password)
-  const token2 = usuario.pegaToken(`${emailUser}`) 
-  usuario.alterarSenha(password, `${token2}`)
-  res.json({ token: token2 });
-
-  //verificar antes
-  return `/novasenha/${token2}`
- 
-})
-
 
 app.listen(PORT, () => {})
 
-function session(arg0: { secret: string; resave: boolean; saveUninitialized: boolean; cookie: { secure: boolean; }; }): any {
-    throw new Error('Function not implemented.');
-}
+

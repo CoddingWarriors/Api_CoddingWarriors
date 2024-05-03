@@ -1,14 +1,11 @@
 import React, { useState, FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom"; // Importe useNavigate em vez de useHistory
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 
 function Login() {
-  // Use useNavigate para navegação
   const navigate = useNavigate();
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,13 +22,19 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Navegue para a página /home se o login for bem-sucedido
+        // Armazena o token recebido no localStorage
+        localStorage.setItem("token", data.token);
+
+        // Navega para a página /home se o login for bem-sucedido
         navigate("/");
       } else {
-        setMessage(data.message);
+        alert("Credenciais inválidas"); // Exibe um alerta com a mensagem de erro
+        setUsername(""); // Limpa o campo de nome de usuário
+        setPassword(""); // Limpa o campo de senha
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
+      alert("Erro ao fazer login");
     }
   };
 
@@ -66,7 +69,6 @@ function Login() {
           <p className={styles.linkCadastrar}>
             Ou <Link to="/cadastro">cadastre-se</Link>
           </p>
-          {message !== "" && <p>{message}</p>}
         </form>
       </div>
     </div>
