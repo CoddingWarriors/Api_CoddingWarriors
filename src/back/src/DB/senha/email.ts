@@ -21,7 +21,7 @@ const enviarEmail = async (destinatario: string, token: string): Promise<void> =
         from: "coddingwarriors@gmail.com",
         to: destinatario, // Substitua pelo endereço de e-mail do destinatário
         subject: "Redefinir Senha",
-        html: `<a href="http://localhost:3000/novasenha/${token}">Redefinir Senha</a>`,
+        html: `<h1>Clique abaixo para Redefinir sua Senha</h1><br><br><a href="http://localhost:3000/novasenha">Redefinir Senha</a><br><br><h3>Seu token${token}</h3>`,
     };
 
     try {
