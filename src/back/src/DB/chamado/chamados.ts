@@ -6,8 +6,7 @@ export default class Chamados{
     public resposta!: string;
     public status!: string;
 
-    constructor(id: number, descricao: string, data_inicio: Date, data_fim: Date, resposta: string, status: string) {
-        this.id = id
+    constructor(descricao: string, data_inicio: Date, data_fim: Date, resposta: string, status: string) {
         this.descrição = descricao
         this.data_inicio = new Date(data_inicio)
         this.data_fim = new Date(data_fim)

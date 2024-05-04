@@ -66,13 +66,19 @@ app.post("/cadastro", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/chamado", async (req: Request, res: Response) => {
-    const { id, descricao, data_inicio, data_fim, resposta, status } = req.body
+app.post("/abrir_chamado", async (req: Request, res: Response) => {
+    const { descricao, data_inicio, data_fim, resposta, status } = req.body
 
     try {
-        const novoChamado = new Chamados(id, descricao, data_inicio, data_fim, resposta, status)
+        const novoChamado = new Chamados(descricao, data_inicio, data_fim, resposta, status)
 
-        res.status(200).send("Chamado criado com sucesso")
+        if (novoChamado) {
+            console.log("Novo chamado")
+            res.status(200).send("Chamado criado com sucesso")
+        } else {
+            console.log("Erro ao criar chamado")
+            res.status(500).send("Erro ao criar chamado")
+        }
     } catch (error) {
         console.error("Erro ao criar chamado:", error)
         res.status(500).send("Erro ao criar chamado")
@@ -114,5 +120,3 @@ app.post("/verificar-token", (req: Request, res: Response) => {
 });
 
 app.listen(PORT, () => {})
-
-
