@@ -1,0 +1,52 @@
+/* styles/LogoutModal.module.css */
+
+.logoutModalContainer {
+    position: fixed;
+    top: 50%; /* Centraliza verticalmente */
+    left: 50%; /* Centraliza horizontalmente */
+    transform: translate(-50%, -50%); /* Move o modal de volta 50% do seu próprio tamanho */
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+}
+
+.logoutModalMessage {
+    color: black;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.logoutButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.logoutButton:hover {
+    background-color: darkred;
+}
+
+/* styles/LogoutModal.module.css */
+
+.cancelButton {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 10px; /* Espaçamento para o botão Cancelar */
+}
+
+.cancelButton:hover {
+    background-color: #000469;
+}
