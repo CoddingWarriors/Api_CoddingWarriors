@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Atendimento from './pages/Atendimento';
+import ChamadosS from './pages/Chamados';
 import Faq from './pages/Faq';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/atendimento" element={<Atendimento />} />
+        <Route path="/chamados" element={<ChamadosS />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cadastro" element={<Cadastro />} />

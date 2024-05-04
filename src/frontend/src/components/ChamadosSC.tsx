@@ -4,7 +4,7 @@ import setaCimaBranca from '../img/setaCimaBranca.png';
 import setaBaixoBranca from '../img/setaBaixoBranca.png';
 
 
-function Chamados(props:any) {
+function ChamadosSC(props:any) {
 const [selecionado, setSelecionado] = useState<boolean | null>(null)
 
     const toggle = () => {
@@ -33,4 +33,4 @@ const [selecionado, setSelecionado] = useState<boolean | null>(null)
     </div>
 )}
 
-export default Chamados
+export default ChamadosSC
