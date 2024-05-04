@@ -20,9 +20,6 @@ function EsqueciSenha() {
                 body: JSON.stringify({ username }), // Envia os dados do formulário no corpo da requisição
             });
 
-           
-
-          
         } catch (error) {
             console.error("Erro:", error);
         }

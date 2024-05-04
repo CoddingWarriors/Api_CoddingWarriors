@@ -6,6 +6,7 @@ import Chamados from "./DB/chamado/chamados"
 import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
+import { setUsername, getUsername } from "./globalUser";
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -79,23 +80,23 @@ app.post("/chamado", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/esquecisenha", async (req: Request, res: Response) => {
-    const { username } = req.body
-    const token = gerarTokenTemporario(30)
-    usuario.inserirToken(username, token)
-    enviarEmail(username, token) //verificar onde vai mandar o email
-})
+app.post("/esquecisenha", async (req, res) => {
+    const { username } = req.body;
+    setUsername(username);
+    const token = gerarTokenTemporario(30);
+    usuario.inserirToken(username, token);
+    enviarEmail(username, token); // verificar onde vai mandar o email
+});
 
 app.post(`/novasenha`, async (req: Request, res: Response) => {
-    const { password } = req.body
-    const emailUser = usuario.pegaEmail(password)
-    const token2 = usuario.pegaToken(`${emailUser}`)
-    usuario.alterarSenha(password, `${token2}`)
-    res.json({ token: token2 })
+    const { password } = req.body;
+    const username = getUsername(); // Obtenha o nome de usuário usando a função getUsername
+    const token2 = usuario.pegaToken(username); // Use o nome de usuário obtido
+    usuario.alterarSenha(password, `${token2}`);
+    res.json({ token: token2 });
 
-    //verificar antes
-    return `/novasenha/${token2}`
-})
+    return "/novasenha";
+});
 
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {

@@ -23,10 +23,6 @@ function NovaSenha() {
                 },
                 body: JSON.stringify({ password, password2 }), // Envia os dados do formulário no corpo da requisição
             });
-
-            const data = await response.json();
-        // Por exemplo, redirecione para outra página
-        navigate(`/novasenha/${data.token}`);
     } catch (error) {
         console.error("Erro:", error);
     }

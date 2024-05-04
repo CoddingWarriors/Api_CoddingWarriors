@@ -20,7 +20,7 @@ export class Usuario {
                         id_usuario int auto_increment primary key,
                         cpf int, rg varchar(9), nome varchar(50),
                         telefone varchar(14), email varchar(30), senha varchar(10),
-                        endereco varchar(50), numero int, cep varchar(8), tipo int
+                        endereco varchar(50), numero int, cep varchar(8), token varchar(100) tipo int
                         );`,
                         (error, results) => {
                             if (error) {
@@ -158,11 +158,11 @@ export class Usuario {
                         [password, token],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao atualizar token:", error)
+                                console.error("Erro ao atualizar senha:", error)
                                 reject(error)
                             } else {
                                 if (results.affectedRows > 0) {
-                                    console.log("Token atualizado no banco com sucesso!")
+                                    console.log("Senha atualizada no banco com sucesso!")
                                     resolve(true)
                                 } else {
                                     console.log("Nenhum registro atualizado.")
@@ -209,36 +209,4 @@ export class Usuario {
         })
     }
 
-    async pegaEmail(password: string): Promise<string | null> {
-        return new Promise((resolve, reject) => {
-            this.connection.query(`USE ocean;`, (useError, useResults) => {
-                if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
-                } else {
-                    console.log("Banco de dados selecionado com sucesso!")
-
-                    this.connection.query(
-                        `SELECT email FROM usuario WHERE password = ?`,
-                        [password],
-                        (error, results) => {
-                            if (error) {
-                                console.error("Erro ao encontrar email:", error)
-                                reject(error)
-                            } else {
-                                if (results.length > 0) {
-                                    const email = results[0].email
-                                    console.log("E-mail encontrado com sucesso:", email)
-                                    resolve(email)
-                                } else {
-                                    console.log("Nenhum registro encontrado.")
-                                    resolve(null)
-                                }
-                            }
-                        }
-                    )
-                }
-            })
-        })
-    }
 }
