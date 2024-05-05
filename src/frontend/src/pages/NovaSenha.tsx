@@ -46,7 +46,7 @@ function NovaSenha() {
                     <label htmlFor="">Confirme sua nova senha</label> <br />
                     <input type="password" placeholder="Digite novamente a sua senha" value={password2} onChange={(e) => setPassword2(e.target.value)} // Atualiza o estado 'username' com o valor do campo
                     />{" "}  <br />
-                    <button type="submit">Alterar</button>{" "}
+                    <button>Alterar</button>{" "}
                 </form>
                 <p onClick={handleClick}>
                     <Link to="/login">Voltar</Link>

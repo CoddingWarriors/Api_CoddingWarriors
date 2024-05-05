@@ -85,19 +85,21 @@ app.post("/abrirchamado", async (req, res) => {
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;
     setUsername(username);
+    console.log(username)
     const token = gerarTokenTemporario(30);
-    usuario.inserirToken(username, token);
+    console.log(token)
+    usuario.inserirToken( `${token}`, username);
     enviarEmail(username, token); // verificar onde vai mandar o email
 });
-
 app.post(`/novasenha`, async (req: Request, res: Response) => {
     const { password } = req.body;
-    const username = getUsername(); // Obtenha o nome de usuário usando a função getUsername
-    const token2 = usuario.pegaToken(username); // Use o nome de usuário obtido
-    usuario.alterarSenha(password, `${token2}`);
-    res.json({ token: token2 });
+    console.log(password)
+    const username = getUsername();
+    console.log(username)
+    const token = await usuario.pegaToken(username);
+    usuario.alterarSenha( `${token}` ,password );
+    /* res.json({ token: token2 }); */
 
-    return "/novasenha";
 });
 
 // Rota para verificar a validade do token

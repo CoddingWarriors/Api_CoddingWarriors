@@ -6,7 +6,7 @@ function Footer(){
         <div className={styles.conatinerFooter}>
             <footer className={styles.footer}>
                 <img src={logo} alt="" />
-                <div>
+                <div className={styles.contatosFooter}>
                     <h1>Contato</h1>
                     <p>Email: josecarlos@skype.com</p>
                     <p>Telefone: (12) 99129-4901</p>

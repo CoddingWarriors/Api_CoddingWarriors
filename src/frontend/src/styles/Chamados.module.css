@@ -38,7 +38,7 @@
 
 .conteudoShow {
     background-color: #B2BFFF;
-    padding: 40px;
+    padding: 30px;
     height: auto;
     transition: max-height 0.5s ease-in-out;
     will-change: max-height;
@@ -46,8 +46,14 @@
 }
 
 .conteudoChamado {
-    background-color: white;
-    padding: 20px;
     border-radius: 10px;
     text-align: center;
+}
+
+.cobreTela {
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh;
+    justify-content: center;
+    width: 100%;
 }
