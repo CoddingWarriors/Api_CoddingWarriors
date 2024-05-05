@@ -4,8 +4,8 @@ import styles from "../styles/AbrirChamado.module.css";
 function AbrirChamado() {
     const [nomeArquivo, setNomeArquivo] = useState('');
     const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
-    /* const defaultImage = "../img/imagem.png";
-    const [image, setImage] = useState(defaultImage); */
+    const defaultImage = "../img/imagem.png";
+    const [image, setImage] = useState(defaultImage);
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
 
@@ -15,14 +15,14 @@ function AbrirChamado() {
             const file = files[0];
             const fileName = file.name;
             setNomeArquivo(fileName);
-            /* setImage(defaultImage); */
+            setImage(defaultImage);
         }
     }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:5000/abrir_chamado", {
+            const response = await fetch("http://localhost:5000/abrirchamado", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ function AbrirChamado() {
                 <h2 className={styles.insiraImagem}>Caso seja possível, insira uma imagem demonstrando o problema</h2>
                 <input className={styles.file} type="file" name="fileInput" id="fileInput" onChange={handleFileChange} />
                 <label className={styles.enviarImagem} htmlFor="fileInput">
-                    {/* <img src={image} alt="" /> */}
+                    {<img src={image} alt="" />}
                     {nomeArquivo ? nomeArquivo : 'Enviar imagem'}
                 </label>
 

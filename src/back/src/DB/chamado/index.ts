@@ -20,7 +20,13 @@ export class Chamado {
                         `
                         CREATE TABLE IF NOT EXISTS chamado (
                             id_chamado INT AUTO_INCREMENT PRIMARY KEY,
+                            titulo VARCHAR(30),
                             descricao VARCHAR(100),
+                            categoria ENUM(
+                                'Velocidade de internet baixa',
+                                'Internet instável',
+                                'Sem conexão de internet'),
+                            imagem VARCHAR(255),
                             dt_inicio DATE,
                             dt_fim DATE,
                             respostas VARCHAR(100),

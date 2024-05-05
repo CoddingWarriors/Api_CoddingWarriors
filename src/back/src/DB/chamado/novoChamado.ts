@@ -1,6 +1,6 @@
 import { Connection } from "mysql"
 import { Conecta } from "../../conexao"
-import Chamados from "./chamados"
+import Chamados from "./chamadoCliente"
 
 export default class novoChamado {
     private connection: Connection
@@ -19,14 +19,14 @@ export default class novoChamado {
                     console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `
-                        INSERT INTO chamado(desc, dti, dtf, resp, status)
-                        VALUES(?, ?, ?, ?, ?)
+                        INSERT INTO chamado(titulo, desc, cat, dti, status)
+                        VALUES(?, ?, ?, ?, ?, ?, ?)
                         `,
                         [
+                            chamado.titulo,
                             chamado.descrição,
+                            chamado.categoria,
                             chamado.data_inicio,
-                            chamado.data_fim,
-                            chamado.resposta,
                             chamado.status,
                         ],
                         (error, results) => {

@@ -2,11 +2,11 @@ import express, { Request, Response } from "express"
 import jwt from "jsonwebtoken";
 import cors from "cors"
 import { usuario } from "./criadb"
-import Chamados from "./DB/chamado/chamados"
 import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
 import { setUsername, getUsername } from "./globalUser";
+import chamadoCliente from "./DB/chamado/chamadoCliente";
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -67,24 +67,20 @@ app.post("/cadastro", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/abrir_chamado", async (req: Request, res: Response) => {
-    const { descricao, data_inicio, data_fim, resposta, status } = req.body
+app.post("/abrirchamado", async (req, res) => {
+    const { titulo, descricao, categoria, status } = req.body
 
     try {
-        const novoChamado = new Chamados(descricao, data_inicio, data_fim, resposta, status)
+        const novoChamado = new chamadoCliente(titulo, descricao, categoria, new Date(), status)
 
-        if (novoChamado) {
-            console.log("Novo chamado")
-            res.status(200).send("Chamado criado com sucesso")
-        } else {
-            console.log("Erro ao criar chamado")
-            res.status(500).send("Erro ao criar chamado")
-        }
+        console.log("Novo chamado:", novoChamado)
+        res.status(200).send("Chamado criado com sucesso")
     } catch (error) {
         console.error("Erro ao criar chamado:", error)
         res.status(500).send("Erro ao criar chamado")
     }
 })
+
 
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;
