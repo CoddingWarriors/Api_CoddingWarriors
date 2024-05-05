@@ -1,4 +1,4 @@
-<img src="documents/img/sprint2/apresentacaoSprint2.png">
+<img src="documents/img/sprint3/apresentacaoSprint3.png">
 
 <br>
 
@@ -6,7 +6,6 @@
   <a href="#objetivo">Objetivo da Sprint </a>  |
   <a href="#dor">DoR</a> |
   <a href="#dod">DoD</a> |
-  <a href="#modelo">Modelo conceitual do banco</a>
   <a href="#backlog">Sprint Backlog</a>
 </p>
 
@@ -15,18 +14,16 @@
 <span id="objetivo">
   
 ## 🎯 Objetivo da Sprint
-Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, sendo possível o usuário suporte visualizar os pedidos criados e assim os responder, finalizando o atendimento do chamado e o concluindo.
+Essa sprint terá como objetivo a criação do usuario administrador, com as funcionalidades de cadastrar usuarios suporte, cadastrar equipamentos, redirecionar chamados, implementar o recurso de visualizar um relatorio de chamados finalizados e alterar o status do chamado.
 
 <br>
 
 <span id="dor">
 
 ## 📋 DoR
-- Protótipo navegável
 - Tarefas definidas
 - Critérios de aceitação
 - Estimativa de horas
-- Modelo do banco de dados
 
 <br>
 
@@ -38,25 +35,17 @@ Essa sprint terá como objetivo a criação de chamados pelo usuário cliente, s
 
 <br>
 
-<span id="modelo">
-
-## ✉️ Modelo conceitual do banco
-<img src="documents/img/sprint2/banco-sprint2.png">
-
-<br>
-
 <span id="backlog">
 
 ## 📖 Sprint Backlog
 | User Storie | Estimativa (horas) | Critério de aceitação | Tarefas |
 | :---------: | :----------------: | :-------------------: | :-----: |
-| Como cliente, quero poder me cadastrar para utilizar todas as funcionalidades que o site tem a oferecer | 6 | [front] Efetuar cadastro informando seus dados pessoais <br> [front] Exibição de um pop-up de cadastro concluído <br> [front] Exibição da tela de login <br> [back] Usuário criado no banco | [front] Tela de cadastro (cliente) – formulário <br> [back] Cadastro (cliente) – validar os dados <br> [back] Cadastro (cliente) – criar persistência dos dados no banco |
-| Como cliente, suporte e ADM quero realizar o login da minha conta para acessar o site | 5 | [front] Efetuar login utilizando e-mail ou CPF já cadastrados no banco pelo formulário de cadastro <br> [front] Exibição de um pop-up de login concluído <br> [front] Exibição da tela principal | [front] Tela de login (cliente, suporte, ADM) - formulário <br> [back] Login (cliente, suporte, ADM) - validar os formulários |
-| Como cliente, quero abrir um chamado afim de receber suporte para solucionar o meu problema | 8 | [front] Efetuar a abertura do chamado informando problemas fictícios <br> [front] Exibição de um pop-up de chamado realizado <br> [front] Exibição da tela de atendimento <br> [back] Chamado criado no banco | [front] Tela de abrir chamado (cliente) - formulário <br> [back] Abrir chamado (cliente) - validar os dados <br> [back] Abrir chamado (cliente) - criar persistência dos dados no banco |
-| Como cliente, quero ter um FAQ onde posso consultar as dúvidas frequentes por categorias para tentar encontrar uma solução para o meu problema mais rapidamente | 3 | [front] Visualização das perguntas e respostas do FAQ | [front] Tela do FAQ (cliente) |
-| Como cliente, suporte e ADM quero redefinir a senha para caso de esquecimento | 7 | [front] Exibição da tela para pedir o e-mail <br> [front] Acessar o link de e-mail para mudar a senha <br> [front] Exibição da tela informando que a senha foi alterada com sucesso <br> [back] E-mail é enviado para o cliente | [front] Tela de redefinir senha (cliente, suporte, ADM) <br> [back] Redefinir senha (cliente, suporte, ADM) - encaminhar para o e-mail o link para redefinir senha |
-| Como suporte, quero poder aceitar chamados pendentes para resolver o problema do cliente | 7 | [front] Selecionar um chamado para mais detalhes <br> [front] Enviar a resposta do chamado selecionado com templates ou uma nova resposta <br> [front] Exibição do pop-up de chamado respondido <br> [front] Exibição da tela de chamados <br> [back] Resposta criada no banco | [front] Tela de chamados (suporte) <br> [back] Chamados (suporte) - função onclick() para alteração de status <br> [back] Chamados (suporte) - validar a alteração <br> [back] Chamados (suporte) - alterar o status do chamdo no banco |
-| Como suporte, quero poder visualizar chamados pendentes para administrar melhor o tempo de cada solicitação | 6 | [front] Exibição apenas dos chamados pendentes | [front] Tela de chamados (suporte) <br> [back] Chamados (suporte) - encaminhar os dados do banco para tela <br> [back] Chamados (suporte) - filtar os dados por pendentes |
-| Como cliente, quero poder visualizar meus chamados pendentes, em andamento e concluídos para poder acompanhar o andamento da minha solicitação | 6 | [front] Exibição dos chamados agrupados em categoria (pendentes, em andamente, concluído) | [front] Tela de atendimento (cliente) <br> [back] Atendimento (cliente) - encaminhar os dados do banco para tela <br> [back] Atendimento (cliente) - filtrar os dados por pendentes, em andamento e concluídos |
-| Como cliente, suporte e ADM quero poder realizar o logout para encerrar minha seção e proteger meus dados | 5 | [front] Exibição do pop-up de logout <br> [front] Retornar a tela inicial e visualizar o header sem usuário logado | [front] Pop-up de logout (cliente, suporte, ADM) <br> [back] Logout (cliente, suporte, ADM) - invalidar a sessão atual do usuário |
-| Como suporte, quero poder responder aos chamados para atender aos clientes | 5 | [front] Exibição do pop-up de chamado respondido <br> [front] Na tela do suporte e na tela do cliente, agora o chamado aparece na aba de “chamados concluídos” <br> [back] Chamado foi registrado no banco  | [front] Tela de responder chamados (suporte) - formulário <br> [back] Responder chamados (suporte) - validar dados <br> [back] Responder chamados (suporte) - criar permanência da resposta no banco <br> [back] Responder chamados (suporte) – mudar o status do chamado para concluído |
+| Como cliente, suporte e ADM quero ter um relatório de chamados finalizados para visualizar todos os chamados já feitos | 3 | [front] Exibição da tela de chamados <br> [front] Exibição de um relatório com os chamados finalizados <br> [back] Chamados criados no banco | [front] Tela de visualizar chamados finalizados(cliente, suporte, adm) - criar um form com os chamados finalizados <br> [back] Status do chamado - criar persistência dos dados no banco <br> |
+|Como ADM quero poder cadastrar usuários suporte e ADM para auxiliar no funcionamento do sistema | 7 | [front] Efetuar cadastro de usuarios suporte <br> [front] Exibição de um pop-up de cadastro concluido com sucesso <br> [front] Exibição da tela de cadastro <br> [back] Cadastrar usuarios suporte no banco | [front] Tela de cadastro(ADM) - criar tela de cadastro de usuario suporte <br> [back] Cadastro (ADM) - cadastrar usuarios suporte <br> |
+|Como ADM quero poder cadastrar equipamentos no sistema para melhor orientação na resolução de chamados | 7 | [front] Efetuar o cadastro de equipamentos <br> [front] Exibição de um pop-up de equipamento cadastrado com sucesso <br> [front] Exibição da tela de cadastro de equipamentos <br> [front] Exibição da tela de equipamentos <br> [back] Cadastrar equipamento no banco | [front] Tela de cadastro de equipamento - formulário <br> [front] Tela de equipamentos - criar tela de equipamentos <br> [back] Cadastrar os equipamentos- criar persistencia dos dados no banco <br> |
+| Como cliente, quero conseguir visualizar o andamento da minha solicitação para ter conhecimento do status do meu chamado | 2 | [front] Visualização das solicitações | [front] Tela de chamados (cliente) - criar um campo para visualizar o andamento das solicitações feitas <br> |
+| Como cliente, quero visualizar o tempo estimado de solução do chamado para ter conhecimento de quando será finalizado | 5 | [front] Exibição do tempo estimado nos chamados em aberto <br> | [front] Tela de chamados (cliente) - criar campo tempo estimado para cada chamado aberto <br> [back] Tela de chamados - criar persistencia dos dados no banco <br> |
+| Como suporte quero definir o tempo até a conclusão do problema para informar ao cliente | 3 | [front] Definir o tempo estimado para concluir o chamado <br> | [front] Tela de chamados (suporte) - criar um form para que seja possivel definir o tempo estimado para conclusão do chamado <br> [back] Chamados (suporte) - criar a persistencia de dados no banco <br> |
+| Como suporte quero poder mudar o status do chamado no sistema para os outros usuários conseguirem visualizar o status atual | 2 | [front] Tela de chamados | [front] Tela de chamados (suporte) - criar campo para alterar o status do chamado <br> [back] Chamados (suporte) - atualizar o status no banco <br> |
+| Como ADM quero poder redirecionar os chamados para técnicos responsáveis para uma resolução eficiente | 6 | [front] Exibição dos chamados | [front] Tela de chamados (ADM) -Criar um campo para visualizar os chamados aceitos por usuarios suporte <br> [front] Tela de chamados (ADM) - implementar opção de redirecionar chamado [back] Tela de chamados (ADM) - criar função para redirecionar chamados <br> [back] Chamados (ADM) - atualizar os dados no banco |
+
