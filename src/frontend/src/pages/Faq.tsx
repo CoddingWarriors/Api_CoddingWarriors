@@ -1,4 +1,6 @@
 import styles from "../styles/Faq.module.css"
+import setaBaixo from "../img/setaBaixo.png"
+import setaCima from "../img/setaCima.png"
 import { useState } from "react"
 
 
@@ -43,7 +45,10 @@ function Faq() {
                         <div className={styles.item}>
                             <div className={styles.titulo} onClick={() => toggle(i)}>
                                 <h3>{item.pergunta}</h3>
-                                <span>{selecionado === i ? "-" : "+" }</span>
+                                <span>{selecionado === i ? 
+                                <img src={setaCima} alt="-" /> 
+                                :
+                                <img src={setaBaixo} alt="-" /> }</span>
                             </div>
                             <div className={selecionado === i ? styles.conteudoShow : styles.conteudo}>{item.resposta}</div>
                         </div>
