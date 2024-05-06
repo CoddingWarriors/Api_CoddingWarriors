@@ -208,4 +208,36 @@ export class Usuario {
         })
     }
 
+    async buscarUsuarioPorUsername(dbName: string, username: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `SELECT * FROM usuario WHERE email = ? OR cpf = ?`,
+                        [username, username],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao buscar usuário:", error);
+                                reject(error);
+                            } else {
+                                if (results.length > 0) {
+                                    console.log("Usuário encontrado:", results[0]);
+                                    resolve(results[0]); // Retorna o primeiro usuário encontrado
+                                } else {
+                                    console.log("Usuário não encontrado");
+                                    resolve(null); // Retorna null se o usuário não for encontrado
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+    
+
 }
