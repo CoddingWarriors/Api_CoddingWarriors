@@ -108,12 +108,11 @@ app.post(`/novasenha`, async (req: Request, res: Response) => {
 
 app.post("/buscar-chamados", async (req: Request, res: Response) => {
     const { userId, status } = req.body
-    
+ 
 
     try {
         // Chama a função para buscar os chamados com base no ID do usuário e no status
         const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status)
-        console.log(chamados)
         res.status(200).json(chamados)
     } catch (error) {
         console.error("Erro ao buscar chamados:", error)
@@ -134,6 +133,27 @@ app.post("/verificar-token", (req: Request, res: Response) => {
         res.status(200).json({ message: "Token válido" })
     } catch (error) {
         res.status(401).json({ message: "Token inválido" })
+    }
+})
+
+app.post("/usuariotipo", async (req: Request, res: Response) => {
+    const { userId } = req.body 
+    console.log(userId)
+
+    try {
+        
+        const usuarioEncontrado = await usuario.buscarUsuarioPorId(dbName, userId)
+        console.log(usuarioEncontrado.tipo)
+        if (usuarioEncontrado) {
+        
+            res.status(200).json({ tipoUsuario: usuarioEncontrado.tipo })
+        } else {
+            // Retorna uma mensagem de erro se o usuário não for encontrado
+            res.status(404).json({ message: "Usuário não encontrado" })
+        }
+    } catch (error) {
+        console.error("Erro ao buscar usuário por ID:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
     }
 })
 

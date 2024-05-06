@@ -76,6 +76,8 @@ function Atendimento() {
                 const emAndamentoData = await fetchChamados("Em andamento")
                 const concluidosData = await fetchChamados("Concluído")
 
+
+
                 setPendentes(pendentesData)
                 setEmAndamento(emAndamentoData)
                 setConcluidos(concluidosData)
