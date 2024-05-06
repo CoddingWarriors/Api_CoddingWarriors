@@ -24,7 +24,7 @@ function Login() {
       if (response.ok) {
         // Armazena o token recebido no localStorage
         localStorage.setItem("token", data.token);
-
+        alert('Login realizado com sucesso')
         // Navega para a página /home se o login for bem-sucedido
         navigate("/");
       } else {

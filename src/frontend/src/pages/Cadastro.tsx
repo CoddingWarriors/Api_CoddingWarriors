@@ -1,7 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Cadastro.module.css";
 import React, { useState, FormEvent } from "react";
-
 function Cadastro() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
@@ -13,7 +12,7 @@ function Cadastro() {
     const [endereco, setEndereco] = useState("");
     const [numero, setNumero] = useState("");
     const [senha, setSenha] = useState("");
-
+    const navigate = useNavigate()
     // Função para lidar com o envio do formulário
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
@@ -41,8 +40,14 @@ function Cadastro() {
                 },
                 body: JSON.stringify(data),
             });
+            alert("Usuario cadastrado com sucesso");
+
+                // Redirecionar para /atendimento
+            navigate("/login");
             const responseData = await response.json();
-            console.log(responseData); // Exibe a resposta do servidor no console
+            console.log(responseData); 
+            
+            // Exibe a resposta do servidor no console
 
             // Limpa os campos do formulário após o envio bem-sucedido
             setNome("");
