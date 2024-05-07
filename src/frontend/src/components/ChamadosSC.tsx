@@ -25,7 +25,7 @@ const [selecionado, setSelecionado] = useState<boolean | null>(null)
                     </div>
                     <div className={selecionado ? styles.conteudoShow : styles.conteudo}>
                         <div className={styles.conteudoChamado}>
-                            {props.conteudo}
+                            {props.children}
                         </div>
                     </div>
                 </div>

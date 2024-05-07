@@ -15,7 +15,7 @@ function TicketsC(props:any) {
                     <p><strong>ID:</strong> {props.ID}</p>
                 </div>
                 <div className={styles.rectangle}>
-                    <p><strong>Assunto:</strong> {props.Assunto}</p>
+                    <p><strong>Titulo:</strong> {props.Assunto}</p>
                 </div>
                 <div className={styles.rectangle}>
                     <p><strong>Descrição:</strong> {props.Descricao}</p>

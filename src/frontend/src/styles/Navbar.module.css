@@ -9,28 +9,18 @@
     font-weight: bold;
 }
 
-button a {
-    color: white;
-}
-
-.login {
-    border: 2px solid white;
-    border-radius: 5px;
-    background: none;
-    color: white;
-    padding: 10px 20px;
-    font-size: 15px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
 nav {
     background-color: #000469;
-    padding: 20px 50px;
+    padding: 20px 0 20px 70px;
     display: flex;
     justify-content: space-between;
 }
 
 img {
     width: 70%;
+}
+
+.usuarioPerfil {
+    width: 40%;
+    cursor: pointer;
 }

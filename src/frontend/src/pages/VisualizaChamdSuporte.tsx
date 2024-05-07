@@ -17,23 +17,6 @@ function Atendimento() {
     const navigate = useNavigate()
     const [openModal, setOpenModal] = useState(false)
 
-    const handleClick = async () => {
-        const response = await fetch("http://localhost:5000/verificar-token", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-        })
-        console.log(localStorage.getItem("token"))
-
-        if (response.ok) {
-            navigate("/abrirchamado")
-        } else {
-            setOpenModal(true)
-        }
-    }
-
     useEffect(() => {
         async function fetchChamados(status: string) {
             try {
@@ -44,13 +27,13 @@ function Atendimento() {
                     const decodedPayload = atob(tokenPayload)
                     const payloadObj = JSON.parse(decodedPayload)
                     const userId = payloadObj.id_usuario
-                    const response = await fetch("http://localhost:5000/buscar-chamados", {
+                    const response = await fetch("http://localhost:5000/buscar-chamados-por-status", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${token}`,
                         },
-                        body: JSON.stringify({ userId: userId, status }),
+                        body: JSON.stringify({ status }),
                     })
 
                     const data = await response.json()
@@ -89,43 +72,6 @@ function Atendimento() {
 
     return (
         <div>
-            <Card
-                imgSrc={card}
-                imgAlt="Não carregou o card"
-                titulo="Na empresa Internet Ocean você sempre pode confiar!"
-                conteudo="Caso tenha encontrado alguma dificuldade na utilização dos nossos serviços, solicite atendimento abaixo"
-            />
-
-            <div className={styles.containerImagemTexto}>
-                <img src={atendente} alt="Não carregou o atendente" />
-                <div>
-                    <h1>Precisa de ajuda?</h1>
-                    <p>
-                        Nossa equipe está sempre disposta a ajudar! Para solicitar assistência técnica
-                        especializada, por favor, clique no botão abaixo.
-                    </p>
-                    <button className={styles.abrirChamado} onClick={handleClick}>
-                        Abrir chamado
-                    </button>
-                    <Modal isOpen={openModal} setOpenModal={() => setOpenModal(!openModal)}>
-                        <div className={styles.containerModal}>
-                            <img src={realizarLogin} alt="" />
-                            <h2>Para prosseguir com a abertura do chamado, por favor, realize o login</h2>
-                            <button onClick={() => navigate("/login")}>Login</button>
-                        </div>
-                    </Modal>
-                </div>
-            </div>
-
-            <h1 className={styles.titulo}>Já abriu o seu chamado?</h1>
-            <p className={styles.conteudo}>
-                Caso você já tenha aberto um chamado conosco, saiba que a nossa equipe de suporte está
-                dedicada a atender suas necessidades e resolver sua solicitação da melhor maneira possível{" "}
-                <br />
-                Para verificar o status atual da sua solicitação, confira abaixo o seu status. Agradecemos sua
-                paciência e confiança em nossos serviços.
-            </p>
-
             <Chamados className={styleChamado.tituloAzul} titulo="Chamados pendentes">
                 {pendentes.map((chamado) => (
                     <TicketsC

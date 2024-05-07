@@ -18,7 +18,7 @@ export class Usuario {
                     this.connection.query(
                         `create table if not exists usuario(
                         id_usuario int auto_increment primary key,
-                        cpf int, rg varchar(9), nome varchar(50),
+                        cpf varchar(11), rg varchar(9), nome varchar(50),
                         telefone varchar(14), email varchar(30), senha varchar(10),
                         endereco varchar(50), numero int, cep varchar(8), token varchar(250), tipo int
                         );`,
@@ -206,6 +206,68 @@ export class Usuario {
                 }
             })
         })
+    }
+
+    async buscarUsuarioPorUsername(dbName: string, username: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `SELECT * FROM usuario WHERE email = ? OR cpf = ?`,
+                        [username, username],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao buscar usuário:", error);
+                                reject(error);
+                            } else {
+                                if (results.length > 0) {
+                                    console.log("Usuário encontrado:", results[0]);
+                                    resolve(results[0]); // Retorna o primeiro usuário encontrado
+                                } else {
+                                    console.log("Usuário não encontrado");
+                                    resolve(null); // Retorna null se o usuário não for encontrado
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+    
+    async buscarUsuarioPorId(dbName: string, idUsuario: number): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, useResults) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `SELECT * FROM usuario WHERE id_usuario = ?`,
+                        [idUsuario],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao buscar usuário pelo ID:", error);
+                                reject(error);
+                            } else {
+                                if (results.length > 0) {
+                                    console.log("Usuário encontrado:", results[0]);
+                                    resolve(results[0]); // Retorna o usuário encontrado
+                                } else {
+                                    console.log("Usuário não encontrado");
+                                    resolve(null); // Retorna null se o usuário não for encontrado
+                                }
+                            }
+                        }
+                    );
+                }
+            });
+        });
     }
 
 }

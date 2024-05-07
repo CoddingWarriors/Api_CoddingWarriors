@@ -1,12 +1,11 @@
-import express, { Request, Response } from "express"
-import jwt from "jsonwebtoken";
+import express, { Request, Response, NextFunction } from "express"
+import jwt from "jsonwebtoken"
 import cors from "cors"
-import { usuario } from "./criadb"
-import Chamados from "./DB/chamado/chamados"
+import { usuario, chamado } from "./criadb"
 import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
-import { setUsername, getUsername } from "./globalUser";
+import { setUsername, getUsername } from "./globalUser"
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -23,16 +22,23 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.post("/login", async (req: Request, res: Response) => {
-  const { username, password } = req.body
-  const verificaLogin = await usuario.loginUsuario(dbName, username, password)
+    const { username, password } = req.body
 
-  if (verificaLogin) {
-      const token = Authentication.generateToken(username); // Gera o token JWT
+    try {
+        const verificaLogin = await usuario.loginUsuario(dbName, username, password) // Verifica o login do usuário
+        const id_user = await usuario.buscarUsuarioPorUsername(dbName, username) // Obtém todos os dados do usuário
 
-      res.status(200).json({token});
-  } else {
-      res.status(401)
-  }
+        if (verificaLogin && usuario) {
+            const token = Authentication.generateToken(id_user.id_usuario) // Gera o token JWT com o ID do usuário
+
+            res.status(200).json({ token })
+        } else {
+            res.status(401).json({ message: "Credenciais inválidas" })
+        }
+    } catch (error) {
+        console.error("Erro ao fazer login:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
+    }
 })
 
 app.post("/cadastro", async (req: Request, res: Response) => {
@@ -67,19 +73,14 @@ app.post("/cadastro", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/abrir_chamado", async (req: Request, res: Response) => {
-    const { descricao, data_inicio, data_fim, resposta, status } = req.body
+app.post("/abrirchamado", async (req, res) => {
+    const { titulo, descricao, categoria, userId } = req.body
 
     try {
-        const novoChamado = new Chamados(descricao, data_inicio, data_fim, resposta, status)
+        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId)
 
-        if (novoChamado) {
-            console.log("Novo chamado")
-            res.status(200).send("Chamado criado com sucesso")
-        } else {
-            console.log("Erro ao criar chamado")
-            res.status(500).send("Erro ao criar chamado")
-        }
+        console.log("Chamado criado com sucesso")
+        res.status(200).send("Chamado criado com sucesso")
     } catch (error) {
         console.error("Erro ao criar chamado:", error)
         res.status(500).send("Erro ao criar chamado")
@@ -88,38 +89,112 @@ app.post("/abrir_chamado", async (req: Request, res: Response) => {
 
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;
-    setUsername(username);
-    console.log(username)
-    const token = gerarTokenTemporario(30);
-    console.log(token)
-    usuario.inserirToken( `${token}`, username);
-    enviarEmail(username, token); // verificar onde vai mandar o email
+
+    try {
+        setUsername(username); // Define o nome de usuário
+        console.log(username);
+
+        const token = gerarTokenTemporario(30); // Gera um token temporário
+        console.log(token);
+
+        await usuario.inserirToken(token, username); // Insere o token associado ao usuário no banco de dados
+        enviarEmail(username, token); // Envie o email para o usuário com o token temporário
+
+        res.status(200).json({ message: "Email enviado com sucesso" }); // Retorna uma mensagem de sucesso para o front-end
+    } catch (error) {
+        console.error("Erro ao enviar o email de redefinição de senha:", error);
+        res.status(500).json({ message: "Erro ao enviar o email de redefinição de senha" }); // Retorna uma mensagem de erro para o front-end
+    }
 });
+
 app.post(`/novasenha`, async (req: Request, res: Response) => {
     const { password } = req.body;
-    console.log(password)
-    const username = getUsername();
-    console.log(username)
-    const token = await usuario.pegaToken(username);
-    usuario.alterarSenha( `${token}` ,password );
-    /* res.json({ token: token2 }); */
 
+    try {
+        const username = getUsername(); // Supondo que getUsername() retorne o nome de usuário associado à solicitação
+        const token = await usuario.pegaToken(username); // Obtém o token associado ao usuário
+        
+        if (token !== null) {
+            await usuario.alterarSenha(token, password); // Altera a senha usando o token
+            
+            // Retorna uma resposta para o front-end indicando que a senha foi alterada com sucesso
+            res.status(200).json({ message: "Senha alterada com sucesso" });
+        } else {
+            throw new Error("Token de usuário é nulo");
+        }
+    } catch (error) {
+        console.error("Erro ao alterar a senha:", error);
+        // Em caso de erro, retorna uma resposta de erro para o front-end
+        res.status(500).json({ message: "Erro ao alterar a senha" });
+    }
 });
+
+
+app.post("/buscar-chamados", async (req: Request, res: Response) => {
+    const { userId, status } = req.body
+ 
+
+    try {
+        // Chama a função para buscar os chamados com base no ID do usuário e no status
+        const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status)
+        res.status(200).json(chamados)
+    } catch (error) {
+        console.error("Erro ao buscar chamados:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
+    }
+})
 
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
-  const token = req.headers.authorization?.split(" ")[1]; // Pega o token do header Authorization
+    const token = req.headers.authorization?.split(" ")[1] // Pega o token do header Authorization
+    console.log(token)
+    if (!token) {
+        return res.status(401).json({ message: "Token não fornecido" })
+    }
 
-  if (!token) {
-      return res.status(401).json({ message: "Token não fornecido" });
-  }
+    try {
+        jwt.verify(token, "secreto") // Verifica a validade do token utilizando a mesma chave secreta
+        res.status(200).json({ message: "Token válido" })
+    } catch (error) {
+        res.status(401).json({ message: "Token inválido" })
+    }
+})
 
-  try {
-      jwt.verify(token, "secreto"); // Verifica a validade do token utilizando a mesma chave secreta
-      res.status(200).json({ message: "Token válido" });
-  } catch (error) {
-      res.status(401).json({ message: "Token inválido" });
-  }
-});
+app.post("/usuariotipo", async (req: Request, res: Response) => {
+    const { userId } = req.body 
+    console.log(userId)
+
+    try {
+        
+        const usuarioEncontrado = await usuario.buscarUsuarioPorId(dbName, userId)
+        console.log(usuarioEncontrado.tipo)
+        if (usuarioEncontrado) {
+        
+            res.status(200).json({ tipoUsuario: usuarioEncontrado.tipo })
+        } else {
+            // Retorna uma mensagem de erro se o usuário não for encontrado
+            res.status(404).json({ message: "Usuário não encontrado" })
+        }
+    } catch (error) {
+        console.error("Erro ao buscar usuário por ID:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
+    }
+})
+
+app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
+    const { status } = req.body 
+    console.log(status)
+
+    try {
+        
+        const chamados = await chamado.buscarChamadoPorStatus(dbName, status)
+        console.log(chamado)
+        res.status(200).json(chamados)
+    } catch (error) {
+        console.error("Erro ao buscar chamados por status:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
+    }
+})
+
 
 app.listen(PORT, () => {})

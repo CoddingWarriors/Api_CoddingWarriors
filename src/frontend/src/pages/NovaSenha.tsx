@@ -11,22 +11,34 @@ function NovaSenha() {
     const navigate = useNavigate();
     
    // const token = token(banco de dados)
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
+   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
 
-        try {
-            // Envia uma requisição POST para o endpoint /login no servidor
-            const response = await fetch(`http://localhost:5000/novasenha`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ password, password2 }), // Envia os dados do formulário no corpo da requisição
-            });
+    try {
+        // Envia uma requisição POST para o endpoint /novasenha no servidor
+        const response = await fetch(`http://localhost:5000/novasenha`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ password, password2 }), // Envia os dados do formulário no corpo da requisição
+        });
+
+        if (response.ok) {
+            // Se a resposta for bem-sucedida, exiba um alerta e redirecione para /login
+            alert("Senha alterada com sucesso!");
+            navigate("/login");
+        } else {
+            // Caso contrário, lance um erro para ser tratado no bloco catch
+            throw new Error("Falha ao alterar a senha");
+        }
     } catch (error) {
+        // Em caso de erro, exiba o erro no console
         console.error("Erro:", error);
+        // Você pode adicionar um alerta ou mensagem de erro aqui se desejar
     }
 };
+
            
 
     
