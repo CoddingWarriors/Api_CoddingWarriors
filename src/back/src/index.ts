@@ -88,23 +88,47 @@ app.post("/abrirchamado", async (req, res) => {
 })
 
 app.post("/esquecisenha", async (req, res) => {
-    const { username } = req.body
-    setUsername(username)
-    console.log(username)
-    const token = gerarTokenTemporario(30)
-    console.log(token)
-    usuario.inserirToken(`${token}`, username)
-    enviarEmail(username, token) // verificar onde vai mandar o email
-})
+    const { username } = req.body;
+
+    try {
+        setUsername(username); // Define o nome de usuário
+        console.log(username);
+
+        const token = gerarTokenTemporario(30); // Gera um token temporário
+        console.log(token);
+
+        await usuario.inserirToken(token, username); // Insere o token associado ao usuário no banco de dados
+        enviarEmail(username, token); // Envie o email para o usuário com o token temporário
+
+        res.status(200).json({ message: "Email enviado com sucesso" }); // Retorna uma mensagem de sucesso para o front-end
+    } catch (error) {
+        console.error("Erro ao enviar o email de redefinição de senha:", error);
+        res.status(500).json({ message: "Erro ao enviar o email de redefinição de senha" }); // Retorna uma mensagem de erro para o front-end
+    }
+});
+
 app.post(`/novasenha`, async (req: Request, res: Response) => {
-    const { password } = req.body
-    console.log(password)
-    const username = getUsername()
-    console.log(username)
-    const token = await usuario.pegaToken(username)
-    usuario.alterarSenha(`${token}`, password)
-    /* res.json({ token: token2 }); */
-})
+    const { password } = req.body;
+
+    try {
+        const username = getUsername(); // Supondo que getUsername() retorne o nome de usuário associado à solicitação
+        const token = await usuario.pegaToken(username); // Obtém o token associado ao usuário
+        
+        if (token !== null) {
+            await usuario.alterarSenha(token, password); // Altera a senha usando o token
+            
+            // Retorna uma resposta para o front-end indicando que a senha foi alterada com sucesso
+            res.status(200).json({ message: "Senha alterada com sucesso" });
+        } else {
+            throw new Error("Token de usuário é nulo");
+        }
+    } catch (error) {
+        console.error("Erro ao alterar a senha:", error);
+        // Em caso de erro, retorna uma resposta de erro para o front-end
+        res.status(500).json({ message: "Erro ao alterar a senha" });
+    }
+});
+
 
 app.post("/buscar-chamados", async (req: Request, res: Response) => {
     const { userId, status } = req.body
@@ -156,5 +180,21 @@ app.post("/usuariotipo", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erro interno do servidor" })
     }
 })
+
+app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
+    const { status } = req.body 
+    console.log(status)
+
+    try {
+        
+        const chamados = await chamado.buscarChamadoPorStatus(dbName, status)
+        console.log(chamado)
+        res.status(200).json(chamados)
+    } catch (error) {
+        console.error("Erro ao buscar chamados por status:", error)
+        res.status(500).json({ message: "Erro interno do servidor" })
+    }
+})
+
 
 app.listen(PORT, () => {})
