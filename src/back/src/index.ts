@@ -58,6 +58,11 @@ app.post("/cadastro", async (req: Request, res: Response) => {
             tipo,
             foto
         ) // Passe 'foto' para a função
+        const token = gerarTokenTemporario(30)
+        const subject = 'confirmar email'
+        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`
+        await usuario.inserirToken(token, email); // Insere o token associado ao usuário no banco de dados
+        enviarEmail(email, html, subject) ; 
 
         if (verificaCadastrado) {
             console.log("Usuário cadastrado")
@@ -95,9 +100,10 @@ app.post("/esquecisenha", async (req, res) => {
 
         const token = gerarTokenTemporario(30); // Gera um token temporário
         console.log(token);
-
+        const subject = 'redefinir senha'
+        const html = `<h1>Clique abaixo para Redefinir sua Senha</h1><br><br><a href="http://localhost:3000/">Redefinir Senha</a><br><br><h3>Seu token${token}</h3>`
         await usuario.inserirToken(token, username); // Insere o token associado ao usuário no banco de dados
-        enviarEmail(username, token); // Envie o email para o usuário com o token temporário
+        enviarEmail(username, html, subject) ; // Envie o email para o usuário com o token temporário
 
         res.status(200).json({ message: "Email enviado com sucesso" }); // Retorna uma mensagem de sucesso para o front-end
     } catch (error) {
