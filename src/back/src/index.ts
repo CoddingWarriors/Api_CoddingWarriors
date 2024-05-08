@@ -42,13 +42,12 @@ app.post("/login", async (req: Request, res: Response) => {
 })
 
 app.post("/cadastro", async (req: Request, res: Response) => {
-    const { cpf, rg, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body // Inclua 'foto' aqui
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body // Inclua 'foto' aqui
 
     try {
         const verificaCadastrado = await usuario.cadastroUsuario(
             dbName,
             cpf,
-            rg,
             nome,
             telefone,
             email,
