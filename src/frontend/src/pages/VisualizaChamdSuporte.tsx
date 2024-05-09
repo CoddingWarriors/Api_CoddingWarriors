@@ -1,22 +1,12 @@
-import card from "../img/card-atendimento.png"
-import atendente from "../img/atendente.png"
-import Card from "../components/Card"
-import Chamados from "../components/Chamados"
-import styles from "../styles/Atendimento.module.css"
+import ChamadosArea from "../components/ChamadosArea"
 import styleChamado from "../styles/Chamados.module.css"
 import { useState, useEffect } from "react"
-import Modal from "../components/Modal"
-import { useNavigate } from "react-router-dom"
-import realizarLogin from "../img/realizarLogin.png"
-import TicketsC from "../components/TicketsC"
+import Tickets from "../components/Tickets"
 
-function Atendimento() {
+function AtendimentoSuporte() {
     const [pendentes, setPendentes] = useState<any[]>([])
     const [emAndamento, setEmAndamento] = useState<any[]>([])
     const [concluidos, setConcluidos] = useState<any[]>([])
-    const navigate = useNavigate()
-    const [openModal, setOpenModal] = useState(false)
-
     useEffect(() => {
         async function fetchChamados(status: string) {
             try {
@@ -72,39 +62,43 @@ function Atendimento() {
 
     return (
         <div>
-            <Chamados className={styleChamado.tituloAzul} titulo="Chamados pendentes">
+            <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
                 {pendentes.map((chamado) => (
-                    <TicketsC
+                    <Tickets
+                        // tipo = {chamado.tipo}
+                        tipo = {chamado.status}
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
                     />
                 ))}
-            </Chamados>
-            <Chamados className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
+            </ChamadosArea>
+            <ChamadosArea className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
                 {emAndamento.map((chamado) => (
-                    <TicketsC
+                    <Tickets
+                        tipo = {chamado.status}
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
                     />
                 ))}
-            </Chamados>
+            </ChamadosArea>
 
-            <Chamados className={styleChamado.tituloVerde} titulo="Chamados concluídos">
+            <ChamadosArea className={styleChamado.tituloVerde} titulo="Chamados concluídos">
                 {concluidos.map((chamado) => (
-                    <TicketsC
+                    <Tickets
+                        tipo = ''
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
                     />
                 ))}
-            </Chamados>
+            </ChamadosArea>
         </div>
     )
 }
 
-export default Atendimento
+export default AtendimentoSuporte
