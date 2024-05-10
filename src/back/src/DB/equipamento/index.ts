@@ -44,4 +44,34 @@ export class Equipamento {
             })
         })
     }
+
+    async cadastrarEquipamento(dbName: string, ip: string, localizacao: string, notas: string, tipo: string, status: string, userId: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!")
+                    this.connection.query(
+                        `
+                        INSERT INTO equipamento 
+                            (ip, localizacao, dt_instalacao, notas, tipo, status, id_usuario)  
+                            VALUES (?, ?, CURRENT_DATE(), ?, ?, ?, ?);
+                        `,
+                        [ip, localizacao, notas, tipo, status, userId],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao cadastrar equipamento:", error)
+                                reject(error)
+                            } else {
+                                console.log("Equipamento cadastrado com sucesso!")
+                                resolve()
+                            }
+                        }
+                    )
+                }
+            })
+        })
+    }
 }

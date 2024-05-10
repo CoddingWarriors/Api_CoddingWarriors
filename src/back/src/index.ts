@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import cors from "cors"
-import { usuario, chamado } from "./criadb"
+import { usuario, chamado, equipamento } from "./criadb"
 import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
@@ -193,6 +193,20 @@ app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Erro ao buscar chamados por status:", error)
         res.status(500).json({ message: "Erro interno do servidor" })
+    }
+})
+
+app.post("/cadastrar-equipamento",async(req: Request, res: Response) => {
+    const{ip, localizacao, notas, tipo, status, userId} = req.body
+
+    try {
+        await equipamento.cadastrarEquipamento(dbName, ip, localizacao, notas, tipo, status, userId)
+
+        console.log("Equipamento cadastrado com sucesso")
+        res.status(200).send("Equipamento cadastrado com sucesso")
+    } catch (error) {
+        console.error("Erro ao cadastrar equipamento:", error)
+        res.status(500).send("Erro ao cadastrar equipamento")
     }
 })
 
