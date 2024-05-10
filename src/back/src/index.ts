@@ -149,6 +149,18 @@ app.post("/buscar-chamados", async (req: Request, res: Response) => {
     }
 })
 
+app.post("/deletar-chamado", async (req: Request, res: Response) => {
+    const { chamadoId } = req.body;
+
+    try {
+        await chamado.excluirChamado(dbName, chamadoId);
+        res.status(200).json({ message: "Chamado deletado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao deletar chamado:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(" ")[1] // Pega o token do header Authorization

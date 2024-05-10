@@ -1,6 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Cadastro.module.css";
 import React, { useState, FormEvent } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 function Cadastro() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
@@ -38,8 +41,16 @@ function Cadastro() {
                 },
                 body: JSON.stringify(data),
             });
-            alert("Usuario cadastrado com sucesso");
-
+            toast.success('Usuário cadastrado com sucesso', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+                });
                 // Redirecionar para /atendimento
             navigate("/login");
             const responseData = await response.json();
@@ -63,6 +74,7 @@ function Cadastro() {
 
     return (
         <div className={styles.body}>
+            <ToastContainer />
             <div className={styles.containerCadastro}>
                 <h1>Cadastro</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>

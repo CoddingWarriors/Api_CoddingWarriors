@@ -1,15 +1,31 @@
 import styles from "../styles/Tickets.module.css"
 
-interface AcceptAndDeleteButtonProps {
-    onAccept: () => void; // função que será acionada quando o botão "ACEITAR" for clicado
-    onDelete: () => void; // função que será acionada quando o botão "DELETAR" for clicado
-}
+function AcceptAndDeleteButton({ chamadoId }: { chamadoId: number }){
+    const onDelete = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/deletar-chamado", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ chamadoId: chamadoId }),
+            });
 
-function AcceptAndDeleteButton({ onAccept, onDelete }: AcceptAndDeleteButtonProps) {
+            if (!response.ok) {
+                throw new Error('Erro ao excluir o chamado');
+            } else {
+                console.log('Chamado excluído com sucesso!');
+            }
+        } catch (error) {
+            console.error('Erro ao excluir o chamado:', error);
+        }
+    }
+
     return (
         <div className={styles.sectionThree}>
-            <button className={styles.acceptButton} onClick={onAccept}>ACEITAR</button>
-            <button className={styles.deleteButton} onClick={onDelete}>DELETAR</button>
+            <button className={styles.acceptButton}>ACEITAR</button>
+            <button className={styles.deleteButton} onClick={() => onDelete()}>DELETAR</button>
         </div>
     );
 }

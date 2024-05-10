@@ -7,6 +7,7 @@ function AtendimentoSuporte() {
     const [pendentes, setPendentes] = useState<any[]>([])
     const [emAndamento, setEmAndamento] = useState<any[]>([])
     const [concluidos, setConcluidos] = useState<any[]>([])
+
     useEffect(() => {
         async function fetchChamados(status: string) {
             try {
