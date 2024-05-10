@@ -1,26 +1,29 @@
 .ticket {
     display: flex;
+    justify-content: space-between;
+    gap: 1vh;
     background-color: white;
     border-radius: 22px;
     padding: 10px;
     width: 100%;
-    height: auto; /* Alterado para altura automática */
+    height: auto;
     margin-bottom: 2vh;
-    flex-wrap: wrap; /* Para permitir que os elementos se ajustem em várias linhas */
 }
 
 .sectionOne {
-    width: 13%;
+    width: 14%;
+    height: 22vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid black;
     border-radius: 20px;
     padding: 8.8vh 0; /* Ajustado o padding para manter a proporção */
     box-sizing: border-box; /* Para incluir o padding na largura total */
 }
 
 .sectionTwoC {
-    width: calc(100% - 13%); /* Ajuste a largura para ser proporcional à imagem */
+    flex-grow: 1; /* Ajuste para preencher o espaço restante */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -36,23 +39,61 @@
 }
 
 .sectionThree {
-    width: 15%;
+    width: 14%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     gap: 2vh;
 }
 
-.acceptButton,
-.deleteButton,
 .answerButton {
-    width: 100%;
-    font-size: 1.5vh; /* Ajustado o tamanho da fonte */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: green;
+    border: 1px solid green;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 92%;
+    height: 45%;
+    font-size: 1.5em;
+}
+
+.acceptButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: green;
+    border: 1px solid green;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 92%;
+    height: 45%;
+    font-size: 1.5em;
+}
+
+.deleteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: red;
+    border: 1px solid red;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 92%;
+    height: 45%;
+    font-size: 1.5em;
 }
 
 .image {
-    width: auto; /* Ajustado para manter a proporção */
+    width: 15vh; /* Ajustado para manter a proporção */
     height: auto; /* Ajustado para manter a proporção */
     max-height: 100%; /* Limitar a altura máxima */
     max-width: 100%; /* Limitar a largura máxima */
@@ -61,5 +102,5 @@
 .text {
     text-align: center;
     color: black;
-    font-size: 1.5vh; /* Ajustado o tamanho da fonte */
+    font-size: 2vh; /* Ajustado o tamanho da fonte */
 }

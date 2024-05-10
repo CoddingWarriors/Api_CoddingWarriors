@@ -5,7 +5,6 @@ function Cadastro() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
-    const [rg, setRg] = useState("");
     const [telefone, setTelefone] = useState("");
     const [email, setEmail] = useState("");
     const [cep, setCep] = useState("");
@@ -20,7 +19,6 @@ function Cadastro() {
         // Organizar os dados na ordem das colunas da tabela usuario
         const data = {
             cpf,
-            rg,
             nome,
             telefone,
             email,
@@ -52,7 +50,6 @@ function Cadastro() {
             // Limpa os campos do formulário após o envio bem-sucedido
             setNome("");
             setCpf("");
-            setRg("");
             setTelefone("");
             setEmail("");
             setCep("");
@@ -88,14 +85,6 @@ function Cadastro() {
                         />{" "}
                         <br />
 
-                        <label htmlFor="">RG</label> <br />
-                        <input
-                            type="text"
-                            placeholder="Insira o seu RG"
-                            value={rg}
-                            onChange={(e) => setRg(e.target.value)}
-                        />{" "}
-                        <br />
                     </div>
 
                     <div>

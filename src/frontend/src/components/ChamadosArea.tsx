@@ -3,9 +3,8 @@ import styles from "../styles/Chamados.module.css"
 import setaCimaBranca from '../img/setaCimaBranca.png';
 import setaBaixoBranca from '../img/setaBaixoBranca.png';
 
-
-function ChamadosSC(props:any) {
-const [selecionado, setSelecionado] = useState<boolean | null>(null)
+function ChamadosArea(props:any) {
+    const [selecionado, setSelecionado] = useState<boolean | null>(null)
 
     const toggle = () => {
         setSelecionado(!selecionado)
@@ -33,4 +32,4 @@ const [selecionado, setSelecionado] = useState<boolean | null>(null)
     </div>
 )}
 
-export default ChamadosSC
+export default ChamadosArea
