@@ -41,10 +41,34 @@ app.post("/login", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/cadastro", async (req: Request, res: Response) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body // Inclua 'foto' aqui
+app.post("/cadastro", async (req, res) => {
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui
 
     try {
+        const cpfValido = await usuario.verificaCPFValido(cpf)
+        if (!cpfValido) {
+            console.log("CPF inválido");
+            return res.redirect('/cadastro');
+        }
+        // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
+        const cpfExistente = await usuario.verificaCPF(cpf);
+
+        // Se o CPF já estiver cadastrado, retornar um erro
+        if (cpfExistente) {
+            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
+            return res.redirect('/cadastro');
+        }
+
+        // Verificar se o email já está cadastrado no banco de dados antes de prosseguir com o cadastro
+        const emailExistente = await usuario.verificaEmail(email);
+
+        // Se o email já estiver cadastrado, retornar um erro
+        if (emailExistente) {
+            console.log("Email já cadastrado"); // fazer essa mensagem aparecer no front
+            return res.redirect('/cadastro');
+        }
+
+        // Se o CPF e o email não estiverem cadastrados, prosseguir com o cadastro do usuário
         const verificaCadastrado = await usuario.cadastroUsuario(
             dbName,
             cpf,
@@ -57,25 +81,28 @@ app.post("/cadastro", async (req: Request, res: Response) => {
             cep,
             tipo,
             foto
-        ) // Passe 'foto' para a função
-        const token = gerarTokenTemporario(30)
-        const subject = 'confirmar email'
-        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`
+        );
+
+        const token = gerarTokenTemporario(30);
+        const subject = 'confirmar email';
+        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`;
         await usuario.inserirToken(token, email); // Insere o token associado ao usuário no banco de dados
-        enviarEmail(email, html, subject) ; 
+        enviarEmail(email, html, subject);
 
         if (verificaCadastrado) {
-            console.log("Usuário cadastrado")
-            res.status(200).send("Usuário cadastrado com sucesso")
+            console.log("Usuário cadastrado");
+            res.status(200).send("Usuário cadastrado com sucesso");
         } else {
-            console.log("Erro ao cadastrar usuário")
-            res.status(500).send("Erro ao cadastrar usuário")
+            console.log("Erro ao cadastrar usuário");
+            res.status(500).send("Erro ao cadastrar usuário");
         }
     } catch (error) {
-        console.error("Erro ao cadastrar usuário:", error)
-        res.status(500).send("Erro ao cadastrar usuário")
+        console.error("Erro ao cadastrar usuário:", error);
+        res.status(500).send("Erro ao cadastrar usuário");
     }
-})
+});
+
+
 
 app.post("/abrirchamado", async (req, res) => {
     const { titulo, descricao, categoria, userId } = req.body
