@@ -18,7 +18,7 @@ export class Usuario {
                     this.connection.query(
                         `create table if not exists usuario(
                         id_usuario int auto_increment primary key,
-                        cpf varchar(11), nome varchar(50),
+                        cpf varchar(15), nome varchar(50),
                         telefone varchar(14), email varchar(30), senha varchar(10),
                         endereco varchar(50), numero int, cep varchar(8), token varchar(250), tipo int
                         );`,

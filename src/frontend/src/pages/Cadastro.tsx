@@ -112,11 +112,16 @@ function Cadastro() {
                         <br />
 
                         <label htmlFor="">Email</label> <br />
-                        <InputMask
-                            mask="*{1,}@*{1,}.*{1,}"
-                            maskChar={null}
+                        <input
+                            type="text"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                // Verifica se o valor inserido contém apenas uma "@" e não contém espaços em branco
+                                if ((value.split("@").length <= 2 && !value.includes(" "))) {
+                                    setEmail(value);
+                                }
+                            }}
                         />
                         <br />
                     </div>
