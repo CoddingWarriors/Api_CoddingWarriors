@@ -4,6 +4,7 @@ import React, { useState, FormEvent } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import InputMask from "react-input-mask";
 function Cadastro() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
@@ -89,13 +90,14 @@ function Cadastro() {
                         <br />
 
                         <label htmlFor="">CPF</label> <br />
-                        <input
-                            type="text"
-                            placeholder="Insira o seu CPF"
+                        <InputMask
+                            mask="999.999.999-99"
+                            maskChar={null}
                             value={cpf}
                             onChange={(e) => setCpf(e.target.value)}
-                        />{" "}
+                        />
                         <br />
+
 
                     </div>
 
@@ -110,12 +112,12 @@ function Cadastro() {
                         <br />
 
                         <label htmlFor="">Email</label> <br />
-                        <input
-                            type="text"
-                            placeholder="Insira o seu email"
+                        <InputMask
+                            mask="*{1,}@*{1,}.*{1,}"
+                            maskChar={null}
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                        />{" "}
+                        />
                         <br />
                     </div>
 
