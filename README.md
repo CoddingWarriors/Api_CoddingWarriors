@@ -71,21 +71,20 @@ Sprint 4: em andamento 🔁
 | 5 | Alta | Como cliente, suporte e ADM quero redefinir a senha para caso de esquecimento | 6 | 2 | 1 |
 | 6 | Alta | Como suporte, quero poder visualizar chamados pendentes para administrar melhor o tempo de cada solicitação | 2 | 2 | 4 |
 | 7 | Alta | Como cliente, suporte e ADM quero poder realizar o logout para encerrar minha seção e proteger meus dados | 5 | 2 | 1 |
-| 8 | Alta | Como suporte quero ter uma visualização de chamados concluídos para visualizar todos os chamados já feitos | 3 | 3 | 3 |
-| 9 | Alta | Como suporte, quero poder responder aos chamados para atender aos clientes | 4 | 3 | 4 |
-| 10 | Alta | Como suporte, quero poder aceitar chamados pendentes para resolver o problema do cliente | 4 | 3 | 4 |
-| 11 | Alta | Como cliente, quero poder visualizar meus chamados pendentes, em andamento e concluídos para poder acompanhar o andamento da minha solicitação | 2 | 3 | 4 |
-| 12 | Alta | Como ADM quero poder cadastrar usuários suporte e ADM para auxiliar no funcionamento do sistema | 7 | 3 | 1 |
-| 13 | Alta | Como suporte e ADM quero poder cadastrar dispositivos no sistema para melhor visualização dos status dos equipamentos | 7 | 3 | 1 |
-| 14 | Média | Como ADM, quero ter um gráfico de chamados concluídos separados por categoria para melhor visualização dos problemas mais recorrentes | 7 | 3 | 3 |
-| 15 | Média | Como suporte, quero poder deletar chamados inválidos para não comprometer o andamento dos outros chamados | 6 | 3 | 6 |
-| 16 | Média | Como ADM, quero ter um relatório de chamados inválidos para visualizar o motivo da exclusão | 4 | 4 | 3 |
-| 17 | Média | Como cliente, quero visualizar o tempo estimado de solução do chamado para ter conhecimento de quando será finalizado | 5 | 4 | 6 |
-| 18 | Média | Como ADM quero poder definir o horário de serviço de cada suporte para uma melhor administração de serviço | 7 | 4 | 1 |
-| 19 | Média | Como cliente quero ter um guia de instalação para conseguir instalar o sistema e o utilizar com exito | 3 | 4 | 9 |
-| 20 | Baixa | Como cliente, quero ter um manual do usuário para uma melhor orientação na utilização do sistema | 3 | 4 | 8 |
-| 21 | Baixa | Como suporte e ADM quero editar e cadastrar dúvidas recorrentes no FAQ para mantê-lo atualizado | 3 | 4 | 5 |
-| 22 | Baixa | Como suporte, cliente e ADM quero poder alterar minhas informações pessoais para manter o sistema atualizado | 3 | 4 | 1 |
+| 8 | Alta | Como suporte, quero poder responder aos chamados para atender aos clientes | 4 | 3 | 4 |
+| 9 | Alta | Como suporte, quero poder aceitar chamados pendentes para resolver o problema do cliente | 4 | 3 | 4 |
+| 10 | Alta | Como cliente e suporte, quero poder visualizar meus chamados pendentes, em andamento e concluídos para poder acompanhar o andamento da solicitação | 2 | 3 | 4 |
+| 11 | Alta | Como ADM quero poder cadastrar usuários suporte e ADM para auxiliar no funcionamento do sistema | 7 | 3 | 1 |
+| 12 | Alta | Como suporte e ADM quero poder cadastrar dispositivos no sistema para melhor visualização dos status dos equipamentos | 7 | 3 | 1 |
+| 13 | Média | Como ADM, quero ter um gráfico de chamados concluídos separados por categoria para melhor visualização dos problemas mais recorrentes | 7 | 3 | 3 |
+| 14 | Média | Como suporte, quero poder deletar chamados inválidos para não comprometer o andamento dos outros chamados | 6 | 3 | 6 |
+| 15 | Média | Como ADM, quero ter um relatório de chamados inválidos para visualizar o motivo da exclusão | 4 | 4 | 3 |
+| 16 | Média | Como cliente, quero visualizar o tempo estimado de solução do chamado para ter conhecimento de quando será finalizado | 5 | 4 | 6 |
+| 17 | Média | Como ADM quero poder definir o horário de serviço de cada suporte para uma melhor administração de serviço | 7 | 4 | 1 |
+| 18 | Média | Como cliente quero ter um guia de instalação para conseguir instalar o sistema e o utilizar com exito | 3 | 4 | 9 |
+| 19 | Baixa | Como cliente, quero ter um manual do usuário para uma melhor orientação na utilização do sistema | 3 | 4 | 8 |
+| 20 | Baixa | Como suporte e ADM quero editar e cadastrar dúvidas recorrentes no FAQ para mantê-lo atualizado | 3 | 4 | 5 |
+| 21 | Baixa | Como suporte, cliente e ADM quero poder alterar minhas informações pessoais para manter o sistema atualizado | 3 | 4 | 1 |
 
 
 <br>
