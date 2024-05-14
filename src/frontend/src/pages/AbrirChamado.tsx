@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/AbrirChamado.module.css";
 
@@ -7,6 +7,14 @@ function AbrirChamado() {
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [permissionDenied, setPermissionDenied] = useState(false);
+
+    useEffect(() => {
+        // Verificar se o usuário está logado ao carregar a página
+        const token = localStorage.getItem("token");
+        setIsLoggedIn(!!token); // Define isLoggedIn como true se o token existir
+    }, []);
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -15,11 +23,6 @@ function AbrirChamado() {
             const token = localStorage.getItem("token");
 
             if (token) {
-                const tokenPayload = token.split(".")[1];
-                const decodedPayload = atob(tokenPayload);
-                const payloadObj = JSON.parse(decodedPayload);
-                const userId = payloadObj.id_usuario;
-                console.log(userId)
                 const response = await fetch("http://localhost:5000/abrirchamado", {
                     method: "POST",
                     headers: {
@@ -29,7 +32,7 @@ function AbrirChamado() {
                         titulo,
                         descricao,
                         categoria: categoriaSelecionada,
-                        userId,
+                        token,
                     }),
                 });
 
@@ -40,8 +43,8 @@ function AbrirChamado() {
 
                 // Redirecionar para /atendimento
                 navigate("/atendimento");
-            }else{
-                navigate("/login");
+            } else {
+                setPermissionDenied(true);
             }
         } catch (error) {
             console.error("Erro ao criar chamado:", error);
@@ -49,6 +52,18 @@ function AbrirChamado() {
             alert("Erro ao criar chamado. Por favor, tente novamente.");
         }
     }
+
+    // Se o usuário não estiver logado, exibe mensagem de permissão negada e redireciona para /login
+    if (!isLoggedIn || permissionDenied) {
+        return (
+            <div>
+                <h1>Permissão Negada</h1>
+                <p>Você precisa estar logado para acessar esta página.</p>
+                <button onClick={() => navigate("/login")}>Ir para a página de Login</button>
+            </div>
+        );
+    }
+
     return (
         <div className={styles.containerAbrirChamado}>
             <h1>Abrir chamado</h1>
