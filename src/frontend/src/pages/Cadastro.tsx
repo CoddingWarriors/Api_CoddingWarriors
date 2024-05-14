@@ -16,6 +16,37 @@ function Cadastro() {
     const [numero, setNumero] = useState("");
     const [senha, setSenha] = useState("");
     const navigate = useNavigate()
+    const verificaCPFValido = (cpf: string): boolean => {
+        cpf = cpf.replace(/[^\d]/g, "");
+
+        if (cpf.length !== 11) {
+            return false;
+        }
+
+        let soma = 0;
+        for (let i = 0; i < 9; i++) {
+            soma += parseInt(cpf.charAt(i)) * (10 - i);
+        }
+        let resto = (soma * 10) % 11;
+        let digitoVerificador1 = resto === 10 || resto === 11 ? 0 : resto;
+
+        if (parseInt(cpf.charAt(9)) !== digitoVerificador1) {
+            return false;
+        }
+
+        soma = 0;
+        for (let i = 0; i < 10; i++) {
+            soma += parseInt(cpf.charAt(i)) * (11 - i);
+        }
+        resto = (soma * 10) % 11;
+        let digitoVerificador2 = resto === 10 || resto === 11 ? 0 : resto;
+
+        if (parseInt(cpf.charAt(10)) !== digitoVerificador2) {
+            return false;
+        }
+
+        return true;
+    };
     // Função para lidar com o envio do formulário
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
@@ -35,6 +66,19 @@ function Cadastro() {
 
         // Envia os dados para o back-end
         try {
+            if (!verificaCPFValido(cpf)) {
+                toast.error('CPF inválido', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                });
+                return;
+            }
             const response = await fetch("http://localhost:5000/cadastro", {
                 method: "POST",
                 headers: {
@@ -53,10 +97,9 @@ function Cadastro() {
                 theme: "colored"
                 });
                 // Redirecionar para /atendimento
-            navigate("/login");
-            const responseData = await response.json();
-            console.log(responseData); 
             
+            const responseData = await response;
+            console.log(responseData); 
             // Exibe a resposta do servidor no console
 
             // Limpa os campos do formulário após o envio bem-sucedido

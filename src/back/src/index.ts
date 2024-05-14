@@ -45,11 +45,6 @@ app.post("/cadastro", async (req, res) => {
     const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui
 
     try {
-        const cpfValido = await usuario.verificaCPFValido(cpf)
-        if (!cpfValido) {
-            console.log("CPF inválido");
-            return res.redirect('/cadastro');
-        }
         // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
         const cpfExistente = await usuario.verificaCPF(cpf);
 

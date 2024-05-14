@@ -298,46 +298,6 @@ export class Usuario {
         });
     }
 
-    async verificaCPFValido(cpf: string): Promise<boolean> {
-        // Remove caracteres especiais do CPF e deixa apenas os números
-        cpf = cpf.replace(/[^\d]/g, "");
-
-        // Verifica se o CPF tem 11 dígitos
-        if (cpf.length !== 11) {
-            return false;
-        }
-
-        // Calcula o primeiro dígito verificador do CPF
-        let soma = 0;
-        for (let i = 0; i < 9; i++) {
-            soma += parseInt(cpf.charAt(i)) * (10 - i);
-        }
-        let resto = (soma * 10) % 11;
-        let digitoVerificador1 = resto === 10 || resto === 11 ? 0 : resto;
-
-        // Verifica se o primeiro dígito verificador é igual ao do CPF
-        if (parseInt(cpf.charAt(9)) !== digitoVerificador1) {
-            return false;
-        }
-
-        // Calcula o segundo dígito verificador do CPF
-        soma = 0;
-        for (let i = 0; i < 10; i++) {
-            soma += parseInt(cpf.charAt(i)) * (11 - i);
-        }
-        resto = (soma * 10) % 11;
-        let digitoVerificador2 = resto === 10 || resto === 11 ? 0 : resto;
-
-        // Verifica se o segundo dígito verificador é igual ao do CPF
-        if (parseInt(cpf.charAt(10)) !== digitoVerificador2) {
-            return false;
-        }
-
-        // CPF é válido
-        return true;
-    }
-    
-    
     async verificaEmail(email: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ocean;`, (useError, useResults) => {
