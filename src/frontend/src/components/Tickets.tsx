@@ -2,15 +2,16 @@ import styles from "../styles/Tickets.module.css"
 import image from '../img/viz.png';
 import AnswerButton from './AnswerButton';
 import AcceptAndDeleteButton from './AcceptAndDeleteButton';
+import { Link } from "react-router-dom";
 
 function Tickets(props:any) {
     return (
         <div className={styles.ticket}>
             <div className={styles.sectionOne}>
-                <a href={props.link}>
+                <Link to="/visualizarchamado">
                     <img src={image} alt="Visualizar" className={styles.image} />
                     <p className={styles.text}><strong>Visualizar</strong></p>
-                </a>
+                </Link>
             </div>
             <div className={styles.sectionTwoC}>
                 <div className={styles.rectangle}>

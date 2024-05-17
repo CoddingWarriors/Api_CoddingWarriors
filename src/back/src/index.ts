@@ -183,6 +183,30 @@ app.post("/deletar-chamado", async (req: Request, res: Response) => {
     }
 });
 
+app.post("/atualizar-chamado-andamento", async (req: Request, res: Response) => {
+    const { chamadoId } = req.body;
+
+    try {
+        await chamado.atualizarStatusChamadoAndamento(dbName, chamadoId);
+        res.status(200).json({ message: "Chamado atualizado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao atualizar chamado:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+})
+
+app.post("/obter-informacoes-chamado/:chamadoId", async (req: Request, res: Response) => {
+    const chamadoId: number = parseInt(req.params.chamadoId)
+
+    try {
+        await chamado.obterInformacoesChamado(dbName, chamadoId);
+        res.status(200).json({ message: "Informações obtidas com sucesso" });
+    } catch (error) {
+        console.error("Erro ao obter informações do chamado:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+})
+
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(" ")[1] // Pega o token do header Authorization

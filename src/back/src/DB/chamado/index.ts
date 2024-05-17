@@ -172,5 +172,70 @@ export class Chamado {
               });
             });
           }
+
+        async atualizarStatusChamadoAndamento(dbName: string, chamadoId: number): Promise<void> {
+            return new Promise((resolve, reject) => {
+                this.connection.query(`USE ${dbName};`, (useError, _) => {
+                    if (useError) {
+                        console.error("Erro ao selecionar o banco de dados:", useError);
+                        reject(useError);
+                    } else {
+                        console.log("Banco de dados selecionado com sucesso!");
+                        this.connection.query(
+                            `
+                            UPDATE chamado
+                            SET status = 'Em andamento'
+                            WHERE id_chamado = ?
+                            `,
+                            [chamadoId],
+                            (error) => {
+                                if (error) {
+                                    console.error("Erro ao atualizar o status do chamado:", error);
+                                    reject(error);
+                                } else {
+                                    console.log("Status do chamado atualizado para 'Em andamento' com sucesso!");
+                                    resolve();
+                                }
+                            }
+                        );
+                    }
+                });
+            });
+        }
+
+        async obterInformacoesChamado(dbName: string, chamadoId: number): Promise<{ titulo: string, descricao: string, categoria: string }> {
+            return new Promise((resolve, reject) => {
+                this.connection.query(`USE ${dbName};`, (useError, _) => {
+                    if (useError) {
+                        console.error("Erro ao selecionar o banco de dados:", useError);
+                        reject(useError);
+                    } else {
+                        console.log("Banco de dados selecionado com sucesso!");
+                        this.connection.query(
+                            `
+                            SELECT titulo, descricao, categoria
+                            FROM chamado
+                            WHERE id_chamado = ?
+                            `,
+                            [chamadoId],
+                            (error, results) => {
+                                if (error) {
+                                    console.error("Erro ao obter informações do chamado:", error);
+                                    reject(error);
+                                } else {
+                                    if (results.length === 0) {
+                                        reject(new Error("Chamado não encontrado"));
+                                    } else {
+                                        const { titulo, descricao, categoria } = results[0];
+                                        resolve({ titulo, descricao, categoria });
+                                    }
+                                }
+                            }
+                        );
+                    }
+                });
+            });
+        }
+        
 }
 
