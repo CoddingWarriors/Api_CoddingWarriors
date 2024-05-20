@@ -1,0 +1,98 @@
+/* CadastroADM.module.css */
+
+/* Estilo para o grupo de botões */
+
+
+/* Estilo para o botão Cadastrar */
+.Cadastrar2 {
+    width: 40%;
+    padding: 10px;
+    font-size: 16px;
+    background-image: linear-gradient(to right, darkblue, purple);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.botoes{
+    margin-left: 13rem;
+}
+/* Estilo para o botão Descartar */
+.descartar2 {
+    width: 10%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2325a3; /* Cor de fundo vermelha */
+    color: #fff; /* Cor do texto branco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.descartar2 a {
+    width: 10%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #2325a3; /* Cor de fundo vermelha */
+    color: #fff; /* Cor do texto branco */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+.body {
+    
+    display: flex;
+    justify-content: center;
+    padding: 20px  0;
+}
+
+.containerCadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 900px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.form {
+    position: relative;
+}
+
+.form input {
+    border: 3px solid gray;
+    border-radius: 10px;
+    width: 600px;
+    margin: 4px 0 20px;
+    padding: 5px 0 15px;
+}
+
+.form select{
+        border: 3px solid gray;
+        border-radius: 10px;
+        width: 600px;
+        margin: 4px 0 20px;
+        padding: 5px 0 15px;
+}
+
+.containerCadastro h1 {
+    margin-bottom: 60px;
+    color: gray;
+}
+
+
+
+.form input::placeholder {
+    color: #29292b;
+}
+
+
+

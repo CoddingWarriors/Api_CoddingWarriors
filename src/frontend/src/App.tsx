@@ -9,6 +9,7 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Login from "./pages/Login"
 import Cadastro from "./pages/Cadastro"
+import CadastroADM from "./pages/CadastroADM"
 import EsqueciSenha from "./pages/EsqueciSenha"
 import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/cadastro" element={<Cadastro />} />
+                <Route path="/cadastrosuporte" element={<CadastroADM />} />
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />

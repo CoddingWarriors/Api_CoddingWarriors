@@ -18,9 +18,9 @@ export class Usuario {
                     this.connection.query(
                         `create table if not exists usuario(
                         id_usuario int auto_increment primary key,
-                        cpf varchar(15), nome varchar(50),
+                        cpf varchar(11), nome varchar(50),
                         telefone varchar(14), email varchar(30), senha varchar(10),
-                        endereco varchar(50), numero int, cep varchar(8), token varchar(250), tipo int
+                        endereco varchar(50), numero int, cep varchar(8), token varchar(250), tipo varchar(1), horario varchar(50)
                         );`,
                         (error, results) => {
                             if (error) {
@@ -82,6 +82,7 @@ export class Usuario {
         numero: number,
         cep: string,
         tipo: number,
+        horario: string,
         foto: any
     ): Promise<boolean> {
         return new Promise((resolve, reject) => {
@@ -94,9 +95,9 @@ export class Usuario {
                     // Use placeholders (?) para os valores e passe-os como um array na query
                     this.connection.query(
                         `INSERT INTO usuario (
-                            cpf, nome, telefone, email, senha, endereco, numero, cep, tipo
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                        [cpf, nome, telefone, email, senha, endereco, numero, cep, tipo],
+                            cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                        [cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario],
                         (error, results) => {
                             if (error) {
                                 console.error("Erro ao cadastrar usuário:", error)

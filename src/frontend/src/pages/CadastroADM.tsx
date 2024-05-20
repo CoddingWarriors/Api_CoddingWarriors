@@ -1,10 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
-import styles from "../styles/Cadastro.module.css";
+import styles from "../styles/CadastroSuporte.module.css";
 import React, { useState, FormEvent } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-function Cadastro() {
+
+function CadastroADM() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
@@ -14,6 +15,8 @@ function Cadastro() {
     const [endereco, setEndereco] = useState("");
     const [numero, setNumero] = useState("");
     const [senha, setSenha] = useState("");
+    const [tipo, setTipo] = useState("");
+    const [horario, setHorario] = useState("");
     const navigate = useNavigate()
     const verificaCPFValido = (cpf: string): boolean => {
         cpf = cpf.replace(/[^\d]/g, "");
@@ -60,9 +63,10 @@ function Cadastro() {
             endereco,
             numero,
             cep,
-            tipo: 1, // Definindo tipo como 1
+            tipo,
+            horario
         };
-
+        
         // Envia os dados para o back-end
         try {
             if (!verificaCPFValido(cpf)) {
@@ -78,29 +82,29 @@ function Cadastro() {
                 });
                 return;
             }
-            const response = await fetch("http://localhost:5000/cadastro", {
+            const response = await fetch("http://localhost:5000/cadastrosuporte", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
             });
-            toast.success('Usuário cadastrado com sucesso', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored"
-                });
-                // Redirecionar para /atendimento
-            
-            const responseData = await response;
-            console.log(responseData); 
-            // Exibe a resposta do servidor no console
 
+            const responseData = `${response}`;
+            console.log(responseData); 
+            if(responseData === 'Email já cadastrado'){
+                alert('Email já Cadastrado')
+                return
+            }
+            if(responseData === 'CPF já cadastrado'){
+                alert('CPF já Cadastrado')
+                return
+            }
+            alert("Usuário Cadastrado com Sucesso")
+
+            
+            // Exibir a mensagem de sucesso como um alerta
+            // Exibe a resposta do servidor no console
             // Limpa os campos do formulário após o envio bem-sucedido
             setNome("");
             setCpf("");
@@ -110,6 +114,10 @@ function Cadastro() {
             setEndereco("");
             setNumero("");
             setSenha("");
+            setTipo("");
+            setHorario("");
+
+
         } catch (error) {
             console.error("Erro ao cadastrar usuário:", error);
         }
@@ -119,10 +127,9 @@ function Cadastro() {
         <div className={styles.body}>
             <ToastContainer />
             <div className={styles.containerCadastro}>
-                <h1>Cadastro</h1>
+                <h1>Cadastro de Usuários</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="">Nome Completo</label> <br />
                         <input
                             type="text"
                             placeholder="Insira seu nome completo"
@@ -130,32 +137,36 @@ function Cadastro() {
                             onChange={(e) => setNome(e.target.value)}
                         />{" "}
                         <br />
-
-                        <label htmlFor="">CPF</label> <br />
-                        <input
-                            type="text"
-                            placeholder="insira seu cpf"
-                            value={cpf}
-                            onChange={(e) => setCpf(e.target.value)}
-                        />
+                    </div>
+                    <div>
+                        <select
+                            className={styles.select}
+                            name="tipo-usuario"
+                            value={tipo}
+                            onChange={(e) => setTipo(e.target.value)}
+                        >
+                            <option value="" disabled>Selecione um tipo de usuário</option>
+                            <option value="3">Administrador</option>
+                            <option value="2">Suporte</option>
+                        </select>
+                        <select
+                            className={styles.select}
+                            name="horario"
+                            value={horario}
+                            onChange={(e) => setHorario(e.target.value)}
+                        >
+                            <option value="" disabled>Horário de Trabalho</option>
+                            <option value="das 06:00 as 08:00 ">06:00 - 08:00</option>
+                            <option value="das 08:00 as 10:00">08:00 - 10:00</option>
+                            <option value="das 10:00 as 12:00">10:00 - 12:00</option>
+                        </select>
                         <br />
-
-
                     </div>
 
                     <div>
-                        <label htmlFor="">Número de telefone</label> <br />
                         <input
                             type="text"
-                            placeholder="Insira o seu número"
-                            value={telefone}
-                            onChange={(e) => setTelefone(e.target.value)}
-                        />{" "}
-                        <br />
-
-                        <label htmlFor="">Email</label> <br />
-                        <input
-                            type="text"
+                            placeholder="informe seu email"
                             value={email}
                             onChange={(e) => {
                                 const value = e.target.value;
@@ -166,10 +177,25 @@ function Cadastro() {
                             }}
                         />
                         <br />
+                        <input
+                            type="password"
+                            placeholder="Insira sua senha"
+                            value={senha}
+                            onChange={(e) => setSenha(e.target.value)}
+                        />{" "}
+                        <br />
                     </div>
-
                     <div>
-                        <label htmlFor="">CEP</label> <br />
+                        <input
+                            type="text"
+                            placeholder="Insira o seu CPF"
+                            value={cpf}
+                            onChange={(e) => setCpf(e.target.value)}
+                        />{" "}
+                        <br />
+                    </div>
+                    <div>
+
                         <input
                             type="text"
                             placeholder="Insira o seu CEP"
@@ -178,7 +204,7 @@ function Cadastro() {
                         />{" "}
                         <br />
 
-                        <label htmlFor="">Rua</label> <br />
+
                         <input
                             type="text"
                             placeholder="Insira o nome da sua Rua"
@@ -187,7 +213,6 @@ function Cadastro() {
                         />{" "}
                         <br />
 
-                        <label htmlFor="">Nº</label> <br />
                         <input
                             type="text"
                             placeholder="Insira o número da sua casa"
@@ -197,24 +222,24 @@ function Cadastro() {
                         <br />
                     </div>
 
-                    <label htmlFor="">Senha</label> <br />
-                    <input
-                        type="password"
-                        placeholder="Insira sua senha"
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
-                    />{" "}
-                    <br />
-                    <button type="submit" className={styles.cadastrar}>
-                        Cadastrar
+                    <div className={styles.botoes}>
+                        <button type="submit" className={styles.Cadastrar2}>
+                            Cadastrar
+                        </button>
+                        <br />
+                        <br />
+                    </div>
+                    <button className={styles.descartar2}>
+                        <Link to="/login">Descartar</Link>
                     </button>
                 </form>
-                <p className={styles.descartar}>
-                    <Link to="/login">Descartar</Link>
-                </p>
             </div>
         </div>
+
+
+
+
     );
 }
 
-export default Cadastro;
+export default CadastroADM;
