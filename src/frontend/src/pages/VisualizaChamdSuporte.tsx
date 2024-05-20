@@ -1,42 +1,64 @@
-import ChamadosArea from "../components/ChamadosArea"
-import styleChamado from "../styles/Chamados.module.css"
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import ChamadosArea from "../components/ChamadosArea"
 import Tickets from "../components/Tickets"
+import styleChamado from "../styles/Chamados.module.css"
 
 function AtendimentoSuporte() {
     const [pendentes, setPendentes] = useState<any[]>([])
     const [emAndamento, setEmAndamento] = useState<any[]>([])
     const [concluidos, setConcluidos] = useState<any[]>([])
+    const navigate = useNavigate()
 
     useEffect(() => {
-        async function fetchChamados(status: string) {
+        const token = localStorage.getItem("token")
+        if (!token) {
+            navigate("/")
+            return
+        }
+
+        async function fetchUserType() {
             try {
-                const token = localStorage.getItem("token")
+                const response = await fetch("http://localhost:5000/usuariotipo", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ token })
+                })
 
-                if (token) {
-                    const tokenPayload = token.split(".")[1]
-                    const decodedPayload = atob(tokenPayload)
-                    const payloadObj = JSON.parse(decodedPayload)
-                    const userId = payloadObj.id_usuario
-                    const response = await fetch("http://localhost:5000/buscar-chamados-por-status", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({ status }),
-                    })
-
-                    const data = await response.json()
-                    console.log(data)
-
-                    if (response.ok) {
-                        return data
-                    } else {
-                        throw new Error(data.message)
+                const data = await response.json()
+                if (response.ok) {
+                    if (data.tipo !== 2 && data.tipo !== 3) {
+                        navigate("/")
+                        return
                     }
                 } else {
-                    throw new Error("Token not found")
+                    throw new Error(data.message)
+                }
+            } catch (error) {
+                console.error("Error verifying user type:", error)
+                navigate("/")
+            }
+        }
+
+        async function fetchChamados(status: string) {
+            try {
+                const response = await fetch("http://localhost:5000/buscar-chamados-por-status", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ status }),
+                })
+
+                const data = await response.json()
+                if (response.ok) {
+                    return data
+                } else {
+                    throw new Error(data.message)
                 }
             } catch (error) {
                 console.error("Error fetching chamados:", error)
@@ -58,16 +80,15 @@ function AtendimentoSuporte() {
             }
         }
 
-        fetchAllChamados()
-    }, [])
+        fetchUserType().then(fetchAllChamados)
+    }, [navigate])
 
     return (
         <div>
             <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
                 {pendentes.map((chamado) => (
                     <Tickets
-                        // tipo = {chamado.tipo}
-                        tipo = {chamado.status}
+                        tipo={chamado.status}
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
@@ -78,7 +99,7 @@ function AtendimentoSuporte() {
             <ChamadosArea className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
                 {emAndamento.map((chamado) => (
                     <Tickets
-                        tipo = {chamado.status}
+                        tipo={chamado.status}
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
@@ -86,11 +107,10 @@ function AtendimentoSuporte() {
                     />
                 ))}
             </ChamadosArea>
-
             <ChamadosArea className={styleChamado.tituloVerde} titulo="Chamados concluídos">
                 {concluidos.map((chamado) => (
                     <Tickets
-                        tipo = ''
+                        tipo=''
                         key={chamado.id_chamado}
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}

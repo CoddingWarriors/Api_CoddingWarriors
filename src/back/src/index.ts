@@ -103,18 +103,31 @@ app.post("/cadastro", async (req, res) => {
 
 
 app.post("/abrirchamado", async (req, res) => {
-    const { titulo, descricao, categoria, userId } = req.body
+    const { titulo, descricao, categoria, token } = req.body;
+
+    // Verifica se o token é válido
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    // Verifica se userId é null
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
-        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId)
+        // Chama a função para abrir um novo chamado com base no ID do usuário
+        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId);
 
-        console.log("Chamado criado com sucesso")
-        res.status(200).send("Chamado criado com sucesso")
+        console.log("Chamado criado com sucesso");
+        res.status(200).send("Chamado criado com sucesso");
     } catch (error) {
-        console.error("Erro ao criar chamado:", error)
-        res.status(500).send("Erro ao criar chamado")
+        console.error("Erro ao criar chamado:", error);
+        res.status(500).send("Erro ao criar chamado");
     }
-})
+});
 
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;
@@ -161,19 +174,29 @@ app.post(`/novasenha`, async (req: Request, res: Response) => {
 
 
 app.post("/buscar-chamados", async (req: Request, res: Response) => {
-    const { userId, status } = req.body
- 
+    const { token, status } = req.body;
+
+    // Verifica se o token é válido
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    // Verifica se userId é null
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
         // Chama a função para buscar os chamados com base no ID do usuário e no status
-        const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status)
-        res.status(200).json(chamados)
+        const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status);
+        res.status(200).json(chamados);
     } catch (error) {
-        console.error("Erro ao buscar chamados:", error)
-        res.status(500).json({ message: "Erro interno do servidor" })
+        console.error("Erro ao buscar chamados:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
     }
-})
-
+});
 app.post("/deletar-chamado", async (req: Request, res: Response) => {
     const { chamadoId } = req.body;
 
@@ -213,7 +236,6 @@ app.post("/obter-informacoes-chamado/:chamadoId", async (req: Request, res: Resp
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(" ")[1] // Pega o token do header Authorization
-    console.log(token)
     if (!token) {
         return res.status(401).json({ message: "Token não fornecido" })
     }
@@ -227,8 +249,18 @@ app.post("/verificar-token", (req: Request, res: Response) => {
 })
 
 app.post("/usuariotipo", async (req: Request, res: Response) => {
-    const { userId } = req.body 
-    console.log(userId)
+    const { token } = req.body 
+
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    // Verifica se userId é null
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
         

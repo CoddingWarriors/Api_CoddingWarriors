@@ -40,17 +40,13 @@ function Atendimento() {
                 const token = localStorage.getItem("token")
 
                 if (token) {
-                    const tokenPayload = token.split(".")[1]
-                    const decodedPayload = atob(tokenPayload)
-                    const payloadObj = JSON.parse(decodedPayload)
-                    const userId = payloadObj.id_usuario
                     const response = await fetch("http://localhost:5000/buscar-chamados", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                             Authorization: `Bearer ${token}`,
                         },
-                        body: JSON.stringify({ userId: userId, status }),
+                        body: JSON.stringify({ token, status }),
                     })
 
                     const data = await response.json()
