@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styles from "../styles/Tickets.module.css"
 
 interface AnswerButtonProps {
@@ -7,7 +8,9 @@ interface AnswerButtonProps {
 function AnswerButton({ onClick }: AnswerButtonProps) {
     return (
         <div className={styles.sectionThree}>
-            <button className={styles.answerButton} onClick={onClick}>RESPONDER</button>
+            <Link to="/responderchamado">
+                <button className={styles.answerButton} onClick={onClick}>RESPONDER</button>
+            </Link>
         </div>
     );
 }

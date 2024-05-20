@@ -14,6 +14,7 @@ import EsqueciSenha from "./pages/EsqueciSenha"
 import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
 import VisualizarChamado from "./pages/VisualizarChamado"
+import ResponderChamado from "./pages/ResponderChamado"
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
                 <Route path="/visualizarchamado" element={<VisualizarChamado />} />
+                <Route path="/responderchamado" element={<ResponderChamado />} />
             </Routes>
             <Footer />
         </Router>
