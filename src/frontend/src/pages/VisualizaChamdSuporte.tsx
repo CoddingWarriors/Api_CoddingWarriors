@@ -27,21 +27,25 @@ function AtendimentoSuporte() {
                     },
                     body: JSON.stringify({ token })
                 })
-
+        
                 const data = await response.json()
-                if (response.ok) {
-                    if (data.tipo !== 2 && data.tipo !== 3) {
-                        navigate("/")
-                        return
-                    }
-                } else {
+        
+                if (!response.ok) {
                     throw new Error(data.message)
+                }
+        
+                console.log(data.tipoUsuario)
+        
+                if (data.tipoUsuario !== '2' && data.tipoUsuario !== '3') {
+                    navigate("/")
+                    return
                 }
             } catch (error) {
                 console.error("Error verifying user type:", error)
                 navigate("/")
             }
         }
+        
 
         async function fetchChamados(status: string) {
             try {

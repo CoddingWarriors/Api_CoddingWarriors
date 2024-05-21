@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import logo from "../img/logo.png"
 import usuarioPerfil from "../img/usuario-de-perfil.png"
@@ -8,10 +8,44 @@ import styles from "../styles/Navbar.module.css"
 function Navbar() {
     const navigate = useNavigate()
     const [showLogoutModal, setShowLogoutModal] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [userType, setUserType] = useState(null)
+
+    useEffect(() => {
+        const token = localStorage.getItem("token")
+        if (token) {
+            setIsLoggedIn(true)
+            fetchUserType(token)
+        }
+    }, [])
+
+    const fetchUserType = async (token:any) => {
+        try {
+            const response = await fetch("http://localhost:5000/usuariotipo", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ token }),
+            })
+
+            if (response.ok) {
+                const data = await response.json()
+                setUserType(data.tipoUsuario)
+            } else {
+                console.error("Erro ao obter o tipo de usuário")
+            }
+        } catch (error) {
+            console.error("Erro ao verificar o tipo de usuário:", error)
+        }
+    }
 
     const handleLogout = () => {
         localStorage.removeItem("token")
         setShowLogoutModal(false)
+        setIsLoggedIn(false)
+        setUserType(null)
 
         // Exibe o alerta e redireciona após 1 segundo
         setTimeout(() => {
@@ -24,62 +58,6 @@ function Navbar() {
         setShowLogoutModal(false)
     }
 
-    const handleProfileClick = async () => {
-        try {
-            const response = await fetch("http://localhost:5000/verificar-token", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                },
-            })
-
-            if (response.ok) {
-                setShowLogoutModal(true)
-            } else {
-                navigate("/login")
-            }
-        } catch (error) {
-            console.error("Erro ao verificar o token:", error)
-        }
-    }
-
-    const handleAtendimentoClick = async () => {
-        try {
-            const token = localStorage.getItem("token")
-
-            if (token) {
-                const tokenPayload = token.split(".")[1]
-                const decodedPayload = atob(tokenPayload)
-                const payloadObj = JSON.parse(decodedPayload)
-                const userId = payloadObj.id_usuario
-                const response = await fetch("http://localhost:5000/usuariotipo", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({ userId: userId }),
-                })
-
-                if (response.ok) {
-                    const data = await response.json()
-                    const tipoUsuario = data.tipoUsuario
-
-                    if (tipoUsuario === 2) {
-                        navigate("/chamados")
-                    } else {
-                        navigate("/atendimento")
-                    }
-                } else {
-                    console.error("Erro ao obter o tipo de usuário")
-                }
-            }
-        } catch (error) {
-            console.error("Erro ao verificar o tipo de usuário:", error)
-        }
-    }
-
     return (
         <nav>
             <Link to="/">
@@ -89,25 +67,42 @@ function Navbar() {
                 <li className={styles.item}>
                     <Link to="/">Página Inicial</Link>
                 </li>
-                <li className={styles.item}>
-                    <Link
-                        to="/atendimento"
-                        onClick={handleAtendimentoClick}
-                        style={{ cursor: "pointer" }} // Adicionando estilo para o cursor
-                    >
-                        Atendimento
-                    </Link>
-                </li>
+                {(userType === '1' || userType === null) && (
+                    <li className={styles.item}>
+                        <Link
+                            to="/atendimento"
+                            style={{ cursor: "pointer" }}
+                        >
+                            Atendimento
+                        </Link>
+                    </li>
+                )}
+                {userType === '2' && (
+                    <li className={styles.item}>
+                        <Link
+                            to="/chamados"
+                            style={{ cursor: "pointer" }}
+                        >
+                            Chamados
+                        </Link>
+                    </li>
+                )}
                 <li className={styles.item}>
                     <Link to="/faq">FAQ</Link>
                 </li>
                 <li className={styles.item}>
-                    <img
-                        src={usuarioPerfil}
-                        alt="Usuário"
-                        className={styles.usuarioPerfil}
-                        onClick={handleProfileClick}
-                    />
+                    {isLoggedIn ? (
+                        <img
+                            src={usuarioPerfil}
+                            alt="Usuário"
+                            className={styles.usuarioPerfil}
+                            onClick={() => setShowLogoutModal(true)}
+                        />
+                    ) : (
+                        <button className={styles.login}>
+                            <Link to="/login">Login</Link>
+                        </button>
+                    )}
                 </li>
             </ul>
             {showLogoutModal && <LogoutModal onLogout={handleLogout} onCancel={handleCancelLogout} />}
