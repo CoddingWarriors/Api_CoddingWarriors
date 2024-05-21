@@ -9,7 +9,7 @@ import { setUsername, getUsername } from "./globalUser"
 
 const app = express()
 const PORT = process.env.PORT || 5000
-const dbName = "Ocean"
+const dbName = "ocean"
 
 app.use(express.json())
 
@@ -234,6 +234,30 @@ app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erro interno do servidor" });
     }
 });
+
+app.post("/responderchamado", async (req, res) => {
+    const { id_suporte, respostas, chamadoId, token } = req.body;
+
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    try {
+        await chamado.ResponderChamado(dbName, id_suporte, respostas, chamadoId);
+        console.log("Chamado respondido com sucesso");
+        res.status(200).send("Chamado respondido com sucesso");
+    } catch (error) {
+        console.error("Erro ao responder chamado:", error);
+        res.status(500).send("Erro ao responder chamado");
+    }
+});
+
 
 
 // Rota para verificar a validade do token

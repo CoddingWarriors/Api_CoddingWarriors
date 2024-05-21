@@ -5,10 +5,10 @@ interface AnswerButtonProps {
     onClick: () => void; // função que será acionada quando o botão for clicado
 }
 
-function AnswerButton({ onClick }: AnswerButtonProps) {
+function AnswerButton(props:any, { onClick }: AnswerButtonProps) {
     return (
         <div className={styles.sectionThree}>
-            <Link to="/responderchamado">
+            <Link to={`/responderchamado/`}>
                 <button className={styles.answerButton} onClick={onClick}>RESPONDER</button>
             </Link>
         </div>
