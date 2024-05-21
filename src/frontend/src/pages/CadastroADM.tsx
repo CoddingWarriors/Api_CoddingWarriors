@@ -129,28 +129,29 @@ function CadastroADM() {
             <div className={styles.containerCadastro}>
                 <h1>Cadastro de Usuários</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
-                    <div>
+                    <div className={styles.centeredDiv}>
                         <input
+                            className={styles.estilo2}
                             type="text"
-                            placeholder="Insira seu nome completo"
+                            placeholder="Nome"
                             value={nome}
                             onChange={(e) => setNome(e.target.value)}
                         />{" "}
                         <br />
                     </div>
-                    <div>
+                    <div className={styles.centeredDiv}>
                         <select
-                            className={styles.select}
+                            className={styles.estilo2}
                             name="tipo-usuario"
                             value={tipo}
                             onChange={(e) => setTipo(e.target.value)}
                         >
-                            <option value="" disabled>Selecione um tipo de usuário</option>
+                            <option value="" disabled>Tipo do Usuário</option>
                             <option value="3">Administrador</option>
                             <option value="2">Suporte</option>
                         </select>
                         <select
-                            className={styles.select}
+                            className={styles.estilo2}
                             name="horario"
                             value={horario}
                             onChange={(e) => setHorario(e.target.value)}
@@ -165,8 +166,9 @@ function CadastroADM() {
 
                     <div>
                         <input
+                            className={styles.estilo2}
                             type="text"
-                            placeholder="informe seu email"
+                            placeholder="Email"
                             value={email}
                             onChange={(e) => {
                                 const value = e.target.value;
@@ -178,8 +180,9 @@ function CadastroADM() {
                         />
                         <br />
                         <input
+                            className={styles.estilo2}
                             type="password"
-                            placeholder="Insira sua senha"
+                            placeholder="Senha"
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
                         />{" "}
@@ -187,35 +190,37 @@ function CadastroADM() {
                     </div>
                     <div>
                         <input
+                            className={styles.estilo2}
                             type="text"
-                            placeholder="Insira o seu CPF"
+                            placeholder="CPF"
                             value={cpf}
                             onChange={(e) => setCpf(e.target.value)}
                         />{" "}
                         <br />
                     </div>
-                    <div>
-
+                    <div className={styles.enderecoContainer}>
                         <input
+                            className={styles.inputCep}
                             type="text"
-                            placeholder="Insira o seu CEP"
+                            placeholder="CEP"
                             value={cep}
                             onChange={(e) => setCep(e.target.value)}
                         />{" "}
                         <br />
 
-
                         <input
+                            className={styles.inputRua}
                             type="text"
-                            placeholder="Insira o nome da sua Rua"
+                            placeholder="Endereço"
                             value={endereco}
                             onChange={(e) => setEndereco(e.target.value)}
                         />{" "}
                         <br />
 
                         <input
+                            className={styles.inputNumero}
                             type="text"
-                            placeholder="Insira o número da sua casa"
+                            placeholder="Nº"
                             value={numero}
                             onChange={(e) => setNumero(e.target.value)}
                         />{" "}
@@ -223,15 +228,14 @@ function CadastroADM() {
                     </div>
 
                     <div className={styles.botoes}>
-                        <button type="submit" className={styles.Cadastrar2}>
+                        <button type="submit" className={styles.cadastrar2}>
                             Cadastrar
                         </button>
-                        <br />
-                        <br />
+
+                        <button className={styles.descartar2}>
+                            <Link to="/login">Descartar</Link>
+                        </button>
                     </div>
-                    <button className={styles.descartar2}>
-                        <Link to="/login">Descartar</Link>
-                    </button>
                 </form>
             </div>
         </div>
