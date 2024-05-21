@@ -221,17 +221,20 @@ app.post("/atualizar-chamado-andamento", async (req: Request, res: Response) => 
     }
 })
 
-app.post("/obter-informacoes-chamado/:chamadoId", async (req: Request, res: Response) => {
-    const chamadoId: number = parseInt(req.params.chamadoId)
+app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
+    const chamadoId: number = parseInt(req.body.chamadoId);
+    console.log(chamadoId);
 
     try {
-        await chamado.obterInformacoesChamado(dbName, chamadoId);
-        res.status(200).json({ message: "Informações obtidas com sucesso" });
+        const dadosChamado = await chamado.obterInformacoesChamado(dbName, chamadoId);
+        console.log(dadosChamado);
+        res.status(200).json(dadosChamado);
     } catch (error) {
         console.error("Erro ao obter informações do chamado:", error);
         res.status(500).json({ message: "Erro interno do servidor" });
     }
-})
+});
+
 
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
@@ -281,12 +284,10 @@ app.post("/usuariotipo", async (req: Request, res: Response) => {
 
 app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
     const { status } = req.body 
-    console.log(status)
 
     try {
         
         const chamados = await chamado.buscarChamadoPorStatus(dbName, status)
-        console.log(chamado)
         res.status(200).json(chamados)
     } catch (error) {
         console.error("Erro ao buscar chamados por status:", error)

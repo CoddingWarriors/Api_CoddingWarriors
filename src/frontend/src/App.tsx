@@ -32,8 +32,8 @@ function App() {
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
-                <Route path="/visualizarchamado" element={<VisualizarChamado />} />
                 <Route path="/responderchamado" element={<ResponderChamado />} />
+                <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
             </Routes>
             <Footer />
         </Router>
