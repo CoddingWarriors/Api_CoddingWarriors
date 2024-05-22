@@ -25,7 +25,7 @@ function Tickets(props: any) {
                 </div>
             </div>
             {props.tipo === 'Aberto' && <AcceptAndDeleteButton chamadoId={props.ID} />}
-            {props.tipo === 'Em andamento' && <AnswerButton onClick={props.onClick} />}
+            {props.tipo === 'Em andamento' && <AnswerButton chamadoId={props.ID} onClick={props.onClick} />}
         </div>
     );
 }

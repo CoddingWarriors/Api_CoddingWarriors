@@ -236,7 +236,7 @@ app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
 });
 
 app.post("/responderchamado", async (req, res) => {
-    const { id_suporte, respostas, chamadoId, token } = req.body;
+    const { resposta, chamadoId, token } = req.body;
 
     if (!Authentication.isValidToken(token)) {
         return res.status(401).json({ message: "Token inválido" });
@@ -249,7 +249,7 @@ app.post("/responderchamado", async (req, res) => {
     }
 
     try {
-        await chamado.ResponderChamado(dbName, id_suporte, respostas, chamadoId);
+        await chamado.ResponderChamado(dbName, chamadoId, resposta, userId);
         console.log("Chamado respondido com sucesso");
         res.status(200).send("Chamado respondido com sucesso");
     } catch (error) {
