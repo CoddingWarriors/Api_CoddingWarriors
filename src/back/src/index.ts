@@ -235,6 +235,16 @@ app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
     }
 });
 
+app.post("/visualizar-chamados-por-categoria", async (req: Request, res: Response) => {
+    try {
+        const chamadosPorCategoria = await chamado.visualizarChamadoADM(dbName);
+        res.status(200).json(chamadosPorCategoria);
+    } catch (error) {
+        console.error("Erro ao visualizar chamados por categoria:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
 app.post("/responderchamado", async (req, res) => {
     const { resposta, chamadoId, token } = req.body;
 

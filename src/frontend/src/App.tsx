@@ -15,6 +15,7 @@ import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
 import VisualizarChamado from "./pages/VisualizarChamado"
 import ResponderChamado from "./pages/ResponderChamado"
+import HomeAdm from "./pages/HomeAdm"
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
+                <Route path="/homeadm" element={<HomeAdm />} />
             </Routes>
             <Footer />
         </Router>

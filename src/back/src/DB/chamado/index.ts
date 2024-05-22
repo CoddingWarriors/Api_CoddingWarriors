@@ -273,5 +273,33 @@ export class Chamado {
                 });
             });
         }    
+
+        async visualizarChamadoADM(dbName: string): Promise<{ categoria: string, totalCategoria: number }[]> {
+            return new Promise((resolve, reject) => {
+                this.connection.query(`USE ${dbName};`, (useError, _) => {
+                    if (useError) {
+                        console.error("Erro ao selecionar o banco de dados:", useError);
+                        reject(useError);
+                    } else {
+                        console.log("Banco de dados selecionado com sucesso!");
+                        this.connection.query(
+                            `
+                            SELECT categoria, COUNT(*) as totalCategoria
+                            FROM chamado
+                            GROUP BY categoria;
+                            `,
+                            (error, results) => {
+                                if (error) {
+                                    console.error("Erro ao obter informações do chamado:", error);
+                                    reject(error);
+                                } else {
+                                    resolve(results);
+                                }
+                            }
+                        );
+                    }
+                });
+            });
+        }
 }
 
