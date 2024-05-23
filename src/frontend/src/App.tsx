@@ -12,6 +12,7 @@ import Cadastro from "./pages/Cadastro"
 import EsqueciSenha from "./pages/EsqueciSenha"
 import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
+import Equipamentos from "./pages/Equipamentos"
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
+                {<Route path="/cadastrarequipamentos" element={<Equipamentos />} />}
             </Routes>
             <Footer />
         </Router>

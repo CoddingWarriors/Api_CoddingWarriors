@@ -235,17 +235,23 @@ app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
     }
 })
 
-app.post("/cadastrar-equipamento",async(req: Request, res: Response) => {
-    const{ip, localizacao, notas, tipo, status, userId} = req.body
+app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
+    const { ip, localizacao, notas, tipo, status, userId } = req.body;
 
     try {
-        await equipamento.cadastrarEquipamento(dbName, ip, localizacao, notas, tipo, status, userId)
+        const userExists = await usuario.buscarUsuarioPorId(dbName, userId); // Supondo que essa função verifica se o usuário existe
 
-        console.log("Equipamento cadastrado com sucesso")
-        res.status(200).send("Equipamento cadastrado com sucesso")
+        if (!userExists) {
+            res.status(404).send("Usuário não encontrado");
+            return;
+        }
+
+        await equipamento.cadastrarEquipamento(dbName, ip, localizacao, notas, tipo, status, userId);
+        console.log("Equipamento cadastrado com sucesso");
+        res.status(200).send("Equipamento cadastrado com sucesso");
     } catch (error) {
-        console.error("Erro ao cadastrar equipamento:", error)
-        res.status(500).send("Erro ao cadastrar equipamento")
+        console.error("Erro ao cadastrar equipamento:", error);
+        res.status(500).send("Erro ao cadastrar equipamento");
     }
 })
 

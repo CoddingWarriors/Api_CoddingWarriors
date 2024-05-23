@@ -1,0 +1,59 @@
+.body {
+    background-image: linear-gradient(to bottom, #00035f, rgb(177, 0, 177), #00035f);
+    display: flex;
+    justify-content: center;
+    padding: 80px 0;
+    height: auto;
+}
+
+.containerCadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px; /* Largura conforme o Cadastro */
+    height: auto; /* Altura ajustável conforme o conteúdo */
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px; /* Padding para espaçamento interno */
+}
+
+.form {
+    position: relative;
+    width: 100%; /* Ajuste para usar a largura total do container */
+}
+
+.form input {
+    border: none;
+    border-bottom: 1px solid #0029FF;
+    width: 100%; /* Ajuste para a largura responder ao container */
+    margin: 10px 0 20px; /* Ajuste de margem */
+    padding: 5px 0 15px;
+}
+
+.containerCadastro h1 {
+    margin-bottom: 40px; /* Ajuste de margem */
+    color: #000469;
+}
+
+.form label {
+    color: #000469;
+    font-weight: bold;
+}
+
+.form input::placeholder {
+    color: #606894;
+}
+
+.cadastrar {
+    background-image: linear-gradient(to right, darkblue, purple);
+    color: white;
+    padding: 15px 50px; /* Ajuste de padding */
+    border-radius: 10px;
+    margin-top: 20px; /* Margem superior */
+    cursor: pointer;
+}
+
+.cadastrar:hover {
+    background-color: #0056b3; /* Cor ao passar o mouse */
+}
