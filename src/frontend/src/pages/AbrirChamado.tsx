@@ -1,6 +1,7 @@
 import React, { FormEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/AbrirChamado.module.css";
+import toast, { Toaster } from "react-hot-toast"
 
 function AbrirChamado() {
     const navigate = useNavigate();
@@ -18,6 +19,11 @@ function AbrirChamado() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!titulo.trim() || !descricao.trim() || !categoriaSelecionada) {
+            toast.error("Por favor, preencha todos os campos.")
+            return
+        } 
 
         try {
             const token = localStorage.getItem("token");
@@ -38,20 +44,28 @@ function AbrirChamado() {
 
                 const responseData = await response;
 
-                // Exibir alerta de chamado criado com sucesso
-                alert("Chamado criado com sucesso");
+                toast.success('Chamado criado com sucesso!');
 
-                // Redirecionar para /atendimento
-                navigate("/atendimento");
-            } else {
-                setPermissionDenied(true);
-            }
+        // Aguardar um curto período de tempo antes de navegar
+                setTimeout(() => {
+                    navigate("/atendimento");
+                }, 1000);
+                } else {
+                    setPermissionDenied(true);
+                }
         } catch (error) {
             console.error("Erro ao criar chamado:", error);
             // Exibir alerta de erro
             alert("Erro ao criar chamado. Por favor, tente novamente.");
         }
     }
+
+    const handleDescartar = () => {
+        toast.success('Chamado descartado com sucesso!');
+        setTimeout(() => {
+            navigate("/atendimento");
+        }, 1000);
+    };
 
     // Se o usuário não estiver logado, exibe mensagem de permissão negada e redireciona para /login
     if (!isLoggedIn || permissionDenied) {
@@ -66,6 +80,10 @@ function AbrirChamado() {
 
     return (
         <div className={styles.containerAbrirChamado}>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
             <h1>Abrir chamado</h1>
             <p>Nos forneça detalhes sobre o problema para que possamos identificar e oferecer a melhor solução possível</p>
             <form className={styles.formAbrirChamado} onSubmit={handleSubmit}>
@@ -94,7 +112,7 @@ function AbrirChamado() {
 
                 <div className={styles.botoes}>
                     <button type="submit" className={styles.enviar}>Enviar</button>
-                    <button type="button" className={styles.descartar}>Descartar</button>
+                    <button type="button" className={styles.descartar} onClick={handleDescartar}>Descartar</button>
                 </div>
             </form>
         </div>

@@ -11,7 +11,7 @@
 
 nav {
     background-color: #000469;
-    padding: 20px 0 20px 70px;
+    padding: 20px 70px 20px 70px;
     display: flex;
     justify-content: space-between;
 }
@@ -21,8 +21,15 @@ img {
 }
 
 .usuarioPerfil {
-    width: 40%;
+    width: 3.5vw;
+    height: auto;
     cursor: pointer;
+    padding: 0;
+}
+
+.usuarioPerfil img {
+    width: 100%;
+    height: auto;
 }
 
 .login {
