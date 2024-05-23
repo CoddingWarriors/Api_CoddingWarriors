@@ -7,7 +7,8 @@ function VisualizarChamado() {
     const [chamado, setChamado] = useState({
         titulo: '',
         descricao: '',
-        categoria: ''
+        categoria: '',
+        imagem: '' // Adicionando imagemUrl ao estado
     });
 
     useEffect(() => {
@@ -47,6 +48,11 @@ function VisualizarChamado() {
 
                 <h2 className={styles.categoriasTitulo}>Categoria</h2>
                 <p>{chamado.categoria}</p>
+
+                {/* Renderizando a imagem se a URL da imagem estiver disponível */}
+                {chamado.imagem && (
+                    <img src={chamado.imagem} alt="Imagem do chamado" className={styles.imagemChamado} />
+                )}
 
                 <div className={styles.botoes}>
                     <button type="button" className={styles.enviar}>Voltar</button>

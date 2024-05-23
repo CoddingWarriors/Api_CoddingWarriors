@@ -6,7 +6,13 @@ import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
 import { setUsername, getUsername } from "./globalUser"
+import multer, { StorageEngine } from 'multer';
 
+//imagem no banco 
+
+const storage: StorageEngine = multer.memoryStorage();
+const upload = multer({ storage: storage });
+// definiçoes do app
 const app = express()
 const PORT = process.env.PORT || 5000
 const dbName = "ocean"
@@ -102,24 +108,23 @@ app.post("/cadastro", async (req, res) => {
 
 
 
-app.post("/abrirchamado", async (req, res) => {
+app.post("/abrirchamado", upload.single("imagem"), async (req: Request, res: Response) => {
     const { titulo, descricao, categoria, token } = req.body;
+    const imagem = req.file;
 
-    // Verifica se o token é válido
     if (!Authentication.isValidToken(token)) {
         return res.status(401).json({ message: "Token inválido" });
     }
 
     const userId = Authentication.getUserIdFromToken(token);
 
-    // Verifica se userId é null
     if (userId === null) {
         return res.status(401).json({ message: "Token inválido" });
     }
 
     try {
-        // Chama a função para abrir um novo chamado com base no ID do usuário
-        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId);
+        const imagemBinaria = imagem ? imagem.buffer : null;
+        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId, imagemBinaria);
 
         console.log("Chamado criado com sucesso");
         res.status(200).send("Chamado criado com sucesso");
@@ -227,7 +232,6 @@ app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
 
     try {
         const dadosChamado = await chamado.obterInformacoesChamado(dbName, chamadoId);
-        console.log(dadosChamado);
         res.status(200).json(dadosChamado);
     } catch (error) {
         console.error("Erro ao obter informações do chamado:", error);
