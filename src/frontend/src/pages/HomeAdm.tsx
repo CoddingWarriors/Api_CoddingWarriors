@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import ApexCharts from "apexcharts"
-
+import ApexCharts from "apexcharts";
 
 function HomeAdm() {
     const [categorias, setCategorias] = useState<{ categoria: string, totalCategoria: number }[]>([]);
+    const [chart, setChart] = useState<ApexCharts | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,6 +21,16 @@ function HomeAdm() {
                 }
 
                 const data = await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error('Os dados retornados não são um array');
+                }
+
+                const validData = data.every(item => item && typeof item.categoria === 'string' && typeof item.totalCategoria === 'number');
+                if (!validData) {
+                    throw new Error('Formato de dados inválido');
+                }
+
                 setCategorias(data);
             } catch (error) {
                 console.error('Erro ao buscar os dados:', error);
@@ -44,27 +54,33 @@ function HomeAdm() {
                 },
                 xaxis: {
                     categories: categorias.map(categoria => categoria.categoria),
-                    convertedCatToNumeric: false
                 },
                 title: {
                     text: 'Chamados por Categoria'
+                },
+                series: [{
+                    name: 'Total de Chamados',
+                    data: categorias.map(categoria => categoria.totalCategoria)
+                }]
+            };
+
+            if (chart === null) {
+                const chartElement = document.getElementById('chart');
+                if (chartElement) {
+                    const newChart = new ApexCharts(chartElement, options);
+                    newChart.render().then(() => {
+                        setChart(newChart);
+                    }).catch(error => {
+                        console.error('Erro ao renderizar o gráfico:', error);
+                    });
                 }
-            };
-
-            const series = [{
-                name: 'Total de Chamados',
-                data: categorias.map(categoria => categoria.totalCategoria)
-            }];
-
-            const renderChart = () => {
-                const chart = new ApexCharts(document.getElementById('chart')!, options);
-                chart.render();
-                chart.updateSeries(series);
-            };
-
-            renderChart();
+            } else {
+                chart.updateOptions(options).catch(error => {
+                    console.error('Erro ao atualizar as opções do gráfico:', error);
+                });
+            }
         }
-    }, [categorias]);
+    }, [categorias, chart]);
 
     return (
         <div>
