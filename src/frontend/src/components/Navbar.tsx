@@ -4,6 +4,7 @@ import logo from "../img/logo.png"
 import usuarioPerfil from "../img/usuario-de-perfil.png"
 import LogoutModal from "./LogoutModal"
 import styles from "../styles/Navbar.module.css"
+import { Toaster, toast } from "react-hot-toast"
 
 function Navbar() {
     const navigate = useNavigate()
@@ -48,8 +49,8 @@ function Navbar() {
         setUserType(null)
 
         // Exibe o alerta e redireciona após 1 segundo
+        toast.success("Você saiu da sua conta.")
         setTimeout(() => {
-            alert("Você saiu da sua conta.")
             navigate("/")
         }, 1)
     }
@@ -60,6 +61,7 @@ function Navbar() {
 
     return (
         <nav>
+            <Toaster />
             <Link to="/">
                 <img src={logo} alt="logo" />
             </Link>

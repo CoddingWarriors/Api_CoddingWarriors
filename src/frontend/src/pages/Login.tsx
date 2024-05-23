@@ -1,9 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { Toaster, toast } from 'react-hot-toast'
 
 function Login() {
   const navigate = useNavigate();
@@ -27,50 +25,23 @@ function Login() {
       if (response.ok) {
         // Armazena o token recebido no localStorage
         localStorage.setItem("token", data.token);
-        toast.success('Login realizado com sucesso', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-          });
+        toast.success('Login realizado com sucesso')
         // Navega para a página /home se o login for bem-sucedido
         navigate("/");
       } else {
-        toast.error('Credenciais inválidas', { // Exibe um alerta com a mensagem de erro
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "colored"
-          });
+        toast.error('Credenciais inválidas')
         setUsername(""); // Limpa o campo de nome de usuário
         setPassword(""); // Limpa o campo de senha
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      toast.error('Erro ao fazer login', { // Exibe um alerta com a mensagem de erro
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored"
-        });
+      toast.error('Erro ao fazer login')
     }
   };
 
   return (
     <div className={styles.body}>
-      <ToastContainer />
+      <Toaster />
       <div className={styles.containerLogin}>
         <h1>Login</h1>
         <form className={styles.form} onSubmit={handleSubmit}>

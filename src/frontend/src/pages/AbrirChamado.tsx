@@ -2,6 +2,7 @@ import React, { FormEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/AbrirChamado.module.css";
 import toast, { Toaster } from "react-hot-toast";
+import image from "../img/imagem.png"
 
 function AbrirChamado() {
     const navigate = useNavigate();
@@ -11,6 +12,13 @@ function AbrirChamado() {
     const [imagem, setImagem] = useState<File | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [permissionDenied, setPermissionDenied] = useState(false);
+    const [nomeArquivo, setNomeArquivo] = useState('');
+
+    const handleFileChange = (event:any) => {
+      const file = event.target.files[0];
+      const fileName = file.name;
+      setNomeArquivo(fileName);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -104,12 +112,18 @@ function AbrirChamado() {
                     <span className={styles.spanRadio}>Sem conexão de internet</span>
                 </label> <br />
 
-                <label className={styles.labelText} htmlFor="imagem">Upload de Imagem</label> <br />
-                <input type="file" id="imagem" onChange={(e) => {
+
+                <h2 className={styles.imagemTitulo}>Caso seja possível, insira uma imagem demonstrando o problema</h2>
+                <input className={styles.file} type="file" id="imagem" onChange={(e) => {
+                    handleFileChange(e);
                     if (e.target.files && e.target.files.length > 0) {
-                        setImagem(e.target.files[0]);
+                    setImagem(e.target.files[0]);
                     }
                 }} /> <br />
+                <label className={styles.enviarImagem} htmlFor="imagem">
+                    <img src={image} alt="" />
+                    <span>{nomeArquivo ? nomeArquivo : 'Enviar imagem'}</span>
+                </label>
 
                 <div className={styles.botoes}>
                     <button type="submit" className={styles.enviar}>Enviar</button>
