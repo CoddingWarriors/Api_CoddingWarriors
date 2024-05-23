@@ -61,16 +61,18 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />{" "}
           <br />
-          <p className={styles.esquecisenha}>
-            <Link to="/esquecisenha">Esqueceu a senha?</Link>
-          </p>
-          <button type="submit" className={styles.botaoEntrar}>
-            Entrar
-          </button>{" "}
-          <br />
-          <p className={styles.linkCadastrar}>
-            Ou <Link to="/cadastro">cadastre-se</Link>
-          </p>
+          <div className={styles.containerBotoes}>
+            <button type="submit" className={styles.botaoEntrar}>
+              Entrar
+            </button>{" "}
+            <br />
+            <p className={styles.linkCadastrar}>
+              Ou <Link to="/cadastro">cadastre-se</Link>
+            </p>
+            <p className={styles.esquecisenha}>
+              <Link to="/esquecisenha">Esqueceu a senha?</Link>
+            </p>
+          </div>
         </form>
       </div>
     </div>

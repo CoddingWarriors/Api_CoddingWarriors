@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Cadastro.module.css";
 import React, { useState, FormEvent } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { Toaster, toast } from 'react-hot-toast';
+
 function Cadastro() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
@@ -15,6 +14,12 @@ function Cadastro() {
     const [numero, setNumero] = useState("");
     const [senha, setSenha] = useState("");
     const navigate = useNavigate()
+
+    const handleDescartar = () => {
+        toast.success('Seu cadastro foi descartado');
+        navigate("/login");
+    };
+
     const verificaCPFValido = (cpf: string): boolean => {
         cpf = cpf.replace(/[^\d]/g, "");
 
@@ -66,16 +71,7 @@ function Cadastro() {
         // Envia os dados para o back-end
         try {
             if (!verificaCPFValido(cpf)) {
-                toast.error('CPF inválido', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored"
-                });
+                toast.error('CPF inválido')
                 return;
             }
             const response = await fetch("http://localhost:5000/cadastro", {
@@ -85,16 +81,7 @@ function Cadastro() {
                 },
                 body: JSON.stringify(data),
             });
-            toast.success('Usuário cadastrado com sucesso', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored"
-                });
+            toast.success('Usuário cadastrado com sucesso')
                 // Redirecionar para /atendimento
             
             const responseData = await response;
@@ -117,7 +104,7 @@ function Cadastro() {
 
     return (
         <div className={styles.body}>
-            <ToastContainer />
+            <Toaster />
             <div className={styles.containerCadastro}>
                 <h1>Cadastro</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -134,7 +121,7 @@ function Cadastro() {
                         <label htmlFor="">CPF</label> <br />
                         <input
                             type="text"
-                            placeholder="insira seu cpf"
+                            placeholder="Insira seu cpf"
                             value={cpf}
                             onChange={(e) => setCpf(e.target.value)}
                         />
@@ -157,6 +144,7 @@ function Cadastro() {
                         <input
                             type="text"
                             value={email}
+                            placeholder="Insira o seu email"
                             onChange={(e) => {
                                 const value = e.target.value;
                                 // Verifica se o valor inserido contém apenas uma "@" e não contém espaços em branco
@@ -205,13 +193,13 @@ function Cadastro() {
                         onChange={(e) => setSenha(e.target.value)}
                     />{" "}
                     <br />
-                    <button type="submit" className={styles.cadastrar}>
-                        Cadastrar
-                    </button>
+                    <div className={styles.containerCadastrar}>
+                        <button type="submit" className={styles.cadastrar}>
+                            Cadastrar
+                        </button>
+                    </div>
                 </form>
-                <p className={styles.descartar}>
-                    <Link to="/login">Descartar</Link>
-                </p>
+                <p className={styles.descartar} onClick={handleDescartar}>Descartar</p>
             </div>
         </div>
     );

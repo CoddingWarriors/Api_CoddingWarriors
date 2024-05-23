@@ -16,10 +16,6 @@
     border-radius: 10px;
 }
 
-.form {
-    position: relative;
-}
-
 .form input {
     border: none;
     border-bottom: 1px solid #0029FF;
@@ -56,7 +52,13 @@
     margin-bottom: 15px;
 }
 
-.descartar a {
+.descartar {
     color: rgb(122, 0, 122);
     border-bottom: 1px solid rgb(145, 0, 145);
+    cursor: pointer;
+}
+
+.containerCadastrar {
+    display: flex;
+    justify-content: center;
 }
