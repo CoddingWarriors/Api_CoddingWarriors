@@ -64,10 +64,11 @@ function Navbar() {
                 <img src={logo} alt="logo" />
             </Link>
             <ul className={styles.links}>
-                <li className={styles.item}>
-                    <Link to="/">Página Inicial</Link>
-                </li>
                 {(userType === '1' || userType === null) && (
+                    <>
+                    <li className={styles.item}>
+                        <Link to="/">Página Inicial</Link>
+                    </li>
                     <li className={styles.item}>
                         <Link
                             to="/atendimento"
@@ -76,8 +77,13 @@ function Navbar() {
                             Atendimento
                         </Link>
                     </li>
+                    <li className={styles.item}>
+                        <Link to="/faq">FAQ</Link>
+                    </li>
+                </>
                 )}
                 {userType === '2' && (
+                <>
                     <li className={styles.item}>
                         <Link
                             to="/chamados"
@@ -86,10 +92,45 @@ function Navbar() {
                             Chamados
                         </Link>
                     </li>
+                    <li className={styles.item}>
+                        <Link
+                            to=""
+                            style={{ cursor: "pointer" }}
+                        >
+                            Equipamentos
+                        </Link>
+                    </li>
+                </>
                 )}
-                <li className={styles.item}>
-                    <Link to="/faq">FAQ</Link>
-                </li>
+                {userType === '3' && (
+                <>
+                    <li className={styles.item}>
+                        <Link
+                            to="/homeadm"
+                            style={{ cursor: "pointer" }}
+                        >
+                            Dashboard
+                        </Link>
+                    </li>
+                    <li className={styles.item}>
+                        <Link
+                            to=""
+                            style={{ cursor: "pointer" }}
+                        >
+                            Equipamentos
+                        </Link>
+                    </li>
+                    <li className={styles.item}>
+                        <Link
+                            to="/cadastrosuporte"
+                            style={{ cursor: "pointer" }}
+                        >
+                            Cadastro de usuário
+                        </Link>
+                    </li>
+                </>
+                )}
+
                 <li className={styles.item}>
                     {isLoggedIn ? (
                         <img

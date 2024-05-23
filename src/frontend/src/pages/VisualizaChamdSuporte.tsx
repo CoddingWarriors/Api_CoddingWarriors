@@ -88,7 +88,7 @@ function AtendimentoSuporte() {
     }, [navigate])
 
     return (
-        <div>
+        <div className={styleChamado.body}>
             <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
                 {pendentes.map((chamado) => (
                     <Tickets
