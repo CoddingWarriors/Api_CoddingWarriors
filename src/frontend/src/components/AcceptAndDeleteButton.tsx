@@ -22,9 +22,33 @@ function AcceptAndDeleteButton({ chamadoId }: { chamadoId: number }){
         }
     }
 
+    const Aceitar = async () => {
+        try {
+            const response = await fetch("http://localhost:5000/atualizar-chamado-andamento", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ chamadoId: chamadoId }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar o chamado');
+            } else {
+                console.log('Chamado atualizado com sucesso!');
+                alert("Chamado aceito!")
+            }
+        } catch (error) {
+            console.error('Erro ao atualizar o chamado:', error);
+            alert("Erro")
+        }
+    }
+
+
     return (
         <div className={styles.sectionThree}>
-            <button className={styles.acceptButton}>ACEITAR</button>
+            <button className={styles.acceptButton} onClick={() => Aceitar()}>ACEITAR</button>
             <button className={styles.deleteButton} onClick={() => onDelete()}>DELETAR</button>
         </div>
     );

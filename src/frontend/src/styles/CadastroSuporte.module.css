@@ -1,0 +1,135 @@
+/* CadastroADM.module.css */
+
+/* Estilo para o grupo de botões */
+
+.botoes {
+    width: 60%;
+    margin-top: 20px; /* espaço maior entre a div dos botões e as divs acima */
+    display: flex;
+    justify-content: space-around; /* espaço entre os botões */
+}
+
+/* Estilo para o botão Cadastrar */
+.cadastrar2 {
+    width: 40%; /* tamanho maior */
+    padding: 15px; /* tamanho maior */
+    font-size: 18px; /* tamanho maior */
+    background-color: #2325a3;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.descartar2 {
+    width: 40%; /* tamanho maior */
+    padding: 15px; /* tamanho maior */
+    font-size: 18px; /* tamanho maior */
+    background-color: red;
+    color: white; /* cor do texto branco */
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.descartar2 a {
+    text-decoration: none; /* remove o sublinhado */
+    color: white; /* cor do texto branco */
+}
+
+.body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px  0;
+}
+
+.containerCadastro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 700px;
+    height: 900px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.estilo2{
+    border: 2px solid gray;
+    border-radius: 10px;
+    width: 600px;
+    margin: 4px 0 12px;
+    padding: 10px 0 20px;
+    padding-left: 14px;
+    padding-top: 15px;
+}
+
+.estilo1{
+        border: 2px solid gray;
+        border-radius: 10px;
+        margin: 4px 0 12px;
+        padding: 10px 0 20px;
+        padding-left: 10px;
+        padding-top: 15px;
+}
+
+.containerCadastro h1 {
+    margin-bottom: 60px;
+    color: gray;
+}
+
+.form input::placeholder {
+    color: #29292b;
+}
+
+.centeredDiv {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+/* cep, rua e nº */
+
+.inputCep,
+.inputRua,
+.inputNumero {
+    box-sizing: border-box;
+}
+
+.enderecoContainer {
+    display: flex;
+    width: 600px;
+    justify-content: space-between;
+}
+
+.inputCep, .inputRua {
+    border: 2px solid gray;
+    border-radius: 10px;
+    margin: 4px 0 12px;
+    padding: 10px 0 20px;
+    padding-left: 14px;
+    padding-top: 15px;
+    width: 39%;
+}
+
+.inputNumero {
+    border: 2px solid gray;
+    border-radius: 10px;
+    margin: 4px 0 12px;
+    padding: 10px 0 20px;
+    padding-left: 14px;
+    padding-top: 15px;
+    width: 19%;
+}
+

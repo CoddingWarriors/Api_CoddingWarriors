@@ -1,15 +1,19 @@
-import styles from "../styles/Tickets.module.css"
+import { Link } from "react-router-dom";
+import styles from "../styles/Tickets.module.css";
 
 interface AnswerButtonProps {
-    onClick: () => void; // função que será acionada quando o botão for clicado
+    chamadoId: string; // Adiciona a prop chamadoId
+    onClick: () => void; // Função que será acionada quando o botão for clicado
 }
 
-function AnswerButton({ onClick }: AnswerButtonProps) {
+function AnswerButton({ chamadoId, onClick }: AnswerButtonProps) {
     return (
         <div className={styles.sectionThree}>
-            <button className={styles.answerButton} onClick={onClick}>RESPONDER</button>
+            <Link to={`/responderchamado/${chamadoId}`}>
+                <button className={styles.answerButton} onClick={onClick}>RESPONDER</button>
+            </Link>
         </div>
     );
 }
 
-export default AnswerButton
+export default AnswerButton;

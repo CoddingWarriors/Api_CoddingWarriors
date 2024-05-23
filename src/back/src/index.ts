@@ -6,10 +6,16 @@ import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
 import { setUsername, getUsername } from "./globalUser"
+import multer, { StorageEngine } from 'multer';
 
+//imagem no banco 
+
+const storage: StorageEngine = multer.memoryStorage();
+const upload = multer({ storage: storage });
+// definiçoes do app
 const app = express()
 const PORT = process.env.PORT || 5000
-const dbName = "Ocean"
+const dbName = "ocean"
 
 app.use(express.json())
 
@@ -42,17 +48,11 @@ app.post("/login", async (req: Request, res: Response) => {
 })
 
 app.post("/cadastro", async (req, res) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, foto } = req.body; // Inclua 'foto' aqui
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
 
     try {
         // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
-        const cpfExistente = await usuario.verificaCPF(cpf);
-
-        // Se o CPF já estiver cadastrado, retornar um erro
-        if (cpfExistente) {
-            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
-            return res.redirect('/cadastro');
-        }
+        
 
         // Verificar se o email já está cadastrado no banco de dados antes de prosseguir com o cadastro
         const emailExistente = await usuario.verificaEmail(email);
@@ -60,6 +60,14 @@ app.post("/cadastro", async (req, res) => {
         // Se o email já estiver cadastrado, retornar um erro
         if (emailExistente) {
             console.log("Email já cadastrado"); // fazer essa mensagem aparecer no front
+            return res.redirect('/cadastro');
+        }
+
+        const cpfExistente = await usuario.verificaCPF(cpf);
+
+        // Se o CPF já estiver cadastrado, retornar um erro
+        if (cpfExistente) {
+            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
             return res.redirect('/cadastro');
         }
 
@@ -75,6 +83,7 @@ app.post("/cadastro", async (req, res) => {
             numero,
             cep,
             tipo,
+            horario,
             foto
         );
 
@@ -99,19 +108,31 @@ app.post("/cadastro", async (req, res) => {
 
 
 
-app.post("/abrirchamado", async (req, res) => {
-    const { titulo, descricao, categoria, userId } = req.body
+app.post("/abrirchamado", upload.single("imagem"), async (req: Request, res: Response) => {
+    const { titulo, descricao, categoria, token } = req.body;
+    const imagem = req.file;
+
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
-        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId)
+        const imagemBinaria = imagem ? imagem.buffer : null;
+        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId, imagemBinaria);
 
-        console.log("Chamado criado com sucesso")
-        res.status(200).send("Chamado criado com sucesso")
+        console.log("Chamado criado com sucesso");
+        res.status(200).send("Chamado criado com sucesso");
     } catch (error) {
-        console.error("Erro ao criar chamado:", error)
-        res.status(500).send("Erro ao criar chamado")
+        console.error("Erro ao criar chamado:", error);
+        res.status(500).send("Erro ao criar chamado");
     }
-})
+});
 
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;
@@ -158,19 +179,29 @@ app.post(`/novasenha`, async (req: Request, res: Response) => {
 
 
 app.post("/buscar-chamados", async (req: Request, res: Response) => {
-    const { userId, status } = req.body
- 
+    const { token, status } = req.body;
+
+    // Verifica se o token é válido
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    // Verifica se userId é null
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
         // Chama a função para buscar os chamados com base no ID do usuário e no status
-        const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status)
-        res.status(200).json(chamados)
+        const chamados = await chamado.buscarChamadosDoUsuario(dbName, userId, status);
+        res.status(200).json(chamados);
     } catch (error) {
-        console.error("Erro ao buscar chamados:", error)
-        res.status(500).json({ message: "Erro interno do servidor" })
+        console.error("Erro ao buscar chamados:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
     }
-})
-
+});
 app.post("/deletar-chamado", async (req: Request, res: Response) => {
     const { chamadoId } = req.body;
 
@@ -183,10 +214,69 @@ app.post("/deletar-chamado", async (req: Request, res: Response) => {
     }
 });
 
+app.post("/atualizar-chamado-andamento", async (req: Request, res: Response) => {
+    const { chamadoId } = req.body;
+
+    try {
+        await chamado.atualizarStatusChamadoAndamento(dbName, chamadoId);
+        res.status(200).json({ message: "Chamado atualizado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao atualizar chamado:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+})
+
+app.post("/obter-informacoes-chamado", async (req: Request, res: Response) => {
+    const chamadoId: number = parseInt(req.body.chamadoId);
+    console.log(chamadoId);
+
+    try {
+        const dadosChamado = await chamado.obterInformacoesChamado(dbName, chamadoId);
+        res.status(200).json(dadosChamado);
+    } catch (error) {
+        console.error("Erro ao obter informações do chamado:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
+app.post("/visualizar-chamados-por-categoria", async (req: Request, res: Response) => {
+    try {
+        const chamadosPorCategoria = await chamado.visualizarChamadoADM(dbName);
+        res.status(200).json(chamadosPorCategoria);
+    } catch (error) {
+        console.error("Erro ao visualizar chamados por categoria:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
+app.post("/responderchamado", async (req, res) => {
+    const { resposta, chamadoId, token } = req.body;
+
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    try {
+        await chamado.ResponderChamado(dbName, chamadoId, resposta, userId);
+        console.log("Chamado respondido com sucesso");
+        res.status(200).send("Chamado respondido com sucesso");
+    } catch (error) {
+        console.error("Erro ao responder chamado:", error);
+        res.status(500).send("Erro ao responder chamado");
+    }
+});
+
+
+
 // Rota para verificar a validade do token
 app.post("/verificar-token", (req: Request, res: Response) => {
     const token = req.headers.authorization?.split(" ")[1] // Pega o token do header Authorization
-    console.log(token)
     if (!token) {
         return res.status(401).json({ message: "Token não fornecido" })
     }
@@ -200,8 +290,18 @@ app.post("/verificar-token", (req: Request, res: Response) => {
 })
 
 app.post("/usuariotipo", async (req: Request, res: Response) => {
-    const { userId } = req.body 
-    console.log(userId)
+    const { token } = req.body 
+
+    if (!Authentication.isValidToken(token)) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    // Verifica se userId é null
+    if (userId === null) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
 
     try {
         
@@ -222,12 +322,10 @@ app.post("/usuariotipo", async (req: Request, res: Response) => {
 
 app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
     const { status } = req.body 
-    console.log(status)
 
     try {
         
         const chamados = await chamado.buscarChamadoPorStatus(dbName, status)
-        console.log(chamado)
         res.status(200).json(chamados)
     } catch (error) {
         console.error("Erro ao buscar chamados por status:", error)
@@ -254,6 +352,65 @@ app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
         res.status(500).send("Erro ao cadastrar equipamento");
     }
 })
+
+app.post("/cadastrosuporte", async (req, res) => {
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
+
+    try {
+        // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
+        
+
+        // Verificar se o email já está cadastrado no banco de dados antes de prosseguir com o cadastro
+        const emailExistente = await usuario.verificaEmail(email);
+
+        // Se o email já estiver cadastrado, retornar um erro
+        if (emailExistente) {
+            console.log("Email já cadastrado"); // fazer essa mensagem aparecer no front
+            return res.redirect('/cadastrosuporte');
+        }
+
+        const cpfExistente = await usuario.verificaCPF(cpf);
+
+        // Se o CPF já estiver cadastrado, retornar um erro
+        if (cpfExistente) {
+            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
+            return res.redirect('/cadastrosuporte');
+        }
+
+        // Se o CPF e o email não estiverem cadastrados, prosseguir com o cadastro do usuário
+        const verificaCadastrado = await usuario.cadastroUsuario(
+            dbName,
+            cpf,
+            nome,
+            telefone,
+            email,
+            senha,
+            endereco,
+            numero,
+            cep,
+            tipo,
+            horario,
+            foto
+        );
+
+        const token = gerarTokenTemporario(30);
+        const subject = 'confirmar email';
+        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`;
+        await usuario.inserirToken(token, email); // Insere o token associado ao usuário no banco de dados
+        enviarEmail(email, html, subject);
+
+        if (verificaCadastrado) {
+            console.log("Usuário cadastrado");
+            res.status(200).send("Usuário cadastrado com sucesso");
+        } else {
+            console.log("Erro ao cadastrar usuário");
+            res.status(500).send("Erro ao cadastrar usuário");
+        }
+    } catch (error) {
+        console.error("Erro ao cadastrar usuário:", error);
+        res.status(500).send("Erro ao cadastrar usuário");
+    }
+});
 
 
 app.listen(PORT, () => {})

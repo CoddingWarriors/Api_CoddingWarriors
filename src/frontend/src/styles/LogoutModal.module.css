@@ -2,51 +2,56 @@
 
 .logoutModalContainer {
     position: fixed;
-    top: 50%; /* Centraliza verticalmente */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translate(-50%, -50%); /* Move o modal de volta 50% do seu próprio tamanho */
+    top: 19.5%;
+    left: 94%;
+    transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 20px;
+    width: 10%;
     z-index: 1000;
+    padding: 1%;
 }
 
-.logoutModalMessage {
-    color: black;
-    font-size: 16px;
-    margin-bottom: 20px;
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+.informacoesPessoaisContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 1.5vh 0;
 }
 
-.logoutButton {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
+.informacoesPessoaisContainer img {
+    width: 50%;
+}
+
+.informacoesPessoais {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5vh;
+}
+
+.logoutModalContainer hr {
+    border: 1px solid rgb(90, 90, 90);
+    margin-bottom: 1vh;
+}
+
+.conta {
+    font-weight: bold;
+    font-size: 120%;
+}
+
+.logout {
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.logoutButton:hover {
-    background-color: darkred;
-}
-
-/* styles/LogoutModal.module.css */
-
-.cancelButton {
-    background-color: blue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-left: 10px; /* Espaçamento para o botão Cancelar */
-}
-
-.cancelButton:hover {
-    background-color: #000469;
 }

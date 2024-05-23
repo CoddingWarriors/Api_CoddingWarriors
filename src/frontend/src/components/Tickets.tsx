@@ -1,16 +1,17 @@
-import styles from "../styles/Tickets.module.css"
+import styles from "../styles/Tickets.module.css";
 import image from '../img/viz.png';
 import AnswerButton from './AnswerButton';
 import AcceptAndDeleteButton from './AcceptAndDeleteButton';
+import { Link } from "react-router-dom";
 
-function Tickets(props:any) {
+function Tickets(props: any) {
     return (
         <div className={styles.ticket}>
             <div className={styles.sectionOne}>
-                <a href={props.link}>
+                <Link to={`/visualizarchamado/${props.ID}`}>
                     <img src={image} alt="Visualizar" className={styles.image} />
                     <p className={styles.text}><strong>Visualizar</strong></p>
-                </a>
+                </Link>
             </div>
             <div className={styles.sectionTwoC}>
                 <div className={styles.rectangle}>
@@ -23,12 +24,10 @@ function Tickets(props:any) {
                     <p><strong>Descrição:</strong> {props.Descricao}</p>
                 </div>
             </div>
-            <></>
-            {/* espaço para os Componentes Botões!!! */}
             {props.tipo === 'Aberto' && <AcceptAndDeleteButton chamadoId={props.ID} />}
-            {props.tipo === 'Em andamento' && <AnswerButton onClick={props.onClick} />}
+            {props.tipo === 'Em andamento' && <AnswerButton chamadoId={props.ID} onClick={props.onClick} />}
         </div>
     );
 }
 
-export default Tickets
+export default Tickets;

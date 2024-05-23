@@ -57,3 +57,10 @@
     justify-content: center;
     width: 100%;
 }
+
+.body {
+    margin: 10vh 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

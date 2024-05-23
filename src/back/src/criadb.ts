@@ -5,7 +5,7 @@ import { Faq } from "./DB/faq"
 import { Chamado } from "./DB/chamado"
 import { Equipamento } from "./DB/equipamento"
 
-const dbName = "Ocean"
+const dbName = "ocean"
 const conexao = new Conecta()
 // instancia as classes
 const usuario = new Usuario(conexao)

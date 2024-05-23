@@ -45,11 +45,6 @@
     margin-bottom: 20px;
 }
 
-.imagemTitulo {
-    color: #000469;
-    margin: 50px 0 0;
-}
-
 .spanRadio {
     margin-left: 15px;
 }
@@ -85,18 +80,17 @@
     border-radius: 10px;
 }
 
-.inputFile {
+input[type="file"] {
     display: none;
 }
 
 .enviarImagem {
     display: flex;
+    gap: 10px;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 15%;
-    height: 60px;
+    width: 200px;
+    height: 50px;
     color: #0029FF;
     border: 2px solid #002aff;
     font-weight: bold;
@@ -111,15 +105,4 @@
 .enviarImagem img {
     width: 30px;
     height: 30px;
-    padding: 0 15px 0 20px;
-    box-sizing: content-box;
-}
-
-.enviarImagem span {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 20px 0 0;
-    box-sizing: content-box;
 }

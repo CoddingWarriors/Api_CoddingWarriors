@@ -23,9 +23,9 @@ export class Conecta {
     }
 
     private createOceanDatabase(callback: () => void): void {
-        this.connection.query("CREATE DATABASE IF NOT EXISTS Ocean", (err) => {
+        this.connection.query("CREATE DATABASE IF NOT EXISTS ocean", (err) => {
             if (err) {
-                console.error("Erro ao criar o banco de dados Ocean:", err)
+                console.error("Erro ao criar o banco de dados ocean:", err)
                 throw err
             }
             console.log("Banco de dados Ocean criado com sucesso")
@@ -34,7 +34,7 @@ export class Conecta {
                 host: "localhost",
                 user: "root",
                 password: "fatec",
-                database: "Ocean",
+                database: "ocean",
             })
             // Chama o callback passando a conexão atualizada
             callback()
