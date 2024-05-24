@@ -70,16 +70,7 @@ function CadastroADM() {
         // Envia os dados para o back-end
         try {
             if (!verificaCPFValido(cpf)) {
-                toast.error('CPF inválido', {
-                    position: "top-center",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored"
-                });
+                toast.error('CPF inválido')
                 return;
             }
             const response = await fetch("http://localhost:5000/cadastrosuporte", {
@@ -90,17 +81,15 @@ function CadastroADM() {
                 body: JSON.stringify(data),
             });
 
-            const responseData = `${response}`;
-            console.log(responseData); 
-            if(responseData === 'Email já cadastrado'){
-                alert('Email já Cadastrado')
-                return
+            if (!response.ok) {
+                const errorData = await response.json();
+                toast.error(errorData.error);
+                return;
             }
-            if(responseData === 'CPF já cadastrado'){
-                alert('CPF já Cadastrado')
-                return
-            }
-            alert("Usuário Cadastrado com Sucesso")
+    
+            // Se chegou aqui, significa que tudo ocorreu corretamente
+            // Exibe a mensagem de sucesso
+            toast.success('Usuário cadastrado com sucesso');
 
             
             // Exibir a mensagem de sucesso como um alerta

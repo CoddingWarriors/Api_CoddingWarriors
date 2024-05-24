@@ -51,24 +51,22 @@ app.post("/cadastro", async (req, res) => {
     const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
 
     try {
-        // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
-        
-
-        // Verificar se o email já está cadastrado no banco de dados antes de prosseguir com o cadastro
-        const emailExistente = await usuario.verificaEmail(email);
-
-        // Se o email já estiver cadastrado, retornar um erro
-        if (emailExistente) {
-            console.log("Email já cadastrado"); // fazer essa mensagem aparecer no front
-            return res.redirect('/cadastro');
-        }
+      
 
         const cpfExistente = await usuario.verificaCPF(cpf);
 
         // Se o CPF já estiver cadastrado, retornar um erro
         if (cpfExistente) {
-            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
-            return res.redirect('/cadastro');
+            console.log("CPF já cadastrado"); // Log no servidor
+            return res.status(400).json({ error: "CPF já cadastrado" }); // Enviar erro como resposta JSON
+        }
+        
+        const emailExistente = await usuario.verificaEmail(email);
+        
+        // Se o email já estiver cadastrado, retornar um erro
+        if (emailExistente) {
+            console.log("Email já cadastrado"); // Log no servidor
+            return res.status(400).json({ error: "Email já cadastrado" }); // Enviar erro como resposta JSON
         }
 
         // Se o CPF e o email não estiverem cadastrados, prosseguir com o cadastro do usuário
@@ -360,21 +358,20 @@ app.post("/cadastrosuporte", async (req, res) => {
         // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
         
 
-        // Verificar se o email já está cadastrado no banco de dados antes de prosseguir com o cadastro
-        const emailExistente = await usuario.verificaEmail(email);
-
-        // Se o email já estiver cadastrado, retornar um erro
-        if (emailExistente) {
-            console.log("Email já cadastrado"); // fazer essa mensagem aparecer no front
-            return res.redirect('/cadastrosuporte');
-        }
-
         const cpfExistente = await usuario.verificaCPF(cpf);
 
         // Se o CPF já estiver cadastrado, retornar um erro
         if (cpfExistente) {
-            console.log("CPF já cadastrado"); // fazer essa mensagem aparecer no front
-            return res.redirect('/cadastrosuporte');
+            console.log("CPF já cadastrado"); // Log no servidor
+            return res.status(400).json({ error: "CPF já cadastrado" }); // Enviar erro como resposta JSON
+        }
+        
+        const emailExistente = await usuario.verificaEmail(email);
+        
+        // Se o email já estiver cadastrado, retornar um erro
+        if (emailExistente) {
+            console.log("Email já cadastrado"); // Log no servidor
+            return res.status(400).json({ error: "Email já cadastrado" }); // Enviar erro como resposta JSON
         }
 
         // Se o CPF e o email não estiverem cadastrados, prosseguir com o cadastro do usuário

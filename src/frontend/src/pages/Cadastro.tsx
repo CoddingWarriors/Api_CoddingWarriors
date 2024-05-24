@@ -81,12 +81,18 @@ function Cadastro() {
                 },
                 body: JSON.stringify(data),
             });
-            toast.success('Usuário cadastrado com sucesso')
-                // Redirecionar para /atendimento
+
             
-            const responseData = await response;
-            console.log(responseData); 
-            // Exibe a resposta do servidor no console
+           
+            if (!response.ok) {
+                const errorData = await response.json();
+                toast.error(errorData.error);
+                return;
+            }
+    
+            // Se chegou aqui, significa que tudo ocorreu corretamente
+            // Exibe a mensagem de sucesso
+            toast.success('Usuário cadastrado com sucesso');
 
             // Limpa os campos do formulário após o envio bem-sucedido
             setNome("");
