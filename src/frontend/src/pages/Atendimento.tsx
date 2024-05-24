@@ -113,46 +113,50 @@ function Atendimento() {
                 </div>
             </div>
 
-            <h1 className={styles.titulo}>Já abriu o seu chamado?</h1>
-            <p className={styles.conteudo}>
-                Caso você já tenha aberto um chamado conosco, saiba que a nossa equipe de suporte está
-                dedicada a atender suas necessidades e resolver sua solicitação da melhor maneira possível{" "}
-                <br />
-                Para verificar o status atual da sua solicitação, confira abaixo o seu status. Agradecemos sua
-                paciência e confiança em nossos serviços.
-            </p>
+            {localStorage.getItem("token") && (
+                <>
+                    <h1 className={styles.titulo}>Já abriu o seu chamado?</h1>
+                    <p className={styles.conteudo}>
+                        Caso você já tenha aberto um chamado conosco, saiba que a nossa equipe de suporte está
+                        dedicada a atender suas necessidades e resolver sua solicitação da melhor maneira possível{" "}
+                        <br />
+                        Para verificar o status atual da sua solicitação, confira abaixo o seu status. Agradecemos sua
+                        paciência e confiança em nossos serviços.
+                    </p>
 
-            <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
-                {pendentes.map((chamado) => (
-                    <Tickets
-                        key={chamado.id_chamado}
-                        ID={chamado.id_chamado}
-                        Assunto={chamado.titulo}
-                        Descricao={chamado.descricao}
-                    />
-                ))}
-            </ChamadosArea>
-            <ChamadosArea className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
-                {emAndamento.map((chamado) => (
-                    <Tickets
-                        key={chamado.id_chamado}
-                        ID={chamado.id_chamado}
-                        Assunto={chamado.titulo}
-                        Descricao={chamado.descricao}
-                    />
-                ))}
-            </ChamadosArea>
+                    <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
+                        {pendentes.map((chamado) => (
+                            <Tickets
+                                key={chamado.id_chamado}
+                                ID={chamado.id_chamado}
+                                Assunto={chamado.titulo}
+                                Descricao={chamado.descricao}
+                            />
+                        ))}
+                    </ChamadosArea>
+                    <ChamadosArea className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
+                        {emAndamento.map((chamado) => (
+                            <Tickets
+                                key={chamado.id_chamado}
+                                ID={chamado.id_chamado}
+                                Assunto={chamado.titulo}
+                                Descricao={chamado.descricao}
+                            />
+                        ))}
+                    </ChamadosArea>
 
-            <ChamadosArea className={styleChamado.tituloVerde} titulo="Chamados concluídos">
-                {concluidos.map((chamado) => (
-                    <Tickets
-                        key={chamado.id_chamado}
-                        ID={chamado.id_chamado}
-                        Assunto={chamado.titulo}
-                        Descricao={chamado.descricao}
-                    />
-                ))}
-            </ChamadosArea>
+                    <ChamadosArea className={styleChamado.tituloVerde} titulo="Chamados concluídos">
+                        {concluidos.map((chamado) => (
+                            <Tickets
+                                key={chamado.id_chamado}
+                                ID={chamado.id_chamado}
+                                Assunto={chamado.titulo}
+                                Descricao={chamado.descricao}
+                            />
+                        ))}
+                    </ChamadosArea>
+                </>
+                )}
         </div>
     )
 }

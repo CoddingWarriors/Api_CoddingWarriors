@@ -60,7 +60,6 @@
 }
 
 .containerModal button {
-    margin-right: 40px;
     margin-top: 50px;
     border: 1px solid #000469;
     padding: 15px 40px;
@@ -72,5 +71,5 @@
 .containerModal img {
     width: 100px;
     height: 100px;
-    margin-bottom: 0;
+    margin: 0;
 }
