@@ -14,6 +14,7 @@ import EsqueciSenha from "./pages/EsqueciSenha"
 import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
 import Equipamentos from "./pages/Equipamentos"
+import VisualizarEquipamento from "./pages/VisualizarEquipamento"
 import VisualizarChamado from "./pages/VisualizarChamado"
 import ResponderChamado from "./pages/ResponderChamado"
 import HomeAdm from "./pages/HomeAdm"
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
                 {<Route path="/cadastrarequipamentos" element={<Equipamentos />} />}
+                <Route path="/visualizarequipamento" element={<VisualizarEquipamento />} />
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
                 <Route path="/homeadm" element={<HomeAdm />} />

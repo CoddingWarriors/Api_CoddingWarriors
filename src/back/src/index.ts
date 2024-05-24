@@ -212,6 +212,18 @@ app.post("/deletar-chamado", async (req: Request, res: Response) => {
     }
 });
 
+app.post("/deletar-equipamento", async (req: Request, res: Response) => {
+    const { id_equipamento } = req.body;
+
+    try {
+        await equipamento.excluirEquipamento(dbName, id_equipamento);
+        res.status(200).json({ message: "Equipamento deletado com sucesso" });
+    } catch (error) {
+        console.error("Erro ao deletar equipamento:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
 app.post("/atualizar-chamado-andamento", async (req: Request, res: Response) => {
     const { chamadoId } = req.body;
 
@@ -330,6 +342,16 @@ app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erro interno do servidor" })
     }
 })
+
+app.get("/get-equipamentos", async (req: Request, res: Response) => {
+    try {
+        const equipamentos = await equipamento.buscarTodosEquipamentos(dbName);
+        res.status(200).json(equipamentos);
+    } catch (error) {
+        console.error("Erro ao buscar equipamentos:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
 
 app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
     const { ip, localizacao, notas, tipo, status, userId } = req.body;

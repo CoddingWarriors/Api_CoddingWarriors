@@ -96,7 +96,7 @@ function Navbar() {
                     </li>
                     <li className={styles.item}>
                         <Link
-                            to=""
+                            to="/visualizarequipamento"
                             style={{ cursor: "pointer" }}
                         >
                             Equipamentos
@@ -116,7 +116,7 @@ function Navbar() {
                     </li>
                     <li className={styles.item}>
                         <Link
-                            to=""
+                            to="/visualizarequipamento"
                             style={{ cursor: "pointer" }}
                         >
                             Equipamentos
