@@ -124,7 +124,12 @@ function Atendimento() {
                         paciência e confiança em nossos serviços.
                     </p>
 
-                    <ChamadosArea className={styleChamado.tituloAzul} titulo="Chamados pendentes">
+                    <ChamadosArea className={styleChamado.tituloAzul} conteudoShow={styleChamado.conteudoShowAzul} titulo="Chamados pendentes">
+                    {pendentes.length === 0 &&
+                            <div className={styleChamado.semChamado}>
+                                <p>No momento não existem chamados pendentes</p>
+                            </div>
+                        }
                         {pendentes.map((chamado) => (
                             <Tickets
                                 key={chamado.id_chamado}
@@ -134,7 +139,12 @@ function Atendimento() {
                             />
                         ))}
                     </ChamadosArea>
-                    <ChamadosArea className={styleChamado.tituloLaranja} titulo="Chamados em andamento">
+                    <ChamadosArea className={styleChamado.tituloLaranja} conteudoShow={styleChamado.conteudoShowLaranja} titulo="Chamados em andamento">
+                        {emAndamento.length === 0 &&
+                            <div className={styleChamado.semChamado}>
+                                <p>No momento não existem chamados em andamento</p>
+                            </div>
+                        }
                         {emAndamento.map((chamado) => (
                             <Tickets
                                 key={chamado.id_chamado}
@@ -145,7 +155,12 @@ function Atendimento() {
                         ))}
                     </ChamadosArea>
 
-                    <ChamadosArea className={styleChamado.tituloVerde} titulo="Chamados concluídos">
+                    <ChamadosArea className={styleChamado.tituloVerde} conteudoShow={styleChamado.conteudoShowVerde} titulo="Chamados concluídos">
+                        {concluidos.length === 0 &&
+                            <div className={styleChamado.semChamado}>
+                                <p>No momento não existem chamados concluídos</p>
+                            </div>
+                        }
                         {concluidos.map((chamado) => (
                             <Tickets
                                 key={chamado.id_chamado}

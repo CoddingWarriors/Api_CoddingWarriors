@@ -36,8 +36,26 @@
     will-change: max-height;
 }
 
-.conteudoShow {
+.conteudoShowAzul {
     background-color: #B2BFFF;
+    padding: 30px;
+    height: auto;
+    transition: max-height 0.5s ease-in-out;
+    will-change: max-height;
+    border-radius: 0 0 10px 10px;
+}
+
+.conteudoShowLaranja {
+    background-color: #FFB979;
+    padding: 30px;
+    height: auto;
+    transition: max-height 0.5s ease-in-out;
+    will-change: max-height;
+    border-radius: 0 0 10px 10px;
+}
+
+.conteudoShowVerde {
+    background-color: #68FFAE;
     padding: 30px;
     height: auto;
     transition: max-height 0.5s ease-in-out;
@@ -63,4 +81,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+.semChamado {
+    background-color: white;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+.semChamado p {
+    font-size: 110%;
 }

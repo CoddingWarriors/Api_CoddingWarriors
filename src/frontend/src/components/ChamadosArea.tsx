@@ -22,7 +22,7 @@ function ChamadosArea(props:any) {
                             <img src={setaBaixoBranca} alt="+" />
                         )}</span>
                     </div>
-                    <div className={selecionado ? styles.conteudoShow : styles.conteudo}>
+                    <div className={selecionado ? props.conteudoShow : styles.conteudo}>
                         <div className={styles.conteudoChamado}>
                             {props.children}
                         </div>
