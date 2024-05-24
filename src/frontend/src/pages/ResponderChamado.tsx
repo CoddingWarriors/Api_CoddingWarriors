@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "../styles/ResponderChamado.module.css";
 import { FormEvent, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 function ResponderChamado() {
     const navigate = useNavigate();
@@ -8,11 +9,17 @@ function ResponderChamado() {
     const [resposta, setResposta] = useState("");
     const [chamado, setChamado] = useState({
         titulo: '',
-        descricao: ''
+        descricao: '',
+        imagem: ''
     });
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (!resposta.trim()) {
+            toast.error("Por favor, responda ao chamado");
+            return;
+        }
 
         try {
             const token = localStorage.getItem("token");
@@ -26,7 +33,7 @@ function ResponderChamado() {
                 });
 
                 if (response.ok) {
-                    alert("Chamado respondido com sucesso");
+                    toast.success("Chamado respondido com sucesso");
                     navigate("/chamados"); // Redirecionar para /chamados após sucesso
                 } else {
                     throw new Error("Erro ao responder o chamado");
@@ -34,8 +41,15 @@ function ResponderChamado() {
             }
         } catch (error) {
             console.error("Erro ao responder o chamado:", error);
-            alert("Erro ao responder o chamado. Por favor, tente novamente.");
+            toast.error("Erro ao responder o chamado. Por favor, tente novamente.");
         }
+    };
+
+    const handleDescartar = () => {
+        toast.success('Resposta descartada com sucesso!');
+        setTimeout(() => {
+            navigate("/chamados");
+        }, 1000);
     };
 
     useEffect(() => {
@@ -63,6 +77,7 @@ function ResponderChamado() {
 
     return (
         <div className={styles.container}>
+            <Toaster />
             <div className={styles.containerPerguntaExterno}>
                 <h1>Chamado (ID: {chamadoId})</h1>
                 <div className={styles.containerPerguntaInterno}>
@@ -77,7 +92,11 @@ function ResponderChamado() {
                         <p className={styles.conteudo}>{chamado.descricao}</p>
 
                         <p className={styles.subtitulo}><strong>Imagem</strong></p>
-                        <p className={styles.conteudo}>(chamado.imagem aqui)</p>
+                        {chamado.imagem && (
+                            <div className={styles.conteudo}>
+                                <img src={chamado.imagem} alt="Imagem do chamado" className={styles.imagemChamado} />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -90,8 +109,7 @@ function ResponderChamado() {
                             <p className={styles.conteudo}>{chamadoId}</p>
 
                             <strong><label htmlFor="resposta">Resposta:</label></strong> <br />
-                            <input
-                                type="text"
+                            <textarea
                                 id="resposta"
                                 value={resposta}
                                 onChange={(e) => setResposta(e.target.value)}
@@ -99,7 +117,7 @@ function ResponderChamado() {
                             />
                             <div className={styles.botoes}>
                                 <button type="submit" className={styles.responder}>Responder</button>
-                                <button type="button" className={styles.deletar}>Deletar</button>
+                                <button type="button" onClick={handleDescartar} className={styles.deletar}>Deletar</button>
                             </div>
                         </form>
                     </div>

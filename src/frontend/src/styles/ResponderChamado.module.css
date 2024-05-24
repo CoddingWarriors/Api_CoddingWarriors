@@ -54,11 +54,17 @@
     border: 1px solid black;
     border-radius: 5px;
     padding: 0.5%;
+    resize: none;
+    overflow-wrap: break-word;
+    text-align: start;
+    vertical-align: top;
 }
 
 .botoes {
     display: flex;
-    gap: 5vh;
+    justify-content: center;
+    gap: 3vh;
+    margin-top: 5vh;
 }
 
 .responder, .deletar {
@@ -76,4 +82,9 @@
 .deletar {
     color: #FF0000;
     border: 2px solid #FF0000;
+}
+
+.conteudo img {
+    width: auto;
+    height: auto;
 }
