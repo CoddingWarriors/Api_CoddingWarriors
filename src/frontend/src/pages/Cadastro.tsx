@@ -51,6 +51,12 @@ function Cadastro() {
 
         return true;
     };
+
+    const verificaEmailValido = (email: string): boolean => {
+        // Verifica se o email contém exatamente um "@" e não contém espaços em branco
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    };
     // Função para lidar com o envio do formulário
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
@@ -72,6 +78,10 @@ function Cadastro() {
         try {
             if (!verificaCPFValido(cpf)) {
                 toast.error('CPF inválido')
+                return;
+            }
+            if (!verificaEmailValido(email)) {
+                toast.error('Email inválido');
                 return;
             }
             const response = await fetch("http://localhost:5000/cadastro", {
