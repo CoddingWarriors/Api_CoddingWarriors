@@ -21,7 +21,7 @@ app.use(express.json())
 
 const corsOptions = {
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT"],
     optionsSuccessStatus: 200,
 }
 
@@ -330,6 +330,30 @@ app.post("/usuariotipo", async (req: Request, res: Response) => {
     }
 })
 
+app.post("/user-info", async (req: Request, res: Response) => {
+    const { token } = req.body;
+
+    const userId = Authentication.getUserIdFromToken(token);
+
+    if (!userId) {
+        return res.status(401).json({ message: "Token inválido" });
+    }
+
+    try {
+        const userDetails = await usuario.buscarUsuarioPorId(dbName, userId);
+
+        if (!userDetails) {
+            return res.status(404).json({ message: "Detalhes do usuário não encontrados" });
+        }
+
+        // Return the user details
+        return res.status(200).json(userDetails);
+    } catch (error) {
+        console.error("Erro ao obter informações do usuário:", error);
+        return res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
 app.post("/buscar-chamados-por-status", async (req: Request, res: Response) => {
     const { status } = req.body 
 
@@ -353,6 +377,24 @@ app.get("/get-equipamentos", async (req: Request, res: Response) => {
     }
 });
 
+app.post("/buscar-equipamento", async (req: Request, res: Response) => {
+    const { id_equipamento } = req.body;
+
+
+    try {
+        const equipamentoEncontrado = await equipamento.buscarEquipamentoPorId(dbName, id_equipamento);
+        
+        if (!equipamentoEncontrado) {
+            return res.status(404).send("Equipamento não encontrado");
+        }
+
+        res.status(200).json(equipamentoEncontrado);
+    } catch (error) {
+        console.error("Erro ao buscar equipamento:", error);
+        res.status(500).send("Erro ao buscar equipamento");
+    }
+});
+
 app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
     const { ip, localizacao, notas, tipo, status, userId } = req.body;
 
@@ -372,6 +414,19 @@ app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
         res.status(500).send("Erro ao cadastrar equipamento");
     }
 })
+
+app.put("/atualizar-equipamento", async (req, res) => {
+    const { id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, userId } = req.body;
+
+    try {
+        await equipamento.atualizarEquipamento(dbName, id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, userId);
+        console.log("Equipamento atualizado com sucesso");
+        res.status(200).send("Equipamento atualizado com sucesso");
+    } catch (error) {
+        console.error("Erro ao atualizar equipamento:", error);
+        res.status(500).send("Erro ao atualizar equipamento");
+    }
+});
 
 app.post("/cadastrosuporte", async (req, res) => {
     const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui

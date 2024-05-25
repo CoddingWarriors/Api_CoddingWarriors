@@ -1,21 +1,21 @@
-import { Connection } from "mysql"
-import { Conecta } from "../../conexao"
+import { Connection } from "mysql";
+import { Conecta } from "../../conexao";
 
 export class Equipamento {
-    private connection: Connection
+    private connection: Connection;
 
     constructor(conexao: Conecta) {
-        this.connection = conexao.connection
+        this.connection = conexao.connection;
     }
 
     async createTableEquipamento(dbName: string): Promise<void> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `
                         CREATE TABLE IF NOT EXISTS equipamento (
@@ -32,27 +32,27 @@ export class Equipamento {
                     `,
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao criar tabela Equipamento:", error)
-                                reject(error)
+                                console.error("Erro ao criar tabela Equipamento:", error);
+                                reject(error);
                             } else {
-                                console.log("Tabela Equipamento criada com sucesso!")
-                                resolve()
+                                console.log("Tabela Equipamento criada com sucesso!");
+                                resolve();
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
 
     async cadastrarEquipamento(dbName: string, ip: string, localizacao: string, notas: string, tipo: string, status: string, userId: number): Promise<void> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `
                         INSERT INTO equipamento 
@@ -62,51 +62,51 @@ export class Equipamento {
                         [ip, localizacao, notas, tipo, status, userId],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao cadastrar equipamento:", error)
-                                reject(error)
+                                console.error("Erro ao cadastrar equipamento:", error);
+                                reject(error);
                             } else {
-                                console.log("Equipamento cadastrado com sucesso!")
-                                resolve()
+                                console.log("Equipamento cadastrado com sucesso!");
+                                resolve();
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
 
     async buscarTodosEquipamentos(dbName: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `SELECT * FROM equipamento`,
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao buscar equipamentos:", error)
-                                reject(error)
+                                console.error("Erro ao buscar equipamentos:", error);
+                                reject(error);
                             } else {
-                                resolve(results)
+                                resolve(results);
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
 
     async excluirEquipamento(dbName: string, id_equipamento: number): Promise<void> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `
                         DELETE FROM equipamento
@@ -115,16 +115,70 @@ export class Equipamento {
                         [id_equipamento],
                         (error) => {
                             if (error) {
-                                console.error("Erro ao excluir o equipamento:", error)
-                                reject(error)
+                                console.error("Erro ao excluir o equipamento:", error);
+                                reject(error);
                             } else {
-                                console.log("Equipamento excluído com sucesso!")
-                                resolve()
+                                console.log("Equipamento excluído com sucesso!");
+                                resolve();
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
+    }
+
+    async atualizarEquipamento(dbName: string, id_equipamento: number, ip: string, localizacao: string, dt_instalacao: string, notas: string, tipo: string, status: string, userId: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `
+                        UPDATE equipamento
+                        SET ip = ?, localizacao = ?, dt_instalacao = ?, notas = ?, tipo = ?, status = ?, id_usuario = ?
+                        WHERE id_equipamento = ?;
+                        `,
+                        [ip, localizacao, dt_instalacao, notas, tipo, status, userId, id_equipamento],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar equipamento:", error);
+                                reject(error);
+                            } else {
+                                console.log("Equipamento atualizado com sucesso!");
+                                resolve();
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+    async buscarEquipamentoPorId(dbName: string, id_equipamento: number): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `SELECT * FROM equipamento WHERE id_equipamento = ?`,
+                        [id_equipamento],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao buscar equipamento:", error);
+                                reject(error);
+                            } else {
+                                resolve(results[0]);
+                            }
+                        }
+                    );
+                }
+            });
+        });
     }
 }

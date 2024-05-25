@@ -24,23 +24,21 @@ function VisualizarEquipamento() {
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ token })
-                })
+                });
         
-                const data = await response.json()
+                const data = await response.json();
         
                 if (!response.ok) {
-                    throw new Error(data.message)
+                    throw new Error(data.message);
                 }
-        
-                console.log(data.tipoUsuario)
         
                 if (data.tipoUsuario !== '2' && data.tipoUsuario !== '3') {
-                    navigate("/")
-                    return
+                    navigate("/");
+                    return;
                 }
             } catch (error) {
-                console.error("Error verifying user type:", error)
-                navigate("/")
+                console.error("Error verifying user type:", error);
+                navigate("/");
             }
         }
 
@@ -68,37 +66,36 @@ function VisualizarEquipamento() {
         fetchUserType().then(fetchEquipamentos);
     }, [navigate]);
 
+
     return (
         <div className={styles.containerVisualizarEquipamento}>
             <h1 className={styles.tituloVisualizarEquipamento}>
                 Equipamentos
             </h1>
             <EquipamentosArea>
-            <div className={styles.equipamentosContainer}>
-                {equipamentos.length > 0 ? (
-                    equipamentos.map(equipamento => (
-                        <div className={styles.wrapper} key={equipamento.id_equipamento}>
-                            <Equipamento
-                                id_equipamento={equipamento.id_equipamento}
-                                Data={equipamento.dt_instalacao}
-                                IP={equipamento.ip}
-                                Localizacao={equipamento.localizacao}
-                                Notas={equipamento.notas}
-                                Tipo={equipamento.tipo}
-                                Status={equipamento.status}
-                            />
+                <div className={styles.equipamentosContainer}>
+                    {equipamentos.length > 0 ? (
+                        equipamentos.map(equipamento => (
+                            <div className={styles.wrapper} key={equipamento.id_equipamento}>
+                                <Equipamento
+                                    id_equipamento={equipamento.id_equipamento}
+                                    Data={equipamento.dt_instalacao}
+                                    IP={equipamento.ip}
+                                    Localizacao={equipamento.localizacao}
+                                    Notas={equipamento.notas}
+                                    Tipo={equipamento.tipo}
+                                    Status={equipamento.status}
+                                />
+                            </div>
+                        ))
+                    ) : (
+                        <div className={styles.NenhumEquipamento}>
+                            <p className={styles.NenhumEquipamentoTexto}>
+                                Nenhum equipamento registrado.
+                            </p>
                         </div>
-                    ))
-                ) : (
-                    <>
-                    <div className={styles.NenhumEquipamento}>
-                        <p className={styles.NenhumEquipamentoTexto}>
-                            Nenhum equipamento registrado.
-                        </p>
-                    </div>
-                    </>
-                )}
-            </div>
+                    )}
+                </div>
             </EquipamentosArea>
         </div>
     );

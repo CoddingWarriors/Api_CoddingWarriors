@@ -18,6 +18,7 @@ import VisualizarEquipamento from "./pages/VisualizarEquipamento"
 import VisualizarChamado from "./pages/VisualizarChamado"
 import ResponderChamado from "./pages/ResponderChamado"
 import HomeAdm from "./pages/HomeAdm"
+import EditarEquipamento from "./pages/EditarEquipamento";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
                 <Route path="/homeadm" element={<HomeAdm />} />
+                <Route path="/editar-equipamento/:equipamentoId" element={<EditarEquipamento />} />
             </Routes>
             <Footer />
         </Router>

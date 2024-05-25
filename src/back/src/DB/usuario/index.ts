@@ -327,7 +327,7 @@ export class Usuario {
                 }
             });
         });
-    }
+    }   
     
 
 }

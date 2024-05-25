@@ -1,7 +1,8 @@
+// Login.tsx
 import React, { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
-import { Toaster, toast } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast';
 
 function Login() {
   const navigate = useNavigate();
@@ -25,17 +26,21 @@ function Login() {
       if (response.ok) {
         // Armazena o token recebido no localStorage
         localStorage.setItem("token", data.token);
-        toast.success('Login realizado com sucesso')
-        // Navega para a página /home se o login for bem-sucedido
+        toast.success('Login realizado com sucesso');
+        // Redireciona para a página inicial
         navigate("/");
+        // Recarrega a página após 1 segundo para mostrar a notificação de sucesso
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000); 
       } else {
-        toast.error('Credenciais inválidas')
+        toast.error('Credenciais inválidas');
         setUsername(""); // Limpa o campo de nome de usuário
         setPassword(""); // Limpa o campo de senha
       }
     } catch (error) {
       console.error("Erro ao fazer login:", error);
-      toast.error('Erro ao fazer login')
+      toast.error('Erro ao fazer login');
     }
   };
 
