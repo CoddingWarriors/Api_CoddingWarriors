@@ -33,11 +33,13 @@
 .textareaDescricao {
     width: 100%;
     height: 200px;
+    padding: 0.5%;
     resize: none;
     overflow-wrap: break-word;
     text-align: start;
     vertical-align: top;
     margin: 20px 0 50px;
+    border-radius: 5px;
 }
 
 .categoriasTitulo {
@@ -85,7 +87,7 @@
     border-radius: 10px;
 }
 
-.inputFile {
+.file {
     display: none;
 }
 

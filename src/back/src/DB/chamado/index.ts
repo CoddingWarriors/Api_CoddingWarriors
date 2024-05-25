@@ -210,7 +210,7 @@ export class Chamado {
     async obterInformacoesChamado(
         dbName: string,
         chamadoId: number
-    ): Promise<{ titulo: string; descricao: string; categoria: string; imagem: string | null }> { 
+    ): Promise<{ titulo: string; descricao: string; categoria: string; imagem: string | null; status: string; respostas: string }> { 
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
@@ -220,7 +220,7 @@ export class Chamado {
                     console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `
-                            SELECT titulo, descricao, categoria, imagem
+                            SELECT titulo, descricao, categoria, imagem, status, respostas
                             FROM chamado
                             WHERE id_chamado = ?
                         `,
@@ -233,9 +233,9 @@ export class Chamado {
                                 if (results.length === 0) {
                                     reject(new Error("Chamado não encontrado"))
                                 } else {
-                                    const { titulo, descricao, categoria, imagem } = results[0]
+                                    const { titulo, descricao, categoria, imagem, status, respostas } = results[0]
                                     const imagemUrl = imagem ? `data:image/jpeg;base64,${imagem.toString('base64')}` : null;
-                                    resolve({ titulo, descricao, categoria, imagem: imagemUrl })
+                                    resolve({ titulo, descricao, categoria, imagem: imagemUrl, status, respostas })
                                 }
                             }
                         }
