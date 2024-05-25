@@ -1,4 +1,5 @@
 import styles from "../styles/Equipamento.module.css";
+import { Toaster, toast } from 'react-hot-toast'
 
 function AlterAndDeleteEquipamento({ id_equipamento }: { id_equipamento: number }) {
     const onDelete = async () => {
@@ -13,10 +14,14 @@ function AlterAndDeleteEquipamento({ id_equipamento }: { id_equipamento: number 
             });
 
             if (!response.ok) {
+                toast.error('Erro ao excluir o equipamento.')
                 throw new Error('Erro ao excluir o equipamento');
             } else {
                 console.log('Equipamento excluído com sucesso!');
-                window.location.reload();
+                toast.success("Equipamento excluído com sucesso!")
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             }
         } catch (error) {
             console.error('Erro ao excluir o equipamento:', error);
@@ -28,10 +33,11 @@ function AlterAndDeleteEquipamento({ id_equipamento }: { id_equipamento: number 
     }
 
     return (
-        <div className={styles.buttonContainer}>
-            <button className={styles.editButton} onClick={() => onAlterar()}>ALTERAR</button>
-            <button className={styles.deleteButton} onClick={() => onDelete()}>DELETAR</button>
-        </div>
+            <div className={styles.buttonContainer}>
+                <Toaster />
+                <button className={styles.editButton} onClick={() => onAlterar()}>ALTERAR</button>
+                <button className={styles.deleteButton} onClick={() => onDelete()}>DELETAR</button>
+            </div>
     );
 }
 

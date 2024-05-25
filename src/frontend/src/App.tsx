@@ -13,7 +13,7 @@ import CadastroADM from "./pages/CadastroADM"
 import EsqueciSenha from "./pages/EsqueciSenha"
 import NovaSenha from "./pages/NovaSenha"
 import AbrirChamado from "./pages/AbrirChamado"
-import Equipamentos from "./pages/Equipamentos"
+import CadastroEquipamentos from "./pages/CadastroEquipamentos"
 import VisualizarEquipamento from "./pages/VisualizarEquipamento"
 import VisualizarChamado from "./pages/VisualizarChamado"
 import ResponderChamado from "./pages/ResponderChamado"
@@ -35,7 +35,7 @@ function App() {
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
-                {<Route path="/cadastrarequipamentos" element={<Equipamentos />} />}
+                {<Route path="/cadastrarequipamentos" element={<CadastroEquipamentos />} />}
                 <Route path="/visualizarequipamento" element={<VisualizarEquipamento />} />
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />

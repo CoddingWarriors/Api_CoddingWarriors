@@ -2,9 +2,9 @@ import React, { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import styles from "../styles/Equipamentos.module.css";
+import styles from "../styles/CadastroEquipamentos.module.css";
 
-function Equipamentos() {
+function CadastroEquipamentos() {
     const [ip, setIp] = useState("");
     const [localizacao, setLocalizacao] = useState("");
     const [notas, setNotas] = useState("");
@@ -140,4 +140,4 @@ function Equipamentos() {
     );
 }
 
-export default Equipamentos;
+export default CadastroEquipamentos;

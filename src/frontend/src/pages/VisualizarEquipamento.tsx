@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import EquipamentosArea from "../components/EquipamentosArea";
 import Equipamento from "../components/Equipamento";
 import styles from "../styles/VisualizarEquipamento.module.css";
+import { Link } from 'react-router-dom';
 
 function VisualizarEquipamento() {
     const [equipamentos, setEquipamentos] = useState<any[]>([]);
@@ -100,6 +101,7 @@ function VisualizarEquipamento() {
                 )}
             </div>
             </EquipamentosArea>
+            <Link to="/cadastrarequipamentos" className={styles.addButton}>Adicionar Equipamento</Link>
         </div>
     );
 }
