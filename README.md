@@ -1,4 +1,4 @@
-<img src="documents/img/sprint3/apresentacaoSprint3.png">
+<img src="documents/img/sprint4/apresentacaoSprint4.png">
 
 <br>
 
@@ -14,7 +14,7 @@
 <span id="objetivo">
   
 ## 🎯 Objetivo da Sprint
-Essa sprint terá como objetivo a criação do usuario administrador, com as funcionalidades de cadastrar usuarios suporte, cadastrar equipamentos, redirecionar chamados, implementar o recurso de visualizar um relatorio de chamados finalizados e alterar o status do chamado.
+Essa sprint terá como objetivo a criação de tempo estimado até a conclusão do chamado, será definido o horário de trabalho de cada usuário suporte e adm, o FAQ será dinâmico, sendo possível adicionar perguntas e alterar as existentes e os usuários vão poder alterar suas informações pessoais  
 
 <br>
 
@@ -31,7 +31,6 @@ Essa sprint terá como objetivo a criação do usuario administrador, com as fun
 
 ## 📈 DoD
 - Código
-- Vídeo utilizando o sistema
 - Manual do usuário (online)
 - Guia de instalação
 
@@ -42,62 +41,7 @@ Essa sprint terá como objetivo a criação do usuario administrador, com as fun
 ## 📖 Sprint Backlog
 | User Stories | Estimativa (horas) | Critério de aceitação | Tarefas |
 | :----------: | :----------------: | :-------------------: | :-----: |
-| Como suporte, quero poder responder aos chamados para atender aos clientes | 6 | [front] Visualização dos chamados “em andamento” <br> [front] Quando clicar no botão de responder ao chamado, será encaminhado para a tela de resposta <br> [front] Após a resposta do chamado, o chamado irá para a visualização dos chamados “concluído” <br> [back] Mudança do status do chamado no banco de “em andamento” para “concluído” <br> [back] Resposta armazenada no banco | [front] Criação do botão para responder ao chamado <br> [front] Tela de resposta onde será possível inserir uma resposta ao chamado <br> [back] Função para alterar o status do chamado para “concluído” <br> [back] Função para armazenar a resposta do chamado no banco |
-| Como suporte, quero poder aceitar chamados pendentes para resolver o problema do cliente | 4 | [front] Visualização dos chamados “pendentes” <br> [front] Quando clicar no botão de aceitar ao chamado, o chamado irá para a visualização dos chamados “em andamento” <br> [back] Mudança do status do chamado no banco de “pendente” para “em andamento” | [front] Criação do botão para aceitar ao chamado <br> [back] Função para alterar o status do chamado para “em andamento” |
-| Como cliente e suporte, quero poder visualizar meus chamados pendentes, em andamento e concluídos para poder acompanhar o andamento da solicitação | 8 | [front] Visualização dos chamados filtrados por seus respectivos status | [front] Criação do botão para visualização completa do chamado <br> [front] Tela para visualização completa do chamado <br> [front] Visualização resumida do chamado na tela de atendimento/chamados <br> [front] Visualização dos chamados separados por status (pendente, em andamento e concluído) <br> [back] Função para visualizar os dados do chamado na tela de visualização completa <br> [back] Função para visualizar os dados do chamado na visualização resumida na tela de atendimento/chamados <br> [back] Função para filtrar os chamados por status (pendente, em andamento e concluído) |
-| Como ADM quero poder cadastrar usuários suporte e ADM para auxiliar no funcionamento do sistema | 6 | [front] Após o cadastro de usuário, exibição do pop-up informando sucesso ou erro <br> [back] Criação do usuário no banco de dados | [front] Página para cadastro de usuários contendo um formulário com dados do usuário (nome, tipo de usuário, horário de trabalho, e-mail, senha, cpf, cep, endereço e número) <br> [back] Função para criação dos usuários cadastrados no banco de dados <br> [back] Função para identificar se o usuário é suporte ou ADM |
-| Como suporte e ADM quero poder cadastrar dispositivos no sistema para melhor visualização dos status dos equipamentos | 6 | [front] Após o cadastro de equipamento, exibição do pop-up informando sucesso ou erro <br> [back] Criação do equipamento no banco de dados | [front] Página para cadastro de dispositivos contendo um formulário com dados do equipamento (tipo de dispositivo, status do dispositivo, endereço de IP, localização, data da instalação, notas) <br> [front] Página para visualização dos equipamentos cadastrados <br> [back] Função para criação do equipamento no banco de dados <br> [back] Função para exibição dos equipamentos |
-| Como ADM, quero ter um gráfico de chamados concluídos separados por categoria para melhor visualização dos problemas mais recorrentes | 8 | [front] Visualização dos chamados por gráfico de barras, filtrados por status do chamado no banco de dados | [front] Criação do gráfico de barras <br> [back] Filtragem do gráfico por status do chamado no banco de dados |
-| Como suporte, quero poder deletar chamados inválidos para não comprometer o andamento dos outros chamados | 4 | [front] Visualização dos chamados “pendentes” <br> [front] Quando clicar no botão de deletar o chamado, o chamado será excluído, o tirando de todas as visualizações <br> [back] O chamado será deletado do banco | [front] Criação do botão para deletar o chamado  <br> [back] Função para deletar o chamado |
-
-## 🗂 Guia de Instalação
-1. Na barra de tarefas do seu computador, procure por "prompt de comando" e abra-o. <br>
-2. Insira o comando abaixo para clonar o repositório <br>
-```
-git clone https://github.com/CoddingWarriors/Api_CoddingWarriors.git
-```
-3. Vá até o diretório back e instale as dependências <br>
-```
-cd src/back
-```
-```
-npm i
-```
-4. Configure o seu banco de dados dentro do arquivo "conexao.ts", localizado no caminho Api_CoddingWarriors/src/back/src/conexao.ts <br>
-```
-constructor() {
-        this.connection = createConnection({
-            host: "localhost",
-            user: "root",
-            password: "sua-senha",
-        })
-    }
-```
-```
-this.connection = createConnection({
-                host: "localhost",
-                user: "root",
-                password: "sua-senha",
-                database: "ocean",
-            })
-```
-5. Compile o seu arquivo .ts para .js <br>
-```
-tsc
-```
-6. Inicie o backend <br>
-```
-npm start
-```
-7. Abra outro prompt de comando, sem fechar o anterior, vá até o diretório frontend e instale suas dependencias <br>
-```
-cd Api-CoddingWarriors/src/frontend
-```
-```
-npm i
-```
-9. Inicie o frontend <br>
-```
-npm start
-```
-10. Por fim, acesse o site inserindo "localhost:3000" na barra de URL do navegador 
+| Como cliente, quero visualizar o tempo estimado de solução do chamado para ter conhecimento de quando será finalizado | 6 | [front] Quando o cliente criar um chamado com a categoria "sem conexão de internet", deverá mostrar um contador de 1 hora. <br> [front] Quando o cliente criar um chamado com a categoria "velocidade de internet baixa", deverá mostrar um contador de 2 hora. <br> [front] Quando o cliente criar um chamado com a categoria "internet instável", deverá mostrar um contador de 3 hora. | [front] Visualização do contador nos chamados que estão em aberto e em andamento <br> [back] Função para criar o contador com base na sua categoria |
+| Como ADM quero poder definir o horário de serviço de cada suporte para uma melhor administração de serviço | 8 | [front] Quando estiver fora do seu horário de serviço, os usuários suporte e ADM serão impedidos de entrar, exibindo uma mensagem de erro. Caso estiver dentro do seu horário de serviço, poderá acessar o sistema normalmente. | [back] Criação de uma função para permitir que os usuários suporte e adm só possam acessar sua conta no horário de trabalho <br> [BD] Atualizar o campo de horário da tabela usuário para o tipo hora |
+| Como suporte e ADM quero editar e cadastrar dúvidas recorrentes no FAQ para mantê-lo atualizado | 7 | [front] Usuários suporte e ADM conseguem adicionar novas perguntas ao FAQ <br> [front] Usuários suporte e ADM conseguem alterar as perguntas do FAQ <br> [back] Após alterações ou inserções de perguntas, deverá ser atualizado o banco de dados | [front] Criação de interface para visualização das perguntas presentes no FAQ <br> [front] Criação dos botões de editar e cadastrar dúvidas <br> [back] Função para buscar as informações do FAQ no banco <br> [back] Função para editar as perguntas do FAQ no banco <br> [back] Função para criar as perguntas do FAQ no banco
+| Como suporte, cliente e ADM quero poder alterar minhas informações pessoais para manter o sistema atualizado | 8 | [front] O usuário visualiza suas informações pessoais mais recentes. Ao fazer uma alteração, as informações pessoais são atualizadas e passam a mostrar as novas informações. <br> [back] Após alterações de informações, deverá ser atualizado o banco de dados | [front] Criação de interface para visualização das informações pessoais atuais <br> [back] Criação da função para atualizar os dados pessoais no banco <br> [back] Criação da função para buscar os dados pessoais no banco |
