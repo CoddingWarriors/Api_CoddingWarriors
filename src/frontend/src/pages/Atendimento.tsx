@@ -167,6 +167,7 @@ function Atendimento() {
                                 ID={chamado.id_chamado}
                                 Assunto={chamado.titulo}
                                 Descricao={chamado.descricao}
+                                Resposta={chamado.respostas}
                             />
                         ))}
                     </ChamadosArea>

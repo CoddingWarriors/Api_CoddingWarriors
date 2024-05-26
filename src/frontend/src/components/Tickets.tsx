@@ -23,6 +23,9 @@ function Tickets(props: any) {
                 <div className={styles.rectangle}>
                     <p><strong>Descrição:</strong> {props.Descricao}</p>
                 </div>
+                <div className={styles.rectangle}>
+                    <p><strong>Resposta:</strong> {props.Resposta}</p>
+                </div>
             </div>
             {props.tipo === 'Aberto' && <AcceptAndDeleteButton chamadoId={props.ID} />}
             {props.tipo === 'Em andamento' && <AnswerButton chamadoId={props.ID} onClick={props.onClick} />}
