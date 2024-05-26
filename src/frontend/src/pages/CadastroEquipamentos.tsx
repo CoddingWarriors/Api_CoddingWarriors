@@ -1,28 +1,27 @@
-import React, { useState, FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
-import {toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import styles from "../styles/CadastroEquipamentos.module.css";
+import React, { useState, FormEvent } from "react"
+import { useNavigate } from "react-router-dom"
+import { toast, ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+import styles from "../styles/CadastroEquipamentos.module.css"
 
 function CadastroEquipamentos() {
-    const [ip, setIp] = useState("");
-    const [localizacao, setLocalizacao] = useState("");
-    const [notas, setNotas] = useState("");
-    const [tipo, setTipo] = useState("");
-    const [status, setStatus] = useState("");
-    const [userId, setUserId] = useState("");
-    const navigate = useNavigate();
+    const [ip, setIp] = useState("")
+    const [localizacao, setLocalizacao] = useState("")
+    const [notas, setNotas] = useState("")
+    const [tipo, setTipo] = useState("")
+    const [status, setStatus] = useState("")
+    const [cpf, setCpf] = useState("")
+    const navigate = useNavigate()
 
     const handleDescartar = () => {
-        toast.success('Cadastro descartado com sucesso!');
+        toast.success("Cadastro descartado com sucesso!")
         setTimeout(() => {
-            navigate("/visualizarequipamento");
-        }, 1000);
-    };
+            navigate("/visualizarequipamento")
+        }, 1000)
+    }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-    
+        e.preventDefault()
 
         const data = {
             ip,
@@ -30,8 +29,8 @@ function CadastroEquipamentos() {
             notas,
             tipo,
             status,
-            userId: parseInt(userId)
-        };
+            cpf,
+        }
 
         try {
             const response = await fetch("http://localhost:5000/cadastrar-equipamento", {
@@ -40,10 +39,10 @@ function CadastroEquipamentos() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(data),
-            });
+            })
 
             if (response.ok) {
-                toast.success('Equipamento cadastrado com sucesso', {
+                toast.success("Equipamento cadastrado com sucesso", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -51,13 +50,13 @@ function CadastroEquipamentos() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    theme: "colored"
-                });
+                    theme: "colored",
+                })
                 setTimeout(() => {
                     navigate("/visualizarequipamento")
-                }, 1000);
+                }, 1000)
             } else if (response.status === 404) {
-                toast.error('Usuário não encontrado', {
+                toast.error("Usuário não encontrado", {
                     position: "top-center",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -65,14 +64,14 @@ function CadastroEquipamentos() {
                     pauseOnHover: true,
                     draggable: true,
                     progress: undefined,
-                    theme: "colored"
-                });
+                    theme: "colored",
+                })
             } else {
-                throw new Error('Falha ao cadastrar equipamento');
+                throw new Error("Falha ao cadastrar equipamento")
             }
         } catch (error) {
-            console.error("Erro ao cadastrar equipamento:", error);
-            toast.error('Erro ao cadastrar equipamento', {
+            console.error("Erro ao cadastrar equipamento:", error)
+            toast.error("Erro ao cadastrar equipamento", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -80,10 +79,10 @@ function CadastroEquipamentos() {
                 pauseOnHover: true,
                 draggable: true,
                 progress: undefined,
-                theme: "colored"
-            });
+                theme: "colored",
+            })
         }
-    };
+    }
 
     return (
         <div className={styles.body}>
@@ -143,13 +142,13 @@ function CadastroEquipamentos() {
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label htmlFor="userId">ID do Usuário</label>
+                            <label htmlFor="cpf">CPF do Usuário</label>
                             <input
                                 className={styles.estilo2}
                                 type="text"
-                                placeholder="ID do usuário responsável"
-                                value={userId}
-                                onChange={(e) => setUserId(e.target.value)}
+                                placeholder="CPF do usuário responsável"
+                                value={cpf}
+                                onChange={(e) => setCpf(e.target.value)}
                             />
                         </div>
                     </div>
@@ -164,7 +163,7 @@ function CadastroEquipamentos() {
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
-export default CadastroEquipamentos;
+export default CadastroEquipamentos

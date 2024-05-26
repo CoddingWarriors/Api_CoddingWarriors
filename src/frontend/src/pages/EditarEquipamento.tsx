@@ -1,26 +1,26 @@
-import { useEffect, useState, FormEvent } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import styles from "../styles/EditarEquipamento.module.css";
+import { useEffect, useState, FormEvent } from "react"
+import { useParams, useNavigate } from "react-router-dom"
+import toast, { Toaster } from "react-hot-toast"
+import styles from "../styles/EditarEquipamento.module.css"
 
 function EditarEquipamento() {
-    const { equipamentoId } = useParams<{ equipamentoId: string }>();
-    const navigate = useNavigate();
+    const { equipamentoId } = useParams<{ equipamentoId: string }>()
+    const navigate = useNavigate()
     const [equipamento, setEquipamento] = useState({
-        dt_instalacao: '',
-        ip: '',
-        localizacao: '',
-        notas: '',
-        tipo: '',
-        status: '',
-        userId: '',
-    });
+        dt_instalacao: "",
+        ip: "",
+        localizacao: "",
+        notas: "",
+        tipo: "",
+        status: "",
+        cpf_usuario: "",
+    })
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("token")
         if (!token) {
-            navigate("/");
-            return;
+            navigate("/")
+            return
         }
 
         async function fetchEquipamento() {
@@ -32,39 +32,39 @@ function EditarEquipamento() {
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ id_equipamento: equipamentoId }),
-                });
+                })
 
-                const data = await response.json();
+                const data = await response.json()
                 if (response.ok) {
-                    setEquipamento(data);
+                    setEquipamento(data)
                 } else {
-                    throw new Error(data.message || "Erro ao buscar equipamento");
+                    throw new Error(data.message || "Erro ao buscar equipamento")
                 }
             } catch (error) {
-                console.error("Error fetching equipamento:", error);
+                console.error("Error fetching equipamento:", error)
             }
         }
 
-        fetchEquipamento();
-    }, [equipamentoId, navigate]);
+        fetchEquipamento()
+    }, [equipamentoId, navigate])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setEquipamento({ ...equipamento, [name]: value });
-    };
+        const { name, value } = e.target
+        setEquipamento({ ...equipamento, [name]: value })
+    }
 
     const handleDescartar = () => {
-        toast.success('Alteração descartada com sucesso!');
+        toast.success("Alteração descartada com sucesso!")
         setTimeout(() => {
-            navigate("/visualizarequipamento");
-        }, 1000);
-    };
+            navigate("/visualizarequipamento")
+        }, 1000)
+    }
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+        e.preventDefault()
 
         try {
-            const token = localStorage.getItem("token");
+            const token = localStorage.getItem("token")
             if (token) {
                 const response = await fetch("http://localhost:5000/atualizar-equipamento", {
                     method: "PUT",
@@ -73,20 +73,20 @@ function EditarEquipamento() {
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ ...equipamento, id_equipamento: equipamentoId }),
-                });
+                })
 
                 if (response.ok) {
-                    toast.success("Equipamento editado com sucesso");
-                    navigate("/visualizarequipamento"); // Redirecionar após sucesso
+                    toast.success("Equipamento editado com sucesso")
+                    navigate("/visualizarequipamento") // Redirecionar após sucesso
                 } else {
-                    throw new Error("Erro ao editar o equipamento");
+                    throw new Error("Erro ao editar o equipamento")
                 }
             }
         } catch (error) {
-            console.error("Erro ao editar o equipamento:", error);
-            toast.error("Erro ao editar o equipamento. Por favor, tente novamente.");
+            console.error("Erro ao editar o equipamento:", error)
+            toast.error("Erro ao editar o equipamento. Por favor, tente novamente.")
         }
-    };
+    }
 
     return (
         <div className={styles.body}>
@@ -97,71 +97,71 @@ function EditarEquipamento() {
                     <div className={styles.centeredDiv}>
                         <div className={styles.inputGroup}>
                             <label>Data de Instalação:</label>
-                            <input 
+                            <input
                                 className={styles.estilo2}
-                                type="date" 
-                                name="dt_instalacao" 
-                                value={equipamento.dt_instalacao} 
-                                onChange={handleChange} 
+                                type="date"
+                                name="dt_instalacao"
+                                value={equipamento.dt_instalacao}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label>IP:</label>
-                            <input 
+                            <input
                                 className={styles.estilo2}
-                                type="text" 
-                                name="ip" 
-                                value={equipamento.ip} 
-                                onChange={handleChange} 
+                                type="text"
+                                name="ip"
+                                value={equipamento.ip}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label>Localização:</label>
-                            <input 
+                            <input
                                 className={styles.estilo2}
-                                type="text" 
-                                name="localizacao" 
-                                value={equipamento.localizacao} 
-                                onChange={handleChange} 
+                                type="text"
+                                name="localizacao"
+                                value={equipamento.localizacao}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label>Notas:</label>
-                            <textarea 
+                            <textarea
                                 className={styles.estilo2}
-                                name="notas" 
-                                value={equipamento.notas} 
-                                onChange={handleChange} 
+                                name="notas"
+                                value={equipamento.notas}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label>Tipo:</label>
-                            <input 
+                            <input
                                 className={styles.estilo2}
-                                type="text" 
-                                name="tipo" 
-                                value={equipamento.tipo} 
-                                onChange={handleChange} 
+                                type="text"
+                                name="tipo"
+                                value={equipamento.tipo}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
                             <label>Status:</label>
-                            <input 
+                            <input
                                 className={styles.estilo2}
-                                type="text" 
-                                name="status" 
-                                value={equipamento.status} 
-                                onChange={handleChange} 
+                                type="text"
+                                name="status"
+                                value={equipamento.status}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>ID do Usuário:</label>
-                            <input 
+                            <label>CPF do Usuário:</label>
+                            <input
                                 className={styles.estilo2}
                                 type="text"
-                                name="userId" 
-                                value={equipamento.userId} 
-                                onChange={handleChange} 
+                                name="cpf_usuario" 
+                                value={equipamento.cpf_usuario}
+                                onChange={handleChange}
                             />
                         </div>
                     </div>
@@ -176,7 +176,7 @@ function EditarEquipamento() {
                 </form>
             </div>
         </div>
-    );
+    )
 }
 
-export default EditarEquipamento;
+export default EditarEquipamento

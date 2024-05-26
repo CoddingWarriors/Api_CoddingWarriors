@@ -16,18 +16,27 @@ export class Usuario {
                 } else {
                     console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
-                        `create table if not exists usuario(
-                        id_usuario int auto_increment primary key,
-                        cpf varchar(11), nome varchar(50),
-                        telefone varchar(14), email varchar(30), senha varchar(10),
-                        endereco varchar(50), numero int, cep varchar(8), token varchar(250), tipo varchar(1), horario varchar(50)
+                        `CREATE TABLE IF NOT EXISTS usuario (
+                            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+                            cpf VARCHAR(11) NOT NULL,
+                            nome VARCHAR(50),
+                            telefone VARCHAR(14),
+                            email VARCHAR(30),
+                            senha VARCHAR(10),
+                            endereco VARCHAR(50),
+                            numero INT,
+                            cep VARCHAR(8),
+                            token VARCHAR(250),
+                            tipo VARCHAR(1),
+                            horario VARCHAR(50),
+                            UNIQUE KEY (cpf)
                         );`,
-                        (error, results) => {
-                            if (error) {
-                                console.error("Erro ao criar a tabela:", error)
-                                reject(error)
+                        (createErro, createResults) => {
+                            if (createErro) {
+                                console.error("Erro ao criar a tabela usuario:", createErro)
+                                reject(createErro)
                             } else {
-                                console.log("Tabela crida com sucesso!")
+                                console.log("Tabela usuario criada com sucesso!")
                                 resolve()
                             }
                         }
@@ -144,7 +153,6 @@ export class Usuario {
         })
     }
 
-
     async pegaToken(email: string): Promise<string | null> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ocean;`, (useError, useResults) => {
@@ -185,24 +193,24 @@ export class Usuario {
                     reject(useError)
                 } else {
                     console.log("passo 3"),
-                    this.connection.query(
-                        `UPDATE usuario SET senha = ? WHERE token = ?`,
-                        [password, token],
-                        (error, results) => {
-                            if (error) {
-                                console.error("Erro ao atualizar token:", error)
-                                reject(error)
-                            } else {
-                                if (results.affectedRows > 0) {
-                                    console.log("Senha atualizada no banco com sucesso!")
-                                    resolve(true)
+                        this.connection.query(
+                            `UPDATE usuario SET senha = ? WHERE token = ?`,
+                            [password, token],
+                            (error, results) => {
+                                if (error) {
+                                    console.error("Erro ao atualizar token:", error)
+                                    reject(error)
                                 } else {
-                                    console.log("senha deu pau.")
-                                    resolve(false)
+                                    if (results.affectedRows > 0) {
+                                        console.log("Senha atualizada no banco com sucesso!")
+                                        resolve(true)
+                                    } else {
+                                        console.log("senha deu pau.")
+                                        resolve(false)
+                                    }
                                 }
                             }
-                        }
-                    )
+                        )
                 }
             })
         })
@@ -212,122 +220,141 @@ export class Usuario {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, useResults) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError);
-                    reject(useError);
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!");
+                    console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `SELECT * FROM usuario WHERE email = ? OR cpf = ?`,
                         [username, username],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao buscar usuário:", error);
-                                reject(error);
+                                console.error("Erro ao buscar usuário:", error)
+                                reject(error)
                             } else {
                                 if (results.length > 0) {
-                                    console.log("Usuário encontrado:", results[0]);
-                                    resolve(results[0]); // Retorna o primeiro usuário encontrado
+                                    console.log("Usuário encontrado:", results[0])
+                                    resolve(results[0]) // Retorna o primeiro usuário encontrado
                                 } else {
-                                    console.log("Usuário não encontrado");
-                                    resolve(null); // Retorna null se o usuário não for encontrado
+                                    console.log("Usuário não encontrado")
+                                    resolve(null) // Retorna null se o usuário não for encontrado
                                 }
                             }
                         }
-                    );
+                    )
                 }
-            });
-        });
+            })
+        })
     }
-    
+
     async buscarUsuarioPorId(dbName: string, idUsuario: number): Promise<any> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, useResults) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError);
-                    reject(useError);
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!");
+                    console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `SELECT * FROM usuario WHERE id_usuario = ?`,
                         [idUsuario],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao buscar usuário pelo ID:", error);
-                                reject(error);
+                                console.error("Erro ao buscar usuário pelo ID:", error)
+                                reject(error)
                             } else {
                                 if (results.length > 0) {
-                                    console.log("Usuário encontrado:", results[0]);
-                                    resolve(results[0]); // Retorna o usuário encontrado
+                                    console.log("Usuário encontrado:", results[0])
+                                    resolve(results[0]) // Retorna o usuário encontrado
                                 } else {
-                                    console.log("Usuário não encontrado");
-                                    resolve(null); // Retorna null se o usuário não for encontrado
+                                    console.log("Usuário não encontrado")
+                                    resolve(null) // Retorna null se o usuário não for encontrado
                                 }
                             }
                         }
-                    );
+                    )
                 }
-            });
-        });
+            })
+        })
     }
     async verificaCPF(cpf: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ocean;`, (useError, useResults) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError);
-                    reject(useError);
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!");
+                    console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `SELECT cpf FROM usuario WHERE cpf = ?`,
                         [cpf],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao buscar CPF:", error);
-                                reject(error);
+                                console.error("Erro ao buscar CPF:", error)
+                                reject(error)
                             } else {
                                 if (results.length > 0) {
-                                    console.log("CPF já cadastrado:", results[0].cpf);
-                                    resolve(true); // CPF já cadastrado
+                                    console.log("CPF já cadastrado:", results[0].cpf)
+                                    resolve(true) // CPF já cadastrado
                                 } else {
-                                    resolve(false); // CPF não cadastrado
+                                    resolve(false) // CPF não cadastrado
                                 }
                             }
                         }
-                    );
+                    )
                 }
-            });
-        });
+            })
+        })
     }
 
     async verificaEmail(email: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ocean;`, (useError, useResults) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError);
-                    reject(useError);
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!");
+                    console.log("Banco de dados selecionado com sucesso!")
                     this.connection.query(
                         `SELECT email FROM usuario WHERE email = ?`,
                         [email],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao buscar email:", error);
-                                reject(error);
+                                console.error("Erro ao buscar email:", error)
+                                reject(error)
                             } else {
                                 if (results.length > 0) {
-                                    console.log("Email já cadastrado:", results[0].email);
-                                    resolve(true); // Email já cadastrado
+                                    console.log("Email já cadastrado:", results[0].email)
+                                    resolve(true) // Email já cadastrado
                                 } else {
-                                    resolve(false); // Email não cadastrado
+                                    resolve(false) // Email não cadastrado
                                 }
                             }
                         }
-                    );
+                    )
                 }
-            });
-        });
-    }   
-    
+            })
+        })
+    }
 
+    async buscarUsuarioPorCpf(dbName: string, cpf: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError)
+                    reject(useError)
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!")
+                    this.connection.query(`SELECT * FROM usuario WHERE cpf = ?`, [cpf], (error, results) => {
+                        if (error) {
+                            console.error("Erro ao buscar usuário por CPF:", error)
+                            reject(error)
+                        } else {
+                            resolve(results[0])
+                        }
+                    })
+                }
+            })
+        })
+    }
 }
