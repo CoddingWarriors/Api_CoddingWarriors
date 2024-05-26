@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/CadastroSuporte.module.css";
 import React, { useState, FormEvent } from "react";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
+import { Toaster, toast } from 'react-hot-toast';
 
 function CadastroADM() {
     // Definir estados para armazenar os dados do formulário
@@ -17,6 +15,15 @@ function CadastroADM() {
     const [senha, setSenha] = useState("");
     const [tipo, setTipo] = useState("");
     const [horario, setHorario] = useState("");
+    const navigate = useNavigate()
+
+    const handleDescartar = () => {
+        toast.success('Chamado descartado com sucesso!');
+        setTimeout(() => {
+            navigate("/homeadm");
+        }, 1000);
+    };
+
     const verificaCPFValido = (cpf: string): boolean => {
         cpf = cpf.replace(/[^\d]/g, "");
 
@@ -124,7 +131,7 @@ function CadastroADM() {
 
     return (
         <div className={styles.body}>
-            <ToastContainer />
+            <Toaster />
             <div className={styles.containerCadastro}>
                 <h1>Cadastro de Usuários</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -231,9 +238,7 @@ function CadastroADM() {
                             Cadastrar
                         </button>
 
-                        <button className={styles.descartar2}>
-                            <Link to="/login">Descartar</Link>
-                        </button>
+                        <button onClick={handleDescartar} className={styles.descartar2}>Descartar</button>
                     </div>
                 </form>
             </div>
