@@ -76,19 +76,21 @@ function VisualizarEquipamento() {
             <EquipamentosArea>
                 <div className={styles.equipamentosContainer}>
                     {equipamentos.length > 0 ? (
-                        equipamentos.map(equipamento => (
-                            <div className={styles.wrapper} key={equipamento.id_equipamento}>
-                                <Equipamento
-                                    id_equipamento={equipamento.id_equipamento}
-                                    Data={equipamento.dt_instalacao}
-                                    IP={equipamento.ip}
-                                    Localizacao={equipamento.localizacao}
-                                    Notas={equipamento.notas}
-                                    Tipo={equipamento.tipo}
-                                    Status={equipamento.status}
-                                />
-                            </div>
-                        ))
+                        <div className={styles.equipamentosScroll}>
+                            {equipamentos.map(equipamento => (
+                                <div className={styles.wrapper} key={equipamento.id_equipamento}>
+                                    <Equipamento
+                                        id_equipamento={equipamento.id_equipamento}
+                                        Data={equipamento.dt_instalacao}
+                                        IP={equipamento.ip}
+                                        Localizacao={equipamento.localizacao}
+                                        Notas={equipamento.notas}
+                                        Tipo={equipamento.tipo}
+                                        Status={equipamento.status}
+                                    />
+                                </div>
+                        ))}
+                        </div>
                     ) : (
                         <div className={styles.NenhumEquipamento}>
                             <p className={styles.NenhumEquipamentoTexto}>
@@ -98,7 +100,7 @@ function VisualizarEquipamento() {
                     )}
                 </div>
             </EquipamentosArea>
-            <Link to="/cadastrarequipamentos" className={styles.addButton}>Adicionar Equipamento</Link>
+            <Link to="/cadastrarequipamentos" className={styles.addButton}>Adicionar equipamento</Link>
         </div>
     );
 }

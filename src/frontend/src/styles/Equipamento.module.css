@@ -59,12 +59,12 @@
     align-items: center;
     background-color: transparent;
     color: orange;
-    border: 1px solid orange;
-    padding: 10px;
+    border: 2px solid orange;
+    padding: 1.5vh 1.5vw;
     cursor: pointer;
     border-radius: 17px;
     width: 42%;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 .deleteButton {
@@ -73,12 +73,12 @@
     align-items: center;
     background-color: transparent;
     color: red;
-    border: 1px solid red;
-    padding: 10px;
+    border: 2px solid red;
+    padding: 1.5vh 1.5vw;
     cursor: pointer;
     border-radius: 17px;
     width: 42%;
-    font-size: 1.5em;
+    font-size: 1.2em;
 }
 
 @media (max-width: 1000px) {

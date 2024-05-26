@@ -40,11 +40,11 @@ function AlterAndDeleteEquipamento({ id_equipamento }: { id_equipamento: number 
         <div className={styles.buttonContainer}>
             {/* Botão Alterar */}
             <button className={styles.editButton} onClick={() => onAlterar()}>
-                ALTERAR
+                Alterar
             </button>
             {/* Botão Deletar */}
             <button className={styles.deleteButton} onClick={() => onDelete()}>
-                DELETAR
+                Deletar
             </button>
         </div>
     )
