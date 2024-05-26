@@ -396,30 +396,36 @@ app.post("/buscar-equipamento", async (req: Request, res: Response) => {
 });
 
 app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
-    const { ip, localizacao, notas, tipo, status, userId } = req.body;
+    const { ip, localizacao, notas, tipo, status, cpf } = req.body;
 
     try {
-        const userExists = await usuario.buscarUsuarioPorId(dbName, userId); // Supondo que essa função verifica se o usuário existe
+        const userExists = await usuario.buscarUsuarioPorCpf(dbName, cpf); // Supondo que essa função verifica se o usuário existe pelo CPF
 
         if (!userExists) {
             res.status(404).send("Usuário não encontrado");
             return;
         }
 
-        await equipamento.cadastrarEquipamento(dbName, ip, localizacao, notas, tipo, status, userId);
+        await equipamento.cadastrarEquipamento(dbName, ip, localizacao, notas, tipo, status, cpf);
         console.log("Equipamento cadastrado com sucesso");
         res.status(200).send("Equipamento cadastrado com sucesso");
     } catch (error) {
         console.error("Erro ao cadastrar equipamento:", error);
         res.status(500).send("Erro ao cadastrar equipamento");
     }
-})
+});
 
-app.put("/atualizar-equipamento", async (req, res) => {
-    const { id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, userId } = req.body;
+app.put("/atualizar-equipamento", async (req: Request, res: Response) => {
+    const { id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, cpf_usuario } = req.body;
 
     try {
-        await equipamento.atualizarEquipamento(dbName, id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, userId);
+        const userExists = await usuario.buscarUsuarioPorCpf(dbName, cpf_usuario);
+
+        if (!userExists) {
+            return res.status(404).send("Usuário não encontrado");
+        }
+
+        await equipamento.atualizarEquipamento(dbName, id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, cpf_usuario);
         console.log("Equipamento atualizado com sucesso");
         res.status(200).send("Equipamento atualizado com sucesso");
     } catch (error) {
@@ -431,9 +437,7 @@ app.put("/atualizar-equipamento", async (req, res) => {
 app.post("/cadastrosuporte", async (req, res) => {
     const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
 
-    try {
-        // Verificar se o CPF já está cadastrado no banco de dados antes de prosseguir com o cadastro
-        
+    try {        
 
         const cpfExistente = await usuario.verificaCPF(cpf);
 
