@@ -1,6 +1,7 @@
 import { useEffect, useState, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import styles from "../styles/EditarEquipamento.module.css";
 
 function EditarEquipamento() {
     const { equipamentoId } = useParams<{ equipamentoId: string }>();
@@ -12,6 +13,7 @@ function EditarEquipamento() {
         notas: '',
         tipo: '',
         status: '',
+        userId: '',
     });
 
     useEffect(() => {
@@ -51,6 +53,13 @@ function EditarEquipamento() {
         setEquipamento({ ...equipamento, [name]: value });
     };
 
+    const handleDescartar = () => {
+        toast.success('Alteração descartada com sucesso!');
+        setTimeout(() => {
+            navigate("/visualizarequipamento");
+        }, 1000);
+    };
+
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -80,65 +89,92 @@ function EditarEquipamento() {
     };
 
     return (
-        <div>
+        <div className={styles.body}>
             <Toaster />
-            <h1>Editar Equipamento (ID: {equipamentoId})</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Data de Instalação:
-                    <input 
-                        type="date" 
-                        name="dt_instalacao" 
-                        value={equipamento.dt_instalacao} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <label>
-                    IP:
-                    <input 
-                        type="text" 
-                        name="ip" 
-                        value={equipamento.ip} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <label>
-                    Localização:
-                    <input 
-                        type="text" 
-                        name="localizacao" 
-                        value={equipamento.localizacao} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <label>
-                    Notas:
-                    <textarea 
-                        name="notas" 
-                        value={equipamento.notas} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <label>
-                    Tipo:
-                    <input 
-                        type="text" 
-                        name="tipo" 
-                        value={equipamento.tipo} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <label>
-                    Status:
-                    <input 
-                        type="text" 
-                        name="status" 
-                        value={equipamento.status} 
-                        onChange={handleChange} 
-                    />
-                </label>
-                <button type="submit">Salvar</button>
-            </form>
+            <div className={styles.containerCadastro}>
+                <h1>Editar Equipamento (ID: {equipamentoId})</h1>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <div className={styles.centeredDiv}>
+                        <div className={styles.inputGroup}>
+                            <label>Data de Instalação:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="date" 
+                                name="dt_instalacao" 
+                                value={equipamento.dt_instalacao} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>IP:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="text" 
+                                name="ip" 
+                                value={equipamento.ip} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>Localização:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="text" 
+                                name="localizacao" 
+                                value={equipamento.localizacao} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>Notas:</label>
+                            <textarea 
+                                className={styles.estilo2}
+                                name="notas" 
+                                value={equipamento.notas} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>Tipo:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="text" 
+                                name="tipo" 
+                                value={equipamento.tipo} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>Status:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="text" 
+                                name="status" 
+                                value={equipamento.status} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                        <div className={styles.inputGroup}>
+                            <label>ID do Usuário:</label>
+                            <input 
+                                className={styles.estilo2}
+                                type="text"
+                                name="userId" 
+                                value={equipamento.userId} 
+                                onChange={handleChange} 
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.botoes}>
+                        <button type="submit" className={styles.alterar2}>
+                            Alterar
+                        </button>
+                        <button type="button" onClick={handleDescartar} className={styles.descartar2}>
+                            Descartar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
