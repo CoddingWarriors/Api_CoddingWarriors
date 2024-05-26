@@ -60,8 +60,8 @@ function LogoutModal({ onLogout, onCancel }: LogoutModalProps) {
                 <div className={styles.informacoesPessoaisContainer}>
                     <img src={perfil} alt="" />
                     <div className={styles.informacoesPessoais}>
-                        <p>{userInfo ? userInfo.nome : "Carregando..."}</p>
-                        <p>{userInfo ? userInfo.email : ""}</p>
+                        <p className={styles.nome}>{userInfo ? userInfo.nome : "Carregando..."}</p>
+                        <p className={styles.email}>{userInfo ? userInfo.email : ""}</p>
                     </div>
                 </div>
                 <hr />

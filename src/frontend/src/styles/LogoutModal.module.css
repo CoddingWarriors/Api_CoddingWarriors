@@ -2,13 +2,13 @@
 
 .logoutModalContainer {
     position: fixed;
-    top: 19.5%;
+    top: 19%;
     left: 94%;
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 10%;
+    width: 11%;
     z-index: 1000;
     padding: 1%;
 }
@@ -27,19 +27,31 @@
 
 .informacoesPessoaisContainer {
     display: flex;
-    justify-content: space-between;
     margin: 1.5vh 0;
 }
 
 .informacoesPessoaisContainer img {
-    width: 50%;
+    width: 30%;
 }
 
 .informacoesPessoais {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 80%;
+    overflow: hidden;
     gap: 0.5vh;
+}
+
+
+.nome, .email {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 10px;
+    box-sizing: content-box;
+    font-size: 15px;
 }
 
 .logoutModalContainer hr {
