@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ApexCharts from "apexcharts";
+import styles from "../styles/HomeAdm.module.css"
 
 function HomeAdm() {
     const [categorias, setCategorias] = useState<{ categoria: string, totalCategoria: number }[]>([]);
@@ -54,9 +55,20 @@ function HomeAdm() {
                 },
                 xaxis: {
                     categories: categorias.map(categoria => categoria.categoria),
+                    labels: {
+                        style: {
+                            fontSize: '15px'
+                        }
+                    }
                 },
                 title: {
-                    text: 'Chamados por Categoria'
+                    text: 'Chamados por Categoria',
+                    align: 'center',
+                    style: {
+                        fontSize: '30px',
+                        color: 'darkblue'
+                    },
+                    cssClass: styles.titulo
                 },
                 series: [{
                     name: 'Total de Chamados',
@@ -83,7 +95,7 @@ function HomeAdm() {
     }, [categorias, chart]);
 
     return (
-        <div>
+        <div className={styles.body}>
             <div id="chart"></div>
         </div>
     );
