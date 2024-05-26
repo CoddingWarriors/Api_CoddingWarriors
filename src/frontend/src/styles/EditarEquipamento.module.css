@@ -10,11 +10,11 @@
 }
 
 /* Estilo para o botão Cadastrar */
-.cadastrar2 {
+.alterar2 {
     width: 40%; /* tamanho maior */
     padding: 15px; /* tamanho maior */
     font-size: 18px; /* tamanho maior */
-    background-color: #2325a3;
+    background-color: #FF7A00;
     color: white;
     border: none;
     border-radius: 10px;

@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "../styles/CadastroSuporte.module.css";
 import React, { useState, FormEvent } from "react";
 import { toast } from 'react-toastify';
@@ -17,7 +17,6 @@ function CadastroADM() {
     const [senha, setSenha] = useState("");
     const [tipo, setTipo] = useState("");
     const [horario, setHorario] = useState("");
-    const navigate = useNavigate()
     const verificaCPFValido = (cpf: string): boolean => {
         cpf = cpf.replace(/[^\d]/g, "");
 
