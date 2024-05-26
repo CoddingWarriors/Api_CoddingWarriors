@@ -31,7 +31,7 @@ Essa sprint terá como objetivo a criação do usuario administrador, com as fun
 
 ## 📈 DoD
 - Código
-- Vídeo utilizando o sistema
+- Burndown
 - Manual do usuário (online)
 - Guia de instalação
 
@@ -49,6 +49,23 @@ Essa sprint terá como objetivo a criação do usuario administrador, com as fun
 | Como suporte e ADM quero poder cadastrar dispositivos no sistema para melhor visualização dos status dos equipamentos | 6 | [front] Após o cadastro de equipamento, exibição do pop-up informando sucesso ou erro <br> [back] Criação do equipamento no banco de dados | [front] Página para cadastro de dispositivos contendo um formulário com dados do equipamento (tipo de dispositivo, status do dispositivo, endereço de IP, localização, data da instalação, notas) <br> [front] Página para visualização dos equipamentos cadastrados <br> [back] Função para criação do equipamento no banco de dados <br> [back] Função para exibição dos equipamentos |
 | Como ADM, quero ter um gráfico de chamados concluídos separados por categoria para melhor visualização dos problemas mais recorrentes | 8 | [front] Visualização dos chamados por gráfico de barras, filtrados por status do chamado no banco de dados | [front] Criação do gráfico de barras <br> [back] Filtragem do gráfico por status do chamado no banco de dados |
 | Como suporte, quero poder deletar chamados inválidos para não comprometer o andamento dos outros chamados | 4 | [front] Visualização dos chamados “pendentes” <br> [front] Quando clicar no botão de deletar o chamado, o chamado será excluído, o tirando de todas as visualizações <br> [back] O chamado será deletado do banco | [front] Criação do botão para deletar o chamado  <br> [back] Função para deletar o chamado |
+<br>
+
+
+## Burndown
+
+<img src="./documents/img/sprint3/burndown.png">
+
+<br>
+
+## Manual de Usuário 
+
+<a href="./documents/Manual do Usuário(Cliente).pdf">Manual do Cliente</a>
+<br>
+<a href="./documents/Manual do Usuário(Suporte).pdf">Manual do Suporte</a>
+<br>
+<a href="./documents/Manual do Usuário(Adm).pdf">Manual do Administrador</a>
+<br>
 
 ## 🗂 Guia de Instalação
 1. Na barra de tarefas do seu computador, procure por "prompt de comando" e abra-o. <br>
