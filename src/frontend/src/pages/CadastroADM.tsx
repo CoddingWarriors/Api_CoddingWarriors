@@ -1,10 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import styles from "../styles/CadastroSuporte.module.css";
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { Toaster, toast } from 'react-hot-toast';
 import InputMask from "react-input-mask";
+import styles from "../styles/CadastroSuporte.module.css";
+
 function CadastroADM() {
-    // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
     const [cpf, setCpf] = useState("");
     const [telefone, setTelefone] = useState("");
@@ -14,8 +14,9 @@ function CadastroADM() {
     const [numero, setNumero] = useState("");
     const [senha, setSenha] = useState("");
     const [tipo, setTipo] = useState("");
-    const [horario, setHorario] = useState("");
-    const navigate = useNavigate()
+    const [horarioInicio, setHorarioInicio] = useState("");
+    const [horarioFim, setHorarioFim] = useState("");
+    const navigate = useNavigate();
 
     const handleDescartar = () => {
         toast.success('Chamado descartado com sucesso!');
@@ -57,17 +58,15 @@ function CadastroADM() {
     };
 
     const verificaEmailValido = (email: string): boolean => {
-        // Verifica se o email contém exatamente um "@" e não contém espaços em branco
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     };
-    // Função para lidar com o envio do formulário
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault(); // Evita o comportamento padrão de recarregar a página ao submeter o formulário
 
-        // Organizar os dados na ordem das colunas da tabela usuario
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         const data = {
-            cpf: cpf.replace(/[^\d]/g, ""), 
+            cpf: cpf.replace(/[^\d]/g, ""),
             nome,
             telefone,
             email,
@@ -76,13 +75,13 @@ function CadastroADM() {
             numero,
             cep: cep.replace(/[^\d]/g, ""),
             tipo,
-            horario
+            horario_inicio: horarioInicio,
+            horario_fim: horarioFim
         };
-        
-        // Envia os dados para o back-end
+
         try {
             if (!verificaCPFValido(cpf)) {
-                toast.error('CPF inválido')
+                toast.error('CPF inválido');
                 return;
             }
 
@@ -90,6 +89,7 @@ function CadastroADM() {
                 toast.error('Email inválido');
                 return;
             }
+
             const response = await fetch("http://localhost:5000/cadastrosuporte", {
                 method: "POST",
                 headers: {
@@ -103,15 +103,9 @@ function CadastroADM() {
                 toast.error(errorData.error);
                 return;
             }
-    
-            // Se chegou aqui, significa que tudo ocorreu corretamente
-            // Exibe a mensagem de sucesso
+
             toast.success('Usuário cadastrado com sucesso');
 
-            
-            // Exibir a mensagem de sucesso como um alerta
-            // Exibe a resposta do servidor no console
-            // Limpa os campos do formulário após o envio bem-sucedido
             setNome("");
             setCpf("");
             setTelefone("");
@@ -121,8 +115,8 @@ function CadastroADM() {
             setNumero("");
             setSenha("");
             setTipo("");
-            setHorario("");
-
+            setHorarioInicio("");
+            setHorarioFim("");
 
         } catch (error) {
             console.error("Erro ao cadastrar usuário:", error);
@@ -142,7 +136,7 @@ function CadastroADM() {
                             placeholder="Nome"
                             value={nome}
                             onChange={(e) => setNome(e.target.value)}
-                        />{" "}
+                        />
                         <br />
                     </div>
                     <div className={styles.centeredDiv}>
@@ -156,20 +150,35 @@ function CadastroADM() {
                             <option value="3">Administrador</option>
                             <option value="2">Suporte</option>
                         </select>
+                        <br />
+                    </div>
+                    <div className={styles.centeredDiv}>
                         <select
                             className={styles.estilo2}
-                            name="horario"
-                            value={horario}
-                            onChange={(e) => setHorario(e.target.value)}
+                            name="horarioInicio"
+                            value={horarioInicio}
+                            onChange={(e) => setHorarioInicio(e.target.value)}
                         >
-                            <option value="" disabled>Horário de Trabalho</option>
-                            <option value="das 06:00 as 08:00 ">06:00 - 08:00</option>
-                            <option value="das 08:00 as 10:00">08:00 - 10:00</option>
-                            <option value="das 10:00 as 12:00">10:00 - 12:00</option>
+                            <option value="" disabled>Horário de Início</option>
+                            <option value="00:01:00">00:01</option>
+                            <option value="06:00:00">06:00</option>
+                            <option value="08:00:00">08:00</option>
+                            <option value="10:00:00">10:00</option>
+                        </select>
+                        <select
+                            className={styles.estilo2}
+                            name="horarioFim"
+                            value={horarioFim}
+                            onChange={(e) => setHorarioFim(e.target.value)}
+                        >
+                            <option value="" disabled>Horário de Fim</option>
+                            <option value="12:00:00">12:00</option>
+                            <option value="14:00:00">14:00</option>
+                            <option value="16:00:00">16:00</option>
+                            <option value="23:59:00">23:59</option>
                         </select>
                         <br />
                     </div>
-
                     <div>
                         <input
                             className={styles.estilo2}
@@ -178,7 +187,6 @@ function CadastroADM() {
                             value={email}
                             onChange={(e) => {
                                 const value = e.target.value;
-                                // Verifica se o valor inserido contém apenas uma "@" e não contém espaços em branco
                                 if ((value.split("@").length <= 2 && !value.includes(" "))) {
                                     setEmail(value);
                                 }
@@ -191,18 +199,18 @@ function CadastroADM() {
                             placeholder="Senha"
                             value={senha}
                             onChange={(e) => setSenha(e.target.value)}
-                        />{" "}
+                        />
                         <br />
                     </div>
                     <div>
                         <InputMask
-                        mask='999.999.999-99'
+                            mask='999.999.999-99'
                             className={styles.estilo2}
                             type="text"
                             placeholder="CPF"
                             value={cpf}
                             onChange={(e) => setCpf(e.target.value)}
-                        />{" "}
+                        />
                         <br />
                     </div>
                     <div className={styles.enderecoContainer}>
@@ -213,42 +221,44 @@ function CadastroADM() {
                             placeholder="CEP"
                             value={cep}
                             onChange={(e) => setCep(e.target.value)}
-                        />{" "}
+                        />
                         <br />
-
                         <input
                             className={styles.inputRua}
                             type="text"
                             placeholder="Endereço"
                             value={endereco}
                             onChange={(e) => setEndereco(e.target.value)}
-                        />{" "}
+                        />
                         <br />
-
                         <input
                             className={styles.inputNumero}
                             type="text"
                             placeholder="Nº"
                             value={numero}
                             onChange={(e) => setNumero(e.target.value)}
-                        />{" "}
+                        />
                         <br />
                     </div>
-
+                    <div className={styles.centeredDiv}>
+                        <input
+                            className={styles.estilo2}
+                            type="text"
+                            placeholder="Telefone"
+                            value={telefone}
+                            onChange={(e) => setTelefone(e.target.value)}
+                        />
+                        <br />
+                    </div>
                     <div className={styles.botoes}>
                         <button type="submit" className={styles.cadastrar2}>
                             Cadastrar
                         </button>
-
                         <button onClick={handleDescartar} className={styles.descartar2}>Descartar</button>
                     </div>
                 </form>
             </div>
         </div>
-
-
-
-
     );
 }
 

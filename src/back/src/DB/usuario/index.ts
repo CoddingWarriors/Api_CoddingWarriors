@@ -28,7 +28,8 @@ export class Usuario {
                             cep VARCHAR(8),
                             token VARCHAR(250),
                             tipo VARCHAR(1),
-                            horario VARCHAR(50),
+                            horario_inicio TIME,
+                            horario_fim TIME,
                             UNIQUE KEY (cpf)
                         );`,
                         (createErro, createResults) => {
@@ -91,36 +92,36 @@ export class Usuario {
         numero: number,
         cep: string,
         tipo: number,
-        horario: string,
-        foto: any
+        horario_inicio: string,
+        horario_fim: string,
     ): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`Use ${dbName};`, (useError, useResults) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
-                    // Use placeholders (?) para os valores e passe-os como um array na query
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `INSERT INTO usuario (
-                            cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                        [cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario],
+                            cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                        [cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao cadastrar usuário:", error)
-                                reject(error)
+                                console.error("Erro ao cadastrar usuário:", error);
+                                reject(error);
                             } else {
-                                console.log("Usuário cadastrado com sucesso!")
-                                resolve(true)
+                                console.log("Usuário cadastrado com sucesso!");
+                                resolve(true);
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
     async inserirToken(token: string, email: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ocean;`, (useError, useResults) => {

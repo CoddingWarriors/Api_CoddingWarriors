@@ -41,17 +41,18 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        // Armazena o token recebido no localStorage
         localStorage.setItem("token", data.token);
         toast.success('Login realizado com sucesso');
-        // Redireciona para a página inicial
         navigate("/");
-        // Recarrega a página após 1 segundo para mostrar a notificação de sucesso
         setTimeout(() => {
           window.location.reload();
         }, 1000); 
       } else {
-        toast.error('Credenciais inválidas');
+        if (data.message === 'Você só pode acessar seu login no seu horário de trabalho') {
+          toast.error(data.message);
+        } else {
+          toast.error('Credenciais inválidas');
+        }
         setUsername(""); // Limpa o campo de nome de usuário
         setPassword(""); // Limpa o campo de senha
       }

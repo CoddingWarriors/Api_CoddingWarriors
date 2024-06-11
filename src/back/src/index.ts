@@ -28,31 +28,36 @@ const corsOptions = {
 app.use(cors(corsOptions))
 
 app.post("/login", async (req: Request, res: Response) => {
-    const { username, password } = req.body
+    const { username, password } = req.body;
 
     try {
-        const verificaLogin = await usuario.loginUsuario(dbName, username, password) // Verifica o login do usuário
-        const id_user = await usuario.buscarUsuarioPorUsername(dbName, username) // Obtém todos os dados do usuário
+        const verificaLogin = await usuario.loginUsuario(dbName, username, password); // Verifica o login do usuário
+        const id_user = await usuario.buscarUsuarioPorUsername(dbName, username);
 
-        if (verificaLogin && usuario) {
-            const token = Authentication.generateToken(id_user.id_usuario) // Gera o token JWT com o ID do usuário
+        if (id_user) {
+            const now = new Date();
+            const nowTime = now.toTimeString().split(' ')[0];
 
-            res.status(200).json({ token })
+            if ((id_user.tipo === '2' || id_user.tipo === '3') &&
+                (nowTime < id_user.horario_inicio || nowTime > id_user.horario_fim)) {
+                return res.status(403).json({ message: "Você só pode acessar seu login no seu horário de trabalho" });
+            }
+
+            const token = Authentication.generateToken(id_user.id_usuario); // Gera o token JWT com o ID do usuário
+            return res.status(200).json({ token });
         } else {
-            res.status(401).json({ message: "Credenciais inválidas" })
+            return res.status(401).json({ message: "Credenciais inválidas" });
         }
     } catch (error) {
-        console.error("Erro ao fazer login:", error)
-        res.status(500).json({ message: "Erro interno do servidor" })
+        console.error("Erro ao fazer login:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
     }
-})
+});
 
 app.post("/cadastro", async (req, res) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim } = req.body; // Inclua 'foto' aqui
 
     try {
-      
-
         const cpfExistente = await usuario.verificaCPF(cpf);
 
         // Se o CPF já estiver cadastrado, retornar um erro
@@ -81,8 +86,8 @@ app.post("/cadastro", async (req, res) => {
             numero,
             cep,
             tipo,
-            horario,
-            foto
+            horario_inicio,
+            horario_fim,
         );
 
         const token = gerarTokenTemporario(30);
@@ -435,27 +440,23 @@ app.put("/atualizar-equipamento", async (req: Request, res: Response) => {
 });
 
 app.post("/cadastrosuporte", async (req, res) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario, foto } = req.body; // Inclua 'foto' aqui
+    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim } = req.body;
 
-    try {        
-
+    // Verificação de CPF e Email existentes
+    try {
         const cpfExistente = await usuario.verificaCPF(cpf);
-
-        // Se o CPF já estiver cadastrado, retornar um erro
         if (cpfExistente) {
-            console.log("CPF já cadastrado"); // Log no servidor
-            return res.status(400).json({ error: "CPF já cadastrado" }); // Enviar erro como resposta JSON
-        }
-        
-        const emailExistente = await usuario.verificaEmail(email);
-        
-        // Se o email já estiver cadastrado, retornar um erro
-        if (emailExistente) {
-            console.log("Email já cadastrado"); // Log no servidor
-            return res.status(400).json({ error: "Email já cadastrado" }); // Enviar erro como resposta JSON
+            console.log("CPF já cadastrado");
+            return res.status(400).json({ error: "CPF já cadastrado" });
         }
 
-        // Se o CPF e o email não estiverem cadastrados, prosseguir com o cadastro do usuário
+        const emailExistente = await usuario.verificaEmail(email);
+        if (emailExistente) {
+            console.log("Email já cadastrado");
+            return res.status(400).json({ error: "Email já cadastrado" });
+        }
+
+        // Cadastro de Usuário
         const verificaCadastrado = await usuario.cadastroUsuario(
             dbName,
             cpf,
@@ -467,18 +468,12 @@ app.post("/cadastrosuporte", async (req, res) => {
             numero,
             cep,
             tipo,
-            horario,
-            foto
+            horario_inicio,
+            horario_fim,
         );
 
-        const token = gerarTokenTemporario(30);
-        const subject = 'confirmar email';
-        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`;
-        await usuario.inserirToken(token, email); // Insere o token associado ao usuário no banco de dados
-        enviarEmail(email, html, subject);
-
         if (verificaCadastrado) {
-            console.log("Usuário cadastrado");
+            console.log("Usuário cadastrado com sucesso!");
             res.status(200).send("Usuário cadastrado com sucesso");
         } else {
             console.log("Erro ao cadastrar usuário");
@@ -489,6 +484,5 @@ app.post("/cadastrosuporte", async (req, res) => {
         res.status(500).send("Erro ao cadastrar usuário");
     }
 });
-
 
 app.listen(PORT, () => {})
