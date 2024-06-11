@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/CadastroSuporte.module.css";
 import React, { useState, FormEvent } from "react";
 import { Toaster, toast } from 'react-hot-toast';
-
+import InputMask from "react-input-mask";
 function CadastroADM() {
     // Definir estados para armazenar os dados do formulário
     const [nome, setNome] = useState("");
@@ -67,14 +67,14 @@ function CadastroADM() {
 
         // Organizar os dados na ordem das colunas da tabela usuario
         const data = {
-            cpf,
+            cpf: cpf.replace(/[^\d]/g, ""), 
             nome,
             telefone,
             email,
             senha,
             endereco,
             numero,
-            cep,
+            cep: cep.replace(/[^\d]/g, ""),
             tipo,
             horario
         };
@@ -195,7 +195,8 @@ function CadastroADM() {
                         <br />
                     </div>
                     <div>
-                        <input
+                        <InputMask
+                        mask='999.999.999-99'
                             className={styles.estilo2}
                             type="text"
                             placeholder="CPF"
@@ -205,7 +206,8 @@ function CadastroADM() {
                         <br />
                     </div>
                     <div className={styles.enderecoContainer}>
-                        <input
+                        <InputMask
+                            mask='99999-999'
                             className={styles.inputCep}
                             type="text"
                             placeholder="CEP"

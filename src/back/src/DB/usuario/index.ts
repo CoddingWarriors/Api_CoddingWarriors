@@ -20,7 +20,7 @@ export class Usuario {
                             id_usuario INT AUTO_INCREMENT PRIMARY KEY,
                             cpf VARCHAR(11) NOT NULL,
                             nome VARCHAR(50),
-                            telefone VARCHAR(14),
+                            telefone VARCHAR(25),
                             email VARCHAR(30),
                             senha VARCHAR(10),
                             endereco VARCHAR(50),

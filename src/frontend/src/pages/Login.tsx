@@ -1,16 +1,33 @@
-// Login.tsx
 import React, { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 import { Toaster, toast } from 'react-hot-toast';
+import InputMask from 'react-input-mask';
 
 function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isCpfMask, setIsCpfMask] = useState(false);
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+
+    // Verifica se o segundo caractere é um número
+    if (value.length === 2 && /^[0-9]$/.test(value.charAt(1))) {
+      setIsCpfMask(true);
+    } else if (value.length === 1) {
+      setIsCpfMask(false);
+    }
+
+    setUsername(value);
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Remove mask from CPF if applied
+    const cleanedUsername = isCpfMask ? username.replace(/[^\d]/g, "") : username;
 
     try {
       const response = await fetch("http://localhost:5000/login", {
@@ -18,7 +35,7 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username: cleanedUsername, password }),
       });
 
       const data = await response.json();
@@ -51,12 +68,21 @@ function Login() {
         <h1>Login</h1>
         <form className={styles.form} onSubmit={handleSubmit}>
           <label htmlFor="">Email ou CPF</label> <br />
-          <input
-            type="text"
-            placeholder="Insira seu Login"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />{" "}
+          {isCpfMask ? (
+            <InputMask
+              mask="999.999.999-99"
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Insira seu CPF"
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder="Insira seu Login"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          )}
           <br />
           <label htmlFor="">Senha</label> <br />
           <input
