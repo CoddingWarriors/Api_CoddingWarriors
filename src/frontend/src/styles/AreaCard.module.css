@@ -1,0 +1,41 @@
+.areaCards {
+    display: flex;
+    gap: 20px; /* Espaçamento entre os cards */
+    flex-wrap: wrap; /* Permite que os cards quebrem linha se necessário */
+    justify-content: center; /* Centraliza os cards horizontalmente */
+  }
+  
+  .areaCard {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e4e4e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 28%; /* Ajuste a largura conforme necessário */
+  }
+  
+  .areaCardContent {
+    display: flex;
+    align-items: center;
+  }
+  
+  .textContent {
+    margin-right: 20px; /* Espaçamento entre o texto e o gráfico */
+    text-align: left;
+  }
+
+  .textContent p {
+    text-align: center;
+    margin-top: 10px;
+  }
+  
+  .pieChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  

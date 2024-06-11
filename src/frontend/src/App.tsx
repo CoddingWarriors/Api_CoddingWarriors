@@ -17,8 +17,8 @@ import CadastroEquipamentos from "./pages/CadastroEquipamentos"
 import VisualizarEquipamento from "./pages/VisualizarEquipamento"
 import VisualizarChamado from "./pages/VisualizarChamado"
 import ResponderChamado from "./pages/ResponderChamado"
-import HomeAdm from "./pages/HomeAdm"
 import EditarEquipamento from "./pages/EditarEquipamento";
+import Dashboard from "./pages/Dashboard"
 
 
 function App() {
@@ -36,12 +36,13 @@ function App() {
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />
                 <Route path="/novasenha" element={<NovaSenha />} />
                 <Route path="/abrirchamado" element={<AbrirChamado />} />
-                {<Route path="/cadastrarequipamentos" element={<CadastroEquipamentos />} />}
+                <Route path="/cadastrarequipamentos" element={<CadastroEquipamentos />} />
                 <Route path="/visualizarequipamento" element={<VisualizarEquipamento />} />
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
-                <Route path="/homeadm" element={<HomeAdm />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/editar-equipamento/:equipamentoId" element={<EditarEquipamento />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
             <Footer />
         </Router>
