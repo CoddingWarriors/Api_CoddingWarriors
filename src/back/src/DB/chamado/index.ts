@@ -308,4 +308,36 @@ export class Chamado {
             })
         })
     }
+
+    async visualizarChamadosPorStatus(dbName: string): Promise<{ abertos: number; emAndamento: number; concluidos: number; total: number }> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `
+                        SELECT 
+                            SUM(CASE WHEN status = 'Aberto' THEN 1 ELSE 0 END) AS abertos,
+                            SUM(CASE WHEN status = 'Em andamento' THEN 1 ELSE 0 END) AS emAndamento,
+                            SUM(CASE WHEN status = 'Concluido' THEN 1 ELSE 0 END) AS concluidos,
+                            COUNT(*) AS total
+                        FROM chamado;
+                        `,
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao obter informações do chamado:", error);
+                                reject(error);
+                            } else {
+                                resolve(results[0]);
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+    
 }

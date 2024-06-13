@@ -205,6 +205,7 @@ app.post("/buscar-chamados", async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erro interno do servidor" });
     }
 });
+
 app.post("/deletar-chamado", async (req: Request, res: Response) => {
     const { chamadoId } = req.body;
 
@@ -263,6 +264,19 @@ app.post("/visualizar-chamados-por-categoria", async (req: Request, res: Respons
         res.status(500).json({ message: "Erro interno do servidor" });
     }
 });
+
+app.post("/visualizar-chamados-por-status", async (req: Request, res: Response) => {
+    const { dbName } = req.body;
+
+    try {
+        const chamadosPorStatus = await chamado.visualizarChamadosPorStatus(dbName);
+        res.status(200).json(chamadosPorStatus);
+    } catch (error) {
+        console.error("Erro ao visualizar chamados por status:", error);
+        res.status(500).json({ message: "Erro interno do servidor" });
+    }
+});
+
 
 app.post("/responderchamado", async (req, res) => {
     const { resposta, chamadoId, token } = req.body;
