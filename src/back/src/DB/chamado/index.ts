@@ -22,16 +22,12 @@ export class Chamado {
                             id_chamado INT AUTO_INCREMENT PRIMARY KEY,
                             titulo VARCHAR(30),
                             descricao VARCHAR(100),
-                            categoria ENUM(
-                                'Velocidade de internet baixa',
-                                'Internet instável',
-                                'Sem conexão de internet'
-                            ),
+                            categoria VARCHAR(100),
                             respostas VARCHAR(100),
                             status VARCHAR(30),
                             id_usuario INT,
                             id_suporte INT,
-                            imagem LONGBLOB, /* Nova coluna para armazenar a imagem */
+                            imagem LONGBLOB,
                             FOREIGN KEY (id_suporte) REFERENCES usuario(id_usuario),
                             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
                         );
@@ -50,6 +46,7 @@ export class Chamado {
             });
         });
     }
+    
     
 
     async novoChamado(

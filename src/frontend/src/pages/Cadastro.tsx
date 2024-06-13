@@ -113,6 +113,8 @@ function Cadastro() {
             setEndereco("");
             setNumero("");
             setSenha("");
+
+            navigate("/login")
         } catch (error) {
             console.error("Erro ao cadastrar usuário:", error);
         }

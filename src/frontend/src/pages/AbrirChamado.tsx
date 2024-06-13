@@ -2,13 +2,14 @@ import React, { FormEvent, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/AbrirChamado.module.css";
 import toast, { Toaster } from "react-hot-toast";
-import image from "../img/imagem.png"
+import image from "../img/imagem.png";
 
 function AbrirChamado() {
     const navigate = useNavigate();
     const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
     const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
+    const [categoriaPersonalizada, setCategoriaPersonalizada] = useState('');
     const [imagem, setImagem] = useState<File | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [permissionDenied, setPermissionDenied] = useState(false);
@@ -28,7 +29,7 @@ function AbrirChamado() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!titulo.trim() || !descricao.trim() || !categoriaSelecionada) {
+        if (!titulo.trim() || !descricao.trim() || (!categoriaSelecionada && !categoriaPersonalizada.trim())) {
             toast.error("Por favor, preencha todos os campos.");
             return;
         }
@@ -39,7 +40,7 @@ function AbrirChamado() {
                 const formData = new FormData();
                 formData.append("titulo", titulo);
                 formData.append("descricao", descricao);
-                formData.append("categoria", categoriaSelecionada);
+                formData.append("categoria", categoriaSelecionada === 'Outro' ? categoriaPersonalizada : categoriaSelecionada);
                 formData.append("token", token);
                 if (imagem) {
                     formData.append("imagem", imagem);
@@ -112,6 +113,16 @@ function AbrirChamado() {
                     <span className={styles.spanRadio}>Sem conexão de internet</span>
                 </label> <br />
 
+                <label htmlFor="categoria-outro" className={styles.labelRadio}>
+                    <input className={styles.inputRadio} type="radio" name="categoria" id="categoria-outro" value="Outro" checked={categoriaSelecionada === 'Outro'} onChange={(e) => setCategoriaSelecionada(e.target.value)} />
+                    <span className={styles.spanRadio}>Outro</span>
+                </label> <br />
+
+                {categoriaSelecionada === 'Outro' && (
+                    <div>
+                        <input className={styles.inputCategoriaPersonalizada} type="text" id="categoriaPersonalizada" value={categoriaPersonalizada} placeholder="Por favor, especifique" onChange={(e) => setCategoriaPersonalizada(e.target.value)} /> <br />
+                    </div>
+                )}
 
                 <h2 className={styles.imagemTitulo}>Caso seja possível, insira uma imagem demonstrando o problema</h2>
                 <input className={styles.file} type="file" id="imagem" onChange={(e) => {
