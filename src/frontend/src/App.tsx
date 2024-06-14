@@ -8,6 +8,8 @@ import Faq from "./pages/Faq"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Login from "./pages/Login"
+import Perfil from "./pages/Perfil"
+import EditarPerfil from "./pages/EditarPerfil"
 import Cadastro from "./pages/Cadastro"
 import CadastroADM from "./pages/CadastroADM"
 import EsqueciSenha from "./pages/EsqueciSenha"
@@ -31,6 +33,8 @@ function App() {
                 <Route path="/chamados" element={<AtendimentoSuporte />} />
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/perfil" element={<Perfil />} />
+                <Route path="/editarperfil" element={<EditarPerfil />} />
                 <Route path="/cadastro" element={<Cadastro />} />
                 <Route path="/cadastrosuporte" element={<CadastroADM />} />
                 <Route path="/esquecisenha" element={<EsqueciSenha />} />

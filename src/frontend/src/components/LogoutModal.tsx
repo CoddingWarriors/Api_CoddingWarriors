@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styles from "../styles/LogoutModal.module.css";
 import perfil from "../img/FotoUsuarioPerfil.png";
+import { useNavigate } from "react-router-dom";
 
 interface LogoutModalProps {
     onLogout: () => void;
@@ -14,6 +15,7 @@ interface UserInfo {
 }
 
 function LogoutModal({ onLogout, onCancel }: LogoutModalProps) {
+    const navigate = useNavigate();
     const modalRef = useRef<HTMLDivElement>(null); // Adiciona o tipo explícito para o useRef
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
@@ -64,6 +66,7 @@ function LogoutModal({ onLogout, onCancel }: LogoutModalProps) {
                         <p className={styles.email}>{userInfo ? userInfo.email : ""}</p>
                     </div>
                 </div>
+                <p onClick={() => navigate("/perfil")} className={styles.logout}>Gerenciar Conta</p>
                 <hr />
                 <p onClick={onLogout} className={styles.logout}>Fazer Logout</p>
             </div>

@@ -1,0 +1,113 @@
+.perfil {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    padding: 5vh;
+}
+
+.tabContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    margin: 0 10px;
+    font-size: 3vh;
+    color: #001455;
+}
+
+.tabButton.active {
+    border-bottom: 2px solid #3366ff;
+    color: #3366ff;
+}
+
+.formi {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+}
+
+.labell {
+    margin: 10px 0 5px;
+    color: #001455;
+    font-size: 3vh;
+    font-weight: bold;
+}
+
+.inputt {
+    padding: 10px;
+    border-bottom: 1px solid #001455;
+    margin-bottom: 10px;
+    color: #666666;
+    width: 100%;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+}
+
+.editButton {
+    padding: 2vh 5vh 2vh 5vh;
+    background-color: #ffffff;
+    border: 3px solid #0034cf;
+    border-radius: 14px;
+    color: #0034cf;
+    font-size: 2.4vh;
+    cursor: pointer;
+    margin-top: 5vh;
+}
+
+.buttoncontainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.fotoperfil {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10vh;
+}
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 60%;
+}
+
+.foto {
+    width: 36vh;
+}
+
+@media (max-width: 850px) {
+    .perfil {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .fotoperfil {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 0vh;
+        margin-bottom: 7vh;
+    }
+
+    .formulario {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 60%;
+    }
+
+}
