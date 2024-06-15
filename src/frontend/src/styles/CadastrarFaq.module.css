@@ -1,0 +1,76 @@
+.containerEditarFaq {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 80px 200px;
+}
+
+.tituloEditarFaq {
+    padding-bottom: 20px;
+    color: black;
+    font-size: 3.5vh;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.label {
+    color: black;
+    font-size: 2vh;
+    font-weight: 800;
+    padding-bottom: 1vh;
+}
+
+.faqArea {
+    display: flex;
+    flex-direction: column;
+    background-color: #d3d3d3;
+    border-radius: 15px;
+    padding: 4vh;
+    width: 70vw;
+    margin-bottom: 20px;
+}
+
+.inputPergunta,
+.textareaResposta {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+}
+
+.textareaResposta {
+    height: 25vh;
+}
+
+.buttonsContainer {
+    display: flex;
+    justify-content: end;
+    gap: 2vh;
+    width: 70vw;
+    margin-top: 2vh;
+    margin-right: 13vh;
+}
+
+.buttonDescartar,
+.buttonCadastrar {
+        padding: 2vh 5vh 2vh 5vh; /* tamanho maior */
+        font-size: 18px; /* tamanho maior */
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-align: center;
+    }
+
+.buttonDescartar {
+    background-color: rgb(255, 255, 255);
+    color: red;
+    border: 2px solid red;
+}
+
+.buttonCadastrar {
+    background-color: rgb(255, 255, 255);
+    color: green;
+    border: 2px solid green;
+}

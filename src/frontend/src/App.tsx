@@ -5,6 +5,9 @@ import Home from "./pages/Home"
 import Atendimento from "./pages/Atendimento"
 import AtendimentoSuporte from "./pages/VisualizaChamdSuporte"
 import Faq from "./pages/Faq"
+import VisualizarFaq from "./pages/VisualizarFaq"
+import EditarFaq from "./pages/EditarFaq"
+import CadastrarFaq from "./pages/CadastrarFaq"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Login from "./pages/Login"
@@ -32,6 +35,9 @@ function App() {
                 <Route path="/atendimento" element={<Atendimento />} />
                 <Route path="/chamados" element={<AtendimentoSuporte />} />
                 <Route path="/faq" element={<Faq />} />
+                <Route path="/visualizarfaq" element={<VisualizarFaq />} />
+                <Route path="/editarfaq" element={<EditarFaq />} />
+                <Route path="/cadastrarfaq" element={<CadastrarFaq />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/perfil" element={<Perfil />} />
                 <Route path="/editarperfil" element={<EditarPerfil />} />

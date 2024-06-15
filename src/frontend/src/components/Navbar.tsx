@@ -112,6 +112,11 @@ function Navbar() {
                 Cadastro de usuário
               </Link>
             </li>
+            <li className={styles.item}>
+              <Link to="/visualizarfaq" style={{ cursor: "pointer" }}>
+                FAQ
+              </Link>
+            </li>
           </>
         )}
 

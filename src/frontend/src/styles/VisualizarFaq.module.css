@@ -1,0 +1,74 @@
+body {
+    min-width: 700px;
+}
+
+.containerVisualizarEquipamento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 80px 200px;
+}
+
+.tituloVisualizarEquipamento {
+    padding-bottom: 20px;
+    color: black;
+    font-size: 3.5vh;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.formVisualizarEquipamento {
+    margin-top: 50px;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    background-color: #d3d3d3;
+    border-radius: 15px;
+    padding: 1.2vh;
+}
+
+.equipamentosContainer {
+    height: 55vh;
+    width: 70vw;
+}
+
+.equipamentosScroll {
+    max-height: 55vh;
+    overflow-y: auto;
+}
+
+.NenhumEquipamento {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.NenhumEquipamentoTexto {
+    font-size: 3vh;
+    color: #000;
+}
+
+.buttons {
+    margin-top: 4vh;
+    display: flex;
+    flex-direction: row;
+    gap: 2vh;
+}
+
+.addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    color: green;
+    border: 2px solid green;
+    padding: 2vh 5vh 2vh 5vh;
+    cursor: pointer;
+    border-radius: 17px;
+    font-size: 1.5em;
+    font-weight: bold;
+    white-space: nowrap;
+}

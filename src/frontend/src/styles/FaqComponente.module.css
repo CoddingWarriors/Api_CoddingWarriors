@@ -1,0 +1,87 @@
+.faq {
+    display: flex;
+    justify-content: space-between;
+    gap: 1vh;
+    background-color: white;
+    border-radius: 22px;
+    padding: 10px;
+    width: 100%;
+    height: auto;
+}
+
+.sectionTwoC {
+    flex-grow: 1; /* Ajuste para preencher o espaço restante */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch; /* Para esticar os itens verticalmente */
+}
+
+.pergunta {
+    flex: 1; /* Para ocupar todo o espaço disponível verticalmente */
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: start;
+}
+
+.resposta {
+    display: flex;
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: start;
+    height: 12vh;
+}
+
+.sectionThree {
+    width: 14%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.editButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: #FF7A00;
+    border: 1px solid #FF7A00;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 92%;
+    height: 45%;
+    font-size: 1.5em;
+}
+
+.deleteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    color: red;
+    border: 1px solid red;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 92%;
+    height: 45%;
+    font-size: 1.5em;
+}
+
+.image {
+    width: 15vh; /* Ajustado para manter a proporção */
+    height: auto; /* Ajustado para manter a proporção */
+    max-height: 100%; /* Limitar a altura máxima */
+    max-width: 100%; /* Limitar a largura máxima */
+}
+
+.text {
+    text-align: center;
+    color: black;
+    font-size: 2vh; /* Ajustado o tamanho da fonte */
+}
