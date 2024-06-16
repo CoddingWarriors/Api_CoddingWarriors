@@ -3,18 +3,13 @@ import { useNavigate } from "react-router-dom";
 import FaqArea from "../components/FaqArea";
 import Faq from "../components/Faq";
 import styles from "../styles/VisualizarFaq.module.css";
+import  { Link } from "react-router-dom"
 
 function VisualizarFaq() {
-    const [equipamentos, setEquipamentos] = useState<any[]>([]);
+    const [faq, setFaq] = useState<any[]>([]);
     const navigate = useNavigate();
 
-    const handleAdd = () => {
-        navigate("/cadastrarfaq");
-    }
 
-    const handleGoBack = () => {
-        navigate("/faq");
-    }
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -50,9 +45,9 @@ function VisualizarFaq() {
             }
         }
 
-        async function fetchEquipamentos() {
+        async function fetchfaq() {
             try {
-                const response = await fetch("http://localhost:5000/get-equipamentos", {
+                const response = await fetch("http://localhost:5000/get-faq", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -61,17 +56,18 @@ function VisualizarFaq() {
                 });
 
                 const data = await response.json();
+                
                 if (response.ok) {
-                    setEquipamentos(data);
+                    setFaq(data);
                 } else {
                     throw new Error(data.message);
                 }
             } catch (error) {
-                console.error("Error fetching equipamentos:", error);
+                console.error("Error fetching faq:", error);
             }
         }
 
-        fetchUserType().then(fetchEquipamentos);
+        fetchUserType().then(fetchfaq);
     }, [navigate]);
 
 
@@ -82,18 +78,14 @@ function VisualizarFaq() {
             </h1>
             <FaqArea>
                 <div className={styles.equipamentosContainer}>
-                    {equipamentos.length > 0 ? (
+                    {faq.length > 0 ? (
                         <div className={styles.equipamentosScroll}>
-                            {equipamentos.map(equipamento => (
-                                <div className={styles.wrapper} key={equipamento.id_equipamento}>
+                            {faq.map(faq => (
+                                <div className={styles.wrapper} key={faq.id_faq}>
                                     <Faq
-                                        id_equipamento={equipamento.id_equipamento}
-                                        Data={equipamento.dt_instalacao}
-                                        IP={equipamento.ip}
-                                        Localizacao={equipamento.localizacao}
-                                        Notas={equipamento.notas}
-                                        Tipo={equipamento.tipo}
-                                        Status={equipamento.status}
+                                        id_faq={faq.id_faq}
+                                        Perguntas={faq.pergunta}
+                                        Resposta={faq.resposta}
                                     />
                                 </div>
                         ))}
@@ -108,9 +100,9 @@ function VisualizarFaq() {
                 </div>
             </FaqArea>
             <div className={styles.buttons}>
-                <button className={styles.addButton} onClick={handleAdd}>
+                <Link to="/cadastrarfaq" ><button className={styles.addButton}>
                     Adicionar
-                </button>
+                </button></Link>
             </div>
         </div>
     );

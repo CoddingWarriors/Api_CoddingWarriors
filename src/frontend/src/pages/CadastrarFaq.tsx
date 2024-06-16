@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify"
 import styles from "../styles/CadastrarFaq.module.css";
 
 function CadastrarFaq() {
@@ -21,8 +22,63 @@ function CadastrarFaq() {
         navigate("/visualizarfaq");
     };
 
-    const handleCadastrar = () => {
-        // Aqui você pode adicionar a lógica para cadastrar a FAQ
+    const handleSubmit = async () => {
+        const data = {
+            pergunta,
+            resposta
+        }
+
+        try {
+            const response = await fetch("http://localhost:5000/cadastrar-faq", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            })
+
+            if (response.ok) {
+                toast.success("Faq cadastrado com sucesso", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
+                setTimeout(() => {
+                    navigate("/visualizarfaq")
+                }, 1000)
+            } else if (response.status === 404) {
+                toast.error("Usuário não encontrado", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                })
+            } else {
+                throw new Error("Falha ao cadastrar faq")
+            }
+        } catch (error) {
+            console.error("Erro ao cadastrar faq:", error)
+            toast.error("Erro ao cadastrar faq", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            })
+        }
+
     };
 
     useEffect(() => {
@@ -63,6 +119,7 @@ function CadastrarFaq() {
 
     return (
         <div className={styles.containerEditarFaq}>
+            <ToastContainer/>
             <h1 className={styles.tituloEditarFaq}>
                 Cadastrar FAQ
             </h1>
@@ -87,7 +144,7 @@ function CadastrarFaq() {
                 <button className={styles.buttonDescartar} onClick={handleDescartar}>
                     Descartar
                 </button>
-                <button className={styles.buttonCadastrar} onClick={handleCadastrar}>
+                <button type="button" className={styles.buttonCadastrar} onClick={handleSubmit}>
                     Cadastrar
                 </button>
             </div>

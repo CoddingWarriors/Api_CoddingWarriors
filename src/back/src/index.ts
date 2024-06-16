@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from "express"
 import jwt from "jsonwebtoken"
 import cors from "cors"
-import { usuario, chamado, equipamento } from "./criadb"
+import { usuario, chamado, equipamento, faq } from "./criadb"
 import enviarEmail from "./DB/senha/email"
 import gerarTokenTemporario from "./DB/senha/token"
 import { Authentication } from "./Middleware"
@@ -498,5 +498,69 @@ app.post("/cadastrosuporte", async (req, res) => {
         res.status(500).send("Erro ao cadastrar usuário");
     }
 });
+
+app.post("/cadastrar-faq", async (req: Request, res: Response) => {
+    const { pergunta, resposta } = req.body;
+
+    try {
+        await faq.cadastroFaq(dbName, pergunta, resposta);
+        console.log("FAQ cadastrado com sucesso");
+        res.status(200).send("FAQ cadastrado com sucesso");
+    } catch (error) {
+        console.error("Erro ao cadastrar FAQ:", error);
+        res.status(500).send("Erro ao cadastrar FAQ");
+    }
+});
+
+
+
+app.get("/get-faq", async (req: Request, res: Response) =>{
+   
+    try{
+        const faqs = await faq.buscarfaq(dbName);
+        res.status(200).json(faqs);
+
+    }
+    catch (error) {
+        console.log("Erro ao buscar Faqs: ", error);
+        res.status(500).json({ message: "Erro interno do servidor"});
+    }
+});
+
+
+
+app.post("busca-faq", async (req: Request, res: Response) => {
+    const { id_faq } = req.body;
+
+
+    try {
+        const faqEncontrado = await faq.buscarFaqPorId(dbName, id_faq);
+        
+        if (!faqEncontrado) {
+            return res.status(404).send("Faq não encontrado");
+        }
+
+        res.status(200).json(faqEncontrado);
+    } catch (error) {
+        console.error("Erro ao buscar faq:", error);
+        res.status(500).send("Erro ao buscar faq");
+    }
+        
+});
+
+
+app.put("/editar-faq", async (req: Request, res: Response) => {
+    const { id_faq, pergunta, resposta } = req.body;
+
+    try {
+        await faq.atualizarFaq(dbName, id_faq, pergunta, resposta);
+        console.log("Faq atualizado com sucesso");
+        res.status(200).send("Faq atualizado com sucesso");
+    } catch (error) {
+        console.error("Erro ao atualizar faq:", error);
+        res.status(500).send("Erro ao atualizar faq");
+    }
+});
+
 
 app.listen(PORT, () => {})

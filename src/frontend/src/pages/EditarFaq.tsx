@@ -1,28 +1,87 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, FormEvent } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import styles from "../styles/EditarFaq.module.css";
+import { ToastContainer } from "react-toastify";
 
 function EditarFaq() {
-    const [pergunta, setPergunta] = useState("");
-    const [resposta, setResposta] = useState("");
+    const { faqId } = useParams<{ faqId: string }>();
     const navigate = useNavigate();
+    const [faq, setFaq] = useState({
+        pergunta: "",
+        resposta: ""
+    });
 
-    const handlePerguntaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPergunta(event.target.value);
-    };
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            navigate("/");
+            return;
+        }
 
-    const handleRespostaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setResposta(event.target.value);
+        async function fetchFaq() {
+            try {
+                const response = await fetch("http://localhost:5000/buscar-faq", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ id_faq: faqId }),
+                });
+
+                const data = await response.json();
+                if (response.ok) {
+                    setFaq(data);
+                } else {
+                    throw new Error(data.message || "Erro ao buscar FAQ");
+                }
+            } catch (error) {
+                console.error("Error fetching FAQ:", error);
+            }
+        }
+
+        fetchFaq();
+    }, [faqId, navigate]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFaq({ ...faq, [name]: value });
     };
 
     const handleDescartar = () => {
-        setPergunta("");
-        setResposta("");
-        navigate("/visualizarfaq");
+        toast.success("Alteração descartada com sucesso!");
+        setTimeout(() => {
+            navigate("/visualizarfaq");
+        }, 1000);
     };
 
-    const handleAlterar = () => {
-        // Aqui você pode adicionar a lógica para alterar a FAQ
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const token = localStorage.getItem("token");
+            if (token) {
+                const response = await fetch("http://localhost:5000/editarfaq", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ ...faq, id_faq: faqId }),
+                });
+
+                if (response.ok) {
+                    toast.success("FAQ editado com sucesso");
+                    navigate("/visualizarfaq");
+                } else {
+                    throw new Error("Erro ao editar a FAQ");
+                }
+            }
+        } catch (error) {
+            console.error("Erro ao editar a FAQ:", error);
+            toast.error("Erro ao editar a FAQ. Por favor, tente novamente.");
+        }
     };
 
     useEffect(() => {
@@ -42,13 +101,13 @@ function EditarFaq() {
                     },
                     body: JSON.stringify({ token })
                 });
-        
+
                 const data = await response.json();
-        
+
                 if (!response.ok) {
                     throw new Error(data.message);
                 }
-        
+
                 if (data.tipoUsuario !== '3') {
                     navigate("/");
                     return;
@@ -63,34 +122,35 @@ function EditarFaq() {
 
     return (
         <div className={styles.containerEditarFaq}>
-            <h1 className={styles.tituloEditarFaq}>
-                FAQ
-            </h1>
-            <div className={styles.faqArea}>
+            <ToastContainer/>
+            <h1 className={styles.tituloEditarFaq}>FAQ (ID: {faqId})</h1>
+            <form className={styles.faqArea} onSubmit={handleSubmit}>
                 <label className={styles.label}>Pergunta:</label>
                 <input
                     className={styles.inputPergunta}
                     type="text"
-                    value={pergunta}
-                    onChange={handlePerguntaChange}
+                    name="pergunta"
+                    value={faq.pergunta}
+                    onChange={handleChange}
                     placeholder="Digite a pergunta aqui"
                 />
                 <label className={styles.label}>Resposta:</label>
                 <textarea
                     className={styles.textareaResposta}
-                    value={resposta}
-                    onChange={handleRespostaChange}
+                    name="resposta"
+                    value={faq.resposta}
+                    onChange={handleChange}
                     placeholder="Digite a resposta aqui"
                 />
-            </div>
-            <div className={styles.buttonsContainer}>
-                <button className={styles.buttonDescartar} onClick={handleDescartar}>
-                    Descartar
-                </button>
-                <button className={styles.buttonAlterar} onClick={handleAlterar}>
-                    Alterar
-                </button>
-            </div>
+                <div className={styles.buttonsContainer}>
+                    <button type="button" className={styles.buttonDescartar} onClick={handleDescartar}>
+                        Descartar
+                    </button>
+                    <button type="submit" className={styles.buttonAlterar}>
+                        Alterar
+                    </button>
+                </div>
+            </form>
         </div>
     );
 }
