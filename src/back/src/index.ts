@@ -513,7 +513,6 @@ app.post("/cadastrar-faq", async (req: Request, res: Response) => {
 });
 
 
-
 app.get("/get-faq", async (req: Request, res: Response) =>{
    
     try{
@@ -561,6 +560,20 @@ app.put("/editar-faq", async (req: Request, res: Response) => {
         res.status(500).send("Erro ao atualizar faq");
     }
 });
+
+app.put("/editarperfil", async (req: Request, res: Response) => {
+    const { cpf, nome, email, senha, telefone, endereco, numero, cep } = req.body;
+
+    try {
+        await usuario.atualizarUsuario(dbName, cpf, nome, email, senha, telefone, cep, endereco, numero);
+        console.log("Usuário atualizado com sucesso");
+        res.status(200).send("Usuário atualizado com sucesso");
+    } catch (error) {
+        console.error("Erro ao atualizar usuário:", error);
+        res.status(500).send("Erro ao atualizar usuário");
+    }
+});
+
 
 
 app.listen(PORT, () => {})
