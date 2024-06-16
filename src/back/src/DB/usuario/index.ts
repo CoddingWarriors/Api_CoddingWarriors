@@ -389,7 +389,7 @@ export class Usuario {
                     reject(useError)
                 } else {
                     console.log("Banco de dados selecionado com sucesso!")
-                    this.connection.query(`INSERT INTO usuario(foto) VALUES (?) WHERE cpf = ?;`, [foto, cpf], (error, results) => {
+                    this.connection.query(`UPDATE usuario SET foto = ?  WHERE cpf = ?;`, [foto, cpf], (error, results) => {
                         if (error) {
                             console.error("Erro ao atualizar foto", error)
                             reject(error)

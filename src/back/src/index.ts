@@ -574,6 +574,18 @@ app.put("/editarperfil", async (req: Request, res: Response) => {
     }
 });
 
+/* app.put("/editar-foto", async( req: Request, res: Response) => {
+    const foto = req.file;
+    const cpf = req.body;
+
+    try{
+        await usuario.atualizaFotoUsuario(dbName, foto, cpf)
+        console.log("Foto atualizada com sucesso")
+    }
+    catch (error) {
+        console.log("erro ao atualizar foto")
+    }
+}) */
 
 
 app.listen(PORT, () => {})
