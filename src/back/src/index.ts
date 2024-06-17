@@ -527,39 +527,42 @@ app.get("/get-faq", async (req: Request, res: Response) =>{
 });
 
 
-
-app.post("busca-faq", async (req: Request, res: Response) => {
+app.post('/buscar-faq', async (req, res) => {
     const { id_faq } = req.body;
 
+    if (!id_faq) {
+        return res.status(400).json({ message: 'ID do FAQ não fornecido' });
+    }
 
     try {
-        const faqEncontrado = await faq.buscarFaqPorId(dbName, id_faq);
-        
-        if (!faqEncontrado) {
-            return res.status(404).send("Faq não encontrado");
-        }
-
-        res.status(200).json(faqEncontrado);
+        const result = await faq.buscarFaqPorId('ocean', id_faq);
+        res.status(200).json(result);
     } catch (error) {
-        console.error("Erro ao buscar faq:", error);
-        res.status(500).send("Erro ao buscar faq");
+        console.error('Erro ao buscar o FAQ:', error);
+        res.status(500).json({ message: 'Erro ao buscar o FAQ' });
     }
-        
+});
+
+
+
+app.put('/editarfaq', async (req, res) => {
+    console.log('Request body:', req.body);
+    const { id_faq, perguntas, respostas } = req.body;
+
+    if (!id_faq || !perguntas || !respostas) {
+        return res.status(400).json({ message: 'Dados insuficientes para editar FAQ' });
+    }
+
+    try {
+        await faq.atualizarFaq('ocean', id_faq, perguntas, respostas);
+        res.status(200).json({ message: 'FAQ editado com sucesso' });
+    } catch (error) {
+        console.error('Erro ao editar o FAQ:', error);
+        res.status(500).json({ message: 'Erro ao editar o FAQ' });
+    }
 });
 
 
-app.put("/editar-faq", async (req: Request, res: Response) => {
-    const { id_faq, pergunta, resposta } = req.body;
-
-    try {
-        await faq.atualizarFaq(dbName, id_faq, pergunta, resposta);
-        console.log("Faq atualizado com sucesso");
-        res.status(200).send("Faq atualizado com sucesso");
-    } catch (error) {
-        console.error("Erro ao atualizar faq:", error);
-        res.status(500).send("Erro ao atualizar faq");
-    }
-});
 
 app.put("/editarperfil", async (req: Request, res: Response) => {
     const { cpf, nome, email, senha, telefone, endereco, numero, cep } = req.body;
@@ -571,6 +574,22 @@ app.put("/editarperfil", async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Erro ao atualizar usuário:", error);
         res.status(500).send("Erro ao atualizar usuário");
+    }
+});
+
+app.post('/deletar-faq', async (req, res) => {
+    const { faqId } = req.body;
+
+    if (!faqId) {
+        return res.status(400).json({ message: 'ID do FAQ não fornecido' });
+    }
+
+    try {
+        await faq.excluirFaq('ocean', faqId);
+        res.status(200).json({ message: 'FAQ excluído com sucesso' });
+    } catch (error) {
+        console.error('Erro ao excluir o FAQ:', error);
+        res.status(500).json({ message: 'Erro ao excluir o FAQ' });
     }
 });
 

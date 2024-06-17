@@ -36,7 +36,7 @@ function App() {
                 <Route path="/chamados" element={<AtendimentoSuporte />} />
                 <Route path="/faq" element={<Faq />} />
                 <Route path="/visualizarfaq" element={<VisualizarFaq />} />
-                <Route path="/editarfaq" element={<EditarFaq />} />
+                <Route path="/editarfaq/:faqId" element={<EditarFaq />} />
                 <Route path="/cadastrarfaq" element={<CadastrarFaq />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/perfil" element={<Perfil />} />
@@ -52,7 +52,6 @@ function App() {
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/editar-equipamento/:equipamentoId" element={<EditarEquipamento />} />
-                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
             <Footer />
         </Router>

@@ -1,9 +1,8 @@
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import styles from "../styles/FaqComponente.module.css"
+import styles from "../styles/FaqComponente.module.css";
 
-function EditAndDeleteButtonFaq({ faqId }: { faqId: number }){
-
+function EditAndDeleteButtonFaq({ faqId }: { faqId: number }) {
     const navigate = useNavigate();
 
     const onDelete = async () => {
@@ -27,20 +26,21 @@ function EditAndDeleteButtonFaq({ faqId }: { faqId: number }){
             }
         } catch (error) {
             console.error('Erro ao excluir o FAQ:', error);
+            toast.error('Erro ao excluir o FAQ');
         }
-    }
+    };
 
     const onEdit = () => {
-        navigate(`/editarfaq`);
-    }
+        navigate(`/editarfaq/${faqId}`);
+    };
 
     return (
         <div className={styles.sectionThree}>
             <Toaster />
-            <button className={styles.editButton} onClick={() => onEdit()}>EDITAR</button>
-            <button className={styles.deleteButton} onClick={() => onDelete()}>DELETAR</button>
+            <button className={styles.editButton} onClick={onEdit}>EDITAR</button>
+            <button className={styles.deleteButton} onClick={onDelete}>DELETAR</button>
         </div>
     );
 }
 
-export default EditAndDeleteButtonFaq
+export default EditAndDeleteButtonFaq;

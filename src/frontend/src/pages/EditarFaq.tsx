@@ -1,6 +1,7 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from "../styles/EditarFaq.module.css";
 import { ToastContainer } from "react-toastify";
 
@@ -8,9 +9,10 @@ function EditarFaq() {
     const { faqId } = useParams<{ faqId: string }>();
     const navigate = useNavigate();
     const [faq, setFaq] = useState({
-        pergunta: "",
-        resposta: ""
+        perguntas: "",
+        respostas: ""
     });
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -58,7 +60,7 @@ function EditarFaq() {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+    
         try {
             const token = localStorage.getItem("token");
             if (token) {
@@ -68,14 +70,19 @@ function EditarFaq() {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
                     },
-                    body: JSON.stringify({ ...faq, id_faq: faqId }),
+                    body: JSON.stringify({ id_faq: faqId, ...faq }),
                 });
-
+    
+                const data = await response.json();
+                console.log('Response data:', data);
+    
                 if (response.ok) {
                     toast.success("FAQ editado com sucesso");
-                    navigate("/visualizarfaq");
+                    setTimeout(() => {
+                        navigate("/visualizarfaq");
+                    }, 1000);
                 } else {
-                    throw new Error("Erro ao editar a FAQ");
+                    throw new Error(data.message || "Erro ao editar a FAQ");
                 }
             }
         } catch (error) {
@@ -83,6 +90,7 @@ function EditarFaq() {
             toast.error("Erro ao editar a FAQ. Por favor, tente novamente.");
         }
     };
+    
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -121,34 +129,52 @@ function EditarFaq() {
     }, [navigate]);
 
     return (
-        <div className={styles.containerEditarFaq}>
-            <ToastContainer/>
-            <h1 className={styles.tituloEditarFaq}>FAQ (ID: {faqId})</h1>
+        <div className={`${styles.containerEditarFaq} container`}>
+            <ToastContainer />
+            <h1 className={`${styles.tituloEditarFaq} my-4`}>FAQ (ID: {faqId})</h1>
             <form className={styles.faqArea} onSubmit={handleSubmit}>
-                <label className={styles.label}>Pergunta:</label>
-                <input
-                    className={styles.inputPergunta}
-                    type="text"
-                    name="pergunta"
-                    value={faq.pergunta}
-                    onChange={handleChange}
-                    placeholder="Digite a pergunta aqui"
-                />
-                <label className={styles.label}>Resposta:</label>
-                <textarea
-                    className={styles.textareaResposta}
-                    name="resposta"
-                    value={faq.resposta}
-                    onChange={handleChange}
-                    placeholder="Digite a resposta aqui"
-                />
-                <div className={styles.buttonsContainer}>
-                    <button type="button" className={styles.buttonDescartar} onClick={handleDescartar}>
-                        Descartar
-                    </button>
-                    <button type="submit" className={styles.buttonAlterar}>
-                        Alterar
-                    </button>
+                <div className="form-group">
+                    <label className={styles.label}>Pergunta:</label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="perguntas"
+                        value={faq.perguntas}
+                        onChange={handleChange}
+                        readOnly={!isEditing}
+                        style={{ color: isEditing ? 'black' : 'gray', backgroundColor: 'white' }}
+                        placeholder={!isEditing ? faq.perguntas : ''}
+                    />
+                </div>
+                <div className="form-group">
+                    <label className={styles.label}>Resposta:</label>
+                    <textarea
+                        className="form-control"
+                        name="respostas"
+                        value={faq.respostas}
+                        onChange={handleChange}
+                        readOnly={!isEditing}
+                        style={{ color: isEditing ? 'black' : 'gray', backgroundColor: 'white' }}
+                        placeholder={!isEditing ? faq.respostas : ''}
+                    />
+                </div>
+                <div className={`${styles.buttonsContainer} mt-3`}>
+                    {isEditing ? (
+                        <>
+                            <button type="button" className="btn btn-danger" onClick={handleDescartar}>
+                                Descartar
+                            </button>
+                            <button type="submit" className="btn btn-success" style={{margin: "0 100px 0 0"}} >
+                                Alterar
+                            </button>
+                        </>
+                    ) : (
+                    <>
+                        <button type="button" className="btn btn-primary" style={{margin: "30px 100px 0 0"}} onClick={() => setIsEditing(true)}>
+                            Editar
+                        </button>
+                    </>
+                    )}
                 </div>
             </form>
         </div>

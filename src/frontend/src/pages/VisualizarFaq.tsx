@@ -3,13 +3,11 @@ import { useNavigate } from "react-router-dom";
 import FaqArea from "../components/FaqArea";
 import Faq from "../components/Faq";
 import styles from "../styles/VisualizarFaq.module.css";
-import  { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 function VisualizarFaq() {
     const [faq, setFaq] = useState<any[]>([]);
     const navigate = useNavigate();
-
-
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -70,39 +68,34 @@ function VisualizarFaq() {
         fetchUserType().then(fetchfaq);
     }, [navigate]);
 
-
     return (
         <div className={styles.containerVisualizarEquipamento}>
-            <h1 className={styles.tituloVisualizarEquipamento}>
-                FAQ
-            </h1>
+            <h1 className={styles.tituloVisualizarEquipamento}>FAQ</h1>
             <FaqArea>
                 <div className={styles.equipamentosContainer}>
                     {faq.length > 0 ? (
                         <div className={styles.equipamentosScroll}>
-                            {faq.map(faq => (
-                                <div className={styles.wrapper} key={faq.id_faq}>
+                            {faq.map(faqItem => (
+                                <div className={styles.wrapper} key={faqItem.id_faq}>
                                     <Faq
-                                        id_faq={faq.id_faq}
-                                        Perguntas={faq.pergunta}
-                                        Resposta={faq.resposta}
+                                        id_faq={faqItem.id_faq}
+                                        pergunta={faqItem.perguntas}
+                                        resposta={faqItem.respostas}
                                     />
                                 </div>
-                        ))}
+                            ))}
                         </div>
                     ) : (
                         <div className={styles.NenhumEquipamento}>
-                            <p className={styles.NenhumEquipamentoTexto}>
-                                Nenhum FAQ registrado.
-                            </p>
+                            <p className={styles.NenhumEquipamentoTexto}>Nenhum FAQ registrado.</p>
                         </div>
                     )}
                 </div>
             </FaqArea>
             <div className={styles.buttons}>
-                <Link to="/cadastrarfaq" ><button className={styles.addButton}>
-                    Adicionar
-                </button></Link>
+                <Link to="/cadastrarfaq">
+                    <button className={styles.addButton}>Adicionar</button>
+                </Link>
             </div>
         </div>
     );

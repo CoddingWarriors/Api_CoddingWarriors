@@ -72,7 +72,7 @@ function Navbar() {
               <Link to="/">Página Inicial</Link>
             </li>
             <li className={styles.item}>
-              <Link to="/atendimento" style={{ cursor: "pointer" }}>
+              <Link to="/atendimento" style={{ cursor: "pointer", borderBottom: "none" }}>
                 Atendimento
               </Link>
             </li>
