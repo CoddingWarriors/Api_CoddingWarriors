@@ -152,7 +152,7 @@ return (
                 type="file"
                 id="imagem"
                 onChange={handleFileChange} 
-                style={{ display: 'none' }} // Esconde o input, se preferir
+                style={{ display: 'none' }}
             />
             <img className={styles.foto} src={perfil} alt="Foto de perfil" />
             <button className={styles.editButton} onClick={handleEditPhoto}>Editar foto</button>

@@ -593,18 +593,23 @@ app.post('/deletar-faq', async (req, res) => {
     }
 });
 
-/* app.put("/editar-foto", async( req: Request, res: Response) => {
-    const foto = req.file;
-    const cpf = req.body;
 
-    try{
-        await usuario.atualizaFotoUsuario(dbName, foto, cpf)
-        console.log("Foto atualizada com sucesso")
+app.put("/editar-foto", upload.single('imagem'), async (req: Request, res: Response) => {
+    const foto = req.file ? req.file.buffer : null;
+    const { cpf } = req.body;
+
+    try {
+        await usuario.atualizaFotoUsuario(dbName, foto, cpf);
+        const usuarioAtualizado = await usuario.buscarUsuarioPorCpf(dbName, cpf);
+        console.log("Foto atualizada com sucesso");
+        res.status(200).json({ message: "Foto atualizada com sucesso", foto: usuarioAtualizado.foto });
+    } catch (error) {
+        console.error("Erro ao atualizar foto:", error);
+        res.status(500).send("Erro ao atualizar foto");
     }
-    catch (error) {
-        console.log("erro ao atualizar foto")
-    }
-}) */
+});
+
+
 
 
 app.listen(PORT, () => {})

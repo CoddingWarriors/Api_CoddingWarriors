@@ -98,7 +98,7 @@ function Navbar() {
         {userType === '3' && (
           <>
             <li className={styles.item}>
-              <Link to="/homeadm" style={{ cursor: "pointer" }}>
+              <Link to="/dashboard" style={{ cursor: "pointer" }}>
                 Dashboard
               </Link>
             </li>
