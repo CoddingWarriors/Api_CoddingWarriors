@@ -72,7 +72,7 @@ function Navbar() {
               <Link to="/">Página Inicial</Link>
             </li>
             <li className={styles.item}>
-              <Link to="/atendimento" style={{ cursor: "pointer" }}>
+              <Link to="/atendimento" style={{ cursor: "pointer", borderBottom: "none" }}>
                 Atendimento
               </Link>
             </li>
@@ -98,7 +98,7 @@ function Navbar() {
         {userType === '3' && (
           <>
             <li className={styles.item}>
-              <Link to="/homeadm" style={{ cursor: "pointer" }}>
+              <Link to="/dashboard" style={{ cursor: "pointer" }}>
                 Dashboard
               </Link>
             </li>

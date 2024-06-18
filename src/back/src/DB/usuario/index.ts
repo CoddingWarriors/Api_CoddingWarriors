@@ -7,45 +7,47 @@ export class Usuario {
     constructor(conexao: Conecta) {
         this.connection = conexao.connection
     }
-    async createTableUsuario(dbName: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.connection.query(`Use ${dbName};`, (useErro, useResults) => {
-                if (useErro) {
-                    console.error("Erro ao selecionar o banco de dados:", useErro)
-                    reject(useErro)
-                } else {
-                    console.log("Banco de dados selecionado com sucesso!")
-                    this.connection.query(
-                        `CREATE TABLE IF NOT EXISTS usuario (
-                            id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-                            cpf VARCHAR(11) NOT NULL,
-                            nome VARCHAR(50),
-                            telefone VARCHAR(25),
-                            email VARCHAR(30),
-                            senha VARCHAR(10),
-                            endereco VARCHAR(50),
-                            numero INT,
-                            cep VARCHAR(8),
-                            token VARCHAR(250),
-                            tipo VARCHAR(1),
-                            horario_inicio TIME,
-                            horario_fim TIME,
-                            UNIQUE KEY (cpf)
-                        );`,
-                        (createErro, createResults) => {
-                            if (createErro) {
-                                console.error("Erro ao criar a tabela usuario:", createErro)
-                                reject(createErro)
-                            } else {
-                                console.log("Tabela usuario criada com sucesso!")
-                                resolve()
-                            }
+async createTableUsuario(dbName: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        this.connection.query(`USE ${dbName};`, (useErro, useResults) => {
+            if (useErro) {
+                console.error("Erro ao selecionar o banco de dados:", useErro)
+                reject(useErro)
+            } else {
+                console.log("Banco de dados selecionado com sucesso!")
+                this.connection.query(
+                    `CREATE TABLE IF NOT EXISTS usuario (
+                        id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+                        cpf VARCHAR(11) NOT NULL,
+                        nome VARCHAR(50),
+                        telefone VARCHAR(25),
+                        email VARCHAR(30),
+                        senha VARCHAR(10),
+                        endereco VARCHAR(50),
+                        numero INT,
+                        cep VARCHAR(8),
+                        token VARCHAR(250),
+                        tipo VARCHAR(1),
+                        horario_inicio TIME,
+                        horario_fim TIME,
+                        foto LONGBLOB,
+                        UNIQUE KEY (cpf)
+                    );`,
+                    (createErro, createResults) => {
+                        if (createErro) {
+                            console.error("Erro ao criar a tabela usuario:", createErro)
+                            reject(createErro)
+                        } else {
+                            console.log("Tabela usuario criada com sucesso!")
+                            resolve()
                         }
-                    )
-                }
-            })
+                    }
+                )
+            }
         })
-    }
+    })
+}
+
 
     async loginUsuario(dbName: string, credencial: string, senha: string): Promise<boolean> {
         return new Promise((resolve, reject) => {
@@ -381,7 +383,7 @@ export class Usuario {
         })
     }
 
-    async atualizaFotoUsuario (dbName: string, foto: Buffer | null, cpf: string) {
+    async atualizaFotoUsuario(dbName: string, foto: Buffer | null, cpf: string): Promise<void> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
@@ -389,16 +391,21 @@ export class Usuario {
                     reject(useError)
                 } else {
                     console.log("Banco de dados selecionado com sucesso!")
-                    this.connection.query(`UPDATE usuario SET foto = ?  WHERE cpf = ?;`, [foto, cpf], (error, results) => {
-                        if (error) {
-                            console.error("Erro ao atualizar foto", error)
-                            reject(error)
-                        } else {
-                            resolve(results[0])
+                    this.connection.query(
+                        `UPDATE usuario SET foto = ? WHERE cpf = ?`,
+                        [foto, cpf],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar foto", error)
+                                reject(error)
+                            } else {
+                                resolve(results[0])
+                            }
                         }
-                    })
+                    )
                 }
             })
         })
     }
+    
 }

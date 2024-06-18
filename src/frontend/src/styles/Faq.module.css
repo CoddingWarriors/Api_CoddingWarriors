@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
     gap: 35px;
+    width: 90%;
+    margin: 0 auto;
 }
 
 .titulo {
@@ -10,6 +12,7 @@
     align-items: center;
     cursor: pointer;
     border-bottom: 1px solid #5772FF;
+    width: 100%;
 }
 
 .titulo h3 {
@@ -42,8 +45,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 70px 150px;
+    margin: 70px auto;
     min-height: 60%;
+    width: 100%;
 }
 
 .containerFAQ h1 {
@@ -54,4 +58,10 @@
     margin: 40px 0;
     text-align: center;
     margin-bottom: 80px;
+}
+
+.wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

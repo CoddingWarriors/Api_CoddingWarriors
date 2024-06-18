@@ -11,7 +11,7 @@
 }
 
 .sectionOne {
-    width: 14%;
+    flex: 0 0 14%; /* Mantém a largura fixa de 14% */
     height: 22vh;
     display: flex;
     justify-content: center;
@@ -23,7 +23,7 @@
 }
 
 .sectionTwoC {
-    flex-grow: 1; /* Ajuste para preencher o espaço restante */
+    flex: 1; /* Permite que sectionTwoC cresça para preencher o espaço restante */
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -36,15 +36,18 @@
     padding: 10px;
     border-radius: 10px;
     text-align: start;
+    max-height: 5rem; /* Ajuste de altura máxima para os retângulos */
+    overflow: hidden; /* Ocultar overflow caso o conteúdo seja maior que o limite */
 }
 
 .sectionThree {
-    width: 14%;
+    flex: 0 0 14%; /* Mantém a largura fixa de 14% */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 2vh;
+    max-width: 20%; /* Limitar a largura máxima */
 }
 
 .answerButton {
