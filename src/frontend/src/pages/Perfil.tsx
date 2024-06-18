@@ -120,8 +120,6 @@ const renderPersonalData = () => (
         <label className={styles.labell}>Email</label>
         <input className={styles.inputt} type="text" value={userInfo?.email || "Carregando..."} readOnly />
 
-        <label className={styles.labell}>Senha</label>
-        <input className={styles.inputt} type="text" value={userInfo?.senha || "Carregando..."} readOnly />
 
         <label className={styles.labell}>CPF</label>
         <input className={styles.inputt} type="text" value={userInfo?.cpf || "Carregando..."} readOnly />

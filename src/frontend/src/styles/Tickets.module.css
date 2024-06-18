@@ -57,9 +57,13 @@
     padding: 10px;
     cursor: pointer;
     border-radius: 17px;
-    width: 8em;
-    height:4rem;
+    width: 100%; /* Botão ocupa 100% da largura do seu contêiner */
+    max-width: 250px; /* Largura máxima para evitar que fique muito largo */
+    height: auto; /* Altura automática para ajustar ao conteúdo */
     font-size: 1.5em;
+    margin-top: 10px; /* Espaço superior para separação */
+    text-align: center; /* Centraliza o texto */
+    transition: all 0.3s ease; /* Transição suave para efeitos visuais */
 }
 
 .acceptButton {

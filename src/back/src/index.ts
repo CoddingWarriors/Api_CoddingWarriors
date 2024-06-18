@@ -112,7 +112,7 @@ app.post("/cadastro", async (req, res) => {
 
 
 app.post("/abrirchamado", upload.single("imagem"), async (req: Request, res: Response) => {
-    const { titulo, descricao, categoria, token } = req.body;
+    const { titulo, descricao, categoria, tempo, dataCriacao, dataFinalizacao, token } = req.body;
     const imagem = req.file;
 
     if (!Authentication.isValidToken(token)) {
@@ -127,7 +127,7 @@ app.post("/abrirchamado", upload.single("imagem"), async (req: Request, res: Res
 
     try {
         const imagemBinaria = imagem ? imagem.buffer : null;
-        await chamado.novoChamado(dbName, titulo, descricao, categoria, userId, imagemBinaria);
+        await chamado.novoChamado(dbName, titulo, descricao, categoria, tempo, userId, imagemBinaria, dataCriacao, dataFinalizacao);
 
         console.log("Chamado criado com sucesso");
         res.status(200).send("Chamado criado com sucesso");
@@ -136,6 +136,21 @@ app.post("/abrirchamado", upload.single("imagem"), async (req: Request, res: Res
         res.status(500).send("Erro ao criar chamado");
     }
 });
+
+app.post("/atualizar-data-finalizacao", async (req: Request, res: Response) => {
+    const { chamadoId, novaDataFinalizacao, token } = req.body;
+
+    try {
+        await chamado.atualizarDataFinalizacao(dbName, chamadoId, novaDataFinalizacao);
+
+        console.log("Data de finalização do chamado atualizada com sucesso");
+        res.status(200).json({ message: "Data de finalização do chamado atualizada com sucesso" });
+    } catch (error) {
+        console.error("Erro ao atualizar data de finalização do chamado:", error);
+        res.status(500).json({ message: "Erro ao atualizar data de finalização do chamado" });
+    }
+});
+
 
 app.post("/esquecisenha", async (req, res) => {
     const { username } = req.body;

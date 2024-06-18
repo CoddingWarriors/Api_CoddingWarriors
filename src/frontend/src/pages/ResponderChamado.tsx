@@ -117,7 +117,7 @@ function ResponderChamado() {
                             />
                             <div className={styles.botoes}>
                                 <button type="submit" className={styles.responder}>Responder</button>
-                                <button type="button" onClick={handleDescartar} className={styles.deletar}>Deletar</button>
+                                <button type="button" onClick={handleDescartar} className={styles.deletar}>Descartar</button>
                             </div>
                         </form>
                     </div>

@@ -28,6 +28,9 @@ export class Chamado {
                             id_usuario INT,
                             id_suporte INT,
                             imagem LONGBLOB,
+                            tempo INT,
+                            dataCriacao DATETIME,
+                            dataFinalizacao DATETIME,
                             FOREIGN KEY (id_suporte) REFERENCES usuario(id_usuario),
                             FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
                         );
@@ -48,42 +51,61 @@ export class Chamado {
     }
     
     
+    
 
     async novoChamado(
         dbName: string,
         titulo: string,
         descricao: string,
         categoria: string,
+        tempo: number | null,
         userId: number,
-        imagemBinaria: Buffer | null
+        imagemBinaria: Buffer | null,
+        dataCriacao: string,
+        dataFinalizacao: string | null
     ): Promise<void> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
+    
+                    // Formatar dataCriacao para o formato correto
+                    const formattedDataCriacao = dataCriacao.replace('T', ' ').replace('Z', '');
+    
+                    // Formatar dataFinalizacao para o formato correto se não for null
+                    let formattedDataFinalizacao = null;
+                    if (dataFinalizacao) {
+                        formattedDataFinalizacao = dataFinalizacao.replace('T', ' ').replace('Z', '');
+                    }
+    
                     this.connection.query(
                         `
-                        INSERT INTO chamado (titulo, descricao, categoria, respostas, status, id_usuario, id_suporte, imagem)
-                        VALUES (?, ?, ?, NULL, 'Aberto', ?, NULL, ?)
+                        INSERT INTO chamado (
+                            titulo, descricao, categoria, tempo, respostas, status, id_usuario, id_suporte, imagem, dataCriacao, dataFinalizacao
+                        )
+                        VALUES (?, ?, ?, ?, NULL, 'Aberto', ?, NULL, ?, ?, ?)
                         `,
-                        [titulo, descricao, categoria, userId, imagemBinaria],
+                        [titulo, descricao, categoria, tempo, userId, imagemBinaria, formattedDataCriacao, formattedDataFinalizacao],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro", error)
-                                reject(error)
+                                console.error("Erro ao inserir chamado:", error);
+                                reject(error);
                             } else {
-                                console.log("Sucesso!")
-                                resolve()
+                                console.log("Sucesso!");
+                                resolve();
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
+    
+    
 
     async buscarChamadosDoUsuario(dbName: string, userId: number, status: string): Promise<any[]> {
         return new Promise((resolve, reject) => {
@@ -207,40 +229,83 @@ export class Chamado {
     async obterInformacoesChamado(
         dbName: string,
         chamadoId: number
-    ): Promise<{ titulo: string; descricao: string; categoria: string; imagem: string | null; status: string; respostas: string }> { 
+    ): Promise<{ 
+        titulo: string; 
+        descricao: string; 
+        categoria: string; 
+        imagem: string | null; 
+        status: string; 
+        respostas: string;
+        dataCriacao: Date; 
+        dataFinalizacao: Date | null; 
+    }> {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `
-                            SELECT titulo, descricao, categoria, imagem, status, respostas
-                            FROM chamado
-                            WHERE id_chamado = ?
+                        SELECT 
+                            titulo, 
+                            descricao, 
+                            categoria, 
+                            imagem, 
+                            status, 
+                            respostas, 
+                            dataCriacao, 
+                            dataFinalizacao
+                        FROM chamado
+                        WHERE id_chamado = ?
                         `,
                         [chamadoId],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao obter informações do chamado:", error)
-                                reject(error)
+                                console.error("Erro ao obter informações do chamado:", error);
+                                reject(error);
                             } else {
                                 if (results.length === 0) {
-                                    reject(new Error("Chamado não encontrado"))
+                                    reject(new Error("Chamado não encontrado"));
                                 } else {
-                                    const { titulo, descricao, categoria, imagem, status, respostas } = results[0]
+                                    const { 
+                                        titulo, 
+                                        descricao, 
+                                        categoria, 
+                                        imagem, 
+                                        status, 
+                                        respostas, 
+                                        dataCriacao, 
+                                        dataFinalizacao 
+                                    } = results[0];
+                                    
+                                    // Converter imagem para URL base64 se existir
                                     const imagemUrl = imagem ? `data:image/jpeg;base64,${imagem.toString('base64')}` : null;
-                                    resolve({ titulo, descricao, categoria, imagem: imagemUrl, status, respostas })
+    
+                                    // Converter dataCriacao e dataFinalizacao para objetos Date
+                                    const dataCriacaoObj = new Date(dataCriacao);
+                                    const dataFinalizacaoObj = dataFinalizacao ? new Date(dataFinalizacao) : null;
+    
+                                    resolve({ 
+                                        titulo, 
+                                        descricao, 
+                                        categoria, 
+                                        imagem: imagemUrl, 
+                                        status, 
+                                        respostas, 
+                                        dataCriacao: dataCriacaoObj, 
+                                        dataFinalizacao: dataFinalizacaoObj 
+                                    });
                                 }
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
     
     
 
@@ -340,4 +405,36 @@ export class Chamado {
         });
     }
     
+    async atualizarDataFinalizacao(dbName: string, chamadoId: number, novaDataFinalizacao: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`USE ${dbName};`, (useError, _) => {
+                if (useError) {
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
+                } else {
+                    console.log("Banco de dados selecionado com sucesso!");
+                    console.log("Data de finalização recebida:", novaDataFinalizacao); // Adicione este log para verificar a data recebida
+    
+                    this.connection.query(
+                        `
+                        UPDATE chamado
+                        SET dataFinalizacao = ?
+                        WHERE id_chamado = ?
+                        `,
+                        [novaDataFinalizacao, chamadoId],
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar data de finalização:", error);
+                                reject(error);
+                            } else {
+                                console.log("Data de finalização atualizada com sucesso!");
+                                resolve();
+                            }
+                        }
+                    );
+                }
+            });
+        });
+    }
+        
 }
