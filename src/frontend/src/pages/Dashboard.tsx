@@ -1,3 +1,4 @@
+import React from "react";
 import AreaCard from "../components/AreaCard";
 import HorizontalBarChart from "../components/HorizontalBar";
 
@@ -11,7 +12,7 @@ function Dashboard() {
             />
             <HorizontalBarChart />
         </div>
-    )
+    );
 }
 
-export default Dashboard
+export default Dashboard;

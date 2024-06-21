@@ -217,7 +217,7 @@ function VisualizarChamado() {
                 </div>
             )}
 
-            {(userType == 2 || userType === 3) && (
+            {(userType == 2 || chamado.status !== "Concluído") && (
                 <div className={styles.editDataContainer}>
                     {isEditingDataFinalizacao ? (
                         <div className={styles.editableData}>

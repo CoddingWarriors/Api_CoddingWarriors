@@ -153,7 +153,7 @@ return (
                 style={{ display: 'none' }}
             />
             <img className={styles.foto} src={perfil} alt="Foto de perfil" />
-            <button className={styles.editButton} onClick={handleEditPhoto}>Editar foto</button>
+            
         </div>
         <div className={styles.formulario}>
             <div className={styles.tabContainer}>

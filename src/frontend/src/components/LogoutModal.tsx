@@ -55,6 +55,11 @@ function LogoutModal({ onLogout, onCancel }: LogoutModalProps) {
         }
     };
 
+    const handleManageAccountClick = () => {
+        onCancel(); // Fecha o modal antes de navegar para /perfil
+        navigate("/perfil");
+    };
+
     return (
         <div className={styles.modalBackground} onClick={handleBackgroundClick}>
             <div ref={modalRef} className={styles.logoutModalContainer}>
@@ -66,7 +71,7 @@ function LogoutModal({ onLogout, onCancel }: LogoutModalProps) {
                         <p className={styles.email}>{userInfo ? userInfo.email : ""}</p>
                     </div>
                 </div>
-                <p onClick={() => navigate("/perfil")} className={styles.logout}>Gerenciar Conta</p>
+                <p onClick={handleManageAccountClick} className={styles.logout}>Gerenciar Conta</p>
                 <hr />
                 <p onClick={onLogout} className={styles.logout}>Fazer Logout</p>
             </div>

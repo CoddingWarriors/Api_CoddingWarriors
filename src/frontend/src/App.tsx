@@ -1,35 +1,49 @@
-import React from "react"
-import "./App.css"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import Home from "./pages/Home"
-import Atendimento from "./pages/Atendimento"
-import AtendimentoSuporte from "./pages/VisualizaChamdSuporte"
-import Faq from "./pages/Faq"
-import VisualizarFaq from "./pages/VisualizarFaq"
-import EditarFaq from "./pages/EditarFaq"
-import CadastrarFaq from "./pages/CadastrarFaq"
-import Navbar from "./components/Navbar"
-import Footer from "./components/Footer"
-import Login from "./pages/Login"
-import Perfil from "./pages/Perfil"
-import EditarPerfil from "./pages/EditarPerfil"
-import Cadastro from "./pages/Cadastro"
-import CadastroADM from "./pages/CadastroADM"
-import EsqueciSenha from "./pages/EsqueciSenha"
-import NovaSenha from "./pages/NovaSenha"
-import AbrirChamado from "./pages/AbrirChamado"
-import CadastroEquipamentos from "./pages/CadastroEquipamentos"
-import VisualizarEquipamento from "./pages/VisualizarEquipamento"
-import VisualizarChamado from "./pages/VisualizarChamado"
-import ResponderChamado from "./pages/ResponderChamado"
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import Home from "./pages/Home";
+import Atendimento from "./pages/Atendimento";
+import AtendimentoSuporte from "./pages/VisualizaChamdSuporte";
+import Faq from "./pages/Faq";
+import VisualizarFaq from "./pages/VisualizarFaq";
+import EditarFaq from "./pages/EditarFaq";
+import CadastrarFaq from "./pages/CadastrarFaq";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Login from "./pages/Login";
+import Perfil from "./pages/Perfil";
+import EditarPerfil from "./pages/EditarPerfil";
+import Cadastro from "./pages/Cadastro";
+import CadastroADM from "./pages/CadastroADM";
+import EsqueciSenha from "./pages/EsqueciSenha";
+import NovaSenha from "./pages/NovaSenha";
+import AbrirChamado from "./pages/AbrirChamado";
+import CadastroEquipamentos from "./pages/CadastroEquipamentos";
+import VisualizarEquipamento from "./pages/VisualizarEquipamento";
+import VisualizarChamado from "./pages/VisualizarChamado";
+import ResponderChamado from "./pages/ResponderChamado";
 import EditarEquipamento from "./pages/EditarEquipamento";
-import Dashboard from "./pages/Dashboard"
-
+import Dashboard from "./pages/Dashboard";
 
 function App() {
     return (
         <Router>
             <Navbar />
+            <RoutesWithFooter />
+        </Router>
+    );
+}
+
+export default App;
+
+// Componente para gerenciar as rotas com o Footer
+function RoutesWithFooter() {
+    const location = useLocation();
+
+    // Verifica se está na página Dashboard
+    const isDashboardPage = location.pathname === "/dashboard";
+
+    return (
+        <>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/atendimento" element={<Atendimento />} />
@@ -50,12 +64,10 @@ function App() {
                 <Route path="/visualizarequipamento" element={<VisualizarEquipamento />} />
                 <Route path="/responderchamado/:chamadoId" element={<ResponderChamado />} />
                 <Route path="/visualizarchamado/:chamadoId" element={<VisualizarChamado />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/editar-equipamento/:equipamentoId" element={<EditarEquipamento />} />
+                <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
-            <Footer />
-        </Router>
-    )
+            {!isDashboardPage && <Footer />}
+        </>
+    );
 }
-
-export default App

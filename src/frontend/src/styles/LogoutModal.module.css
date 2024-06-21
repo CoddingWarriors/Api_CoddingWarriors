@@ -2,15 +2,16 @@
 
 .logoutModalContainer {
     position: fixed;
-    top: 19%;
-    left: 94%;
+    top: 50%; /* alterado para 50% para centralizar verticalmente */
+    left: 50%; /* alterado para 50% para centralizar horizontalmente */
     transform: translate(-50%, -50%);
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 11%;
+    width: 300px; /* ajustado para um valor fixo mais legível */
+    max-width: 90%; /* adicionado max-width para responsividade */
     z-index: 1000;
-    padding: 1%;
+    padding: 16px; /* ajustado para um valor em pixels */
 }
 
 .modalBackground {
@@ -19,49 +20,53 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* adicionado um fundo semitransparente */
     z-index: 1000;
     display: flex;
     justify-content: center;
     align-items: center;
-  }
+}
 
 .informacoesPessoaisContainer {
     display: flex;
-    margin: 1.5vh 0;
+    margin: 12px 0; /* ajustado para um valor em pixels */
+    padding: 8px; /* adicionado um padding interno */
 }
 
 .informacoesPessoaisContainer img {
     width: 30%;
+    max-width: 80px; /* ajustado para um valor máximo em pixels */
+    height: auto; /* adicionado para manter a proporção */
+    border-radius: 50%; /* adicionado um border-radius para uma imagem circular */
+    margin-right: 12px; /* ajustado para um valor em pixels */
 }
 
 .informacoesPessoais {
+    flex: 1; /* ajustado para ocupar o espaço restante */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 80%;
-    overflow: hidden;
-    gap: 0.5vh;
+    gap: 4px; /* ajustado para um valor em pixels */
 }
 
-
 .nome, .email {
-    max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     padding: 0 10px;
-    box-sizing: content-box;
     font-size: 15px;
 }
 
 .logoutModalContainer hr {
-    border: 1px solid rgb(90, 90, 90);
-    margin-bottom: 1vh;
+    border: none; /* removido o estilo padrão de border */
+    border-top: 1px solid rgb(90, 90, 90); /* adicionado apenas a borda superior */
+    margin: 8px 0; /* ajustado para um valor em pixels */
 }
 
 .conta {
     font-weight: bold;
     font-size: 120%;
+    margin-bottom: 8px; /* ajustado para um valor em pixels */
 }
 
 .logout {
