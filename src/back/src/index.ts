@@ -432,8 +432,17 @@ app.post("/buscar-equipamento", async (req: Request, res: Response) => {
 app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
     const { ip, localizacao, notas, tipo, status, cpf } = req.body;
 
+    const validTypes = ["modem", "roteador", "switch"];
+    const validStatus = ["ativo", "inativo"];
+
+    if (!validTypes.includes(tipo) || !validStatus.includes(status)) {
+        res.status(400).send("Tipo ou status inválido");
+        return;
+    }
+
     try {
-        const userExists = await usuario.buscarUsuarioPorCpf(dbName, cpf); // Supondo que essa função verifica se o usuário existe pelo CPF
+        const userExists = await usuario.buscarUsuarioPorCpf(dbName, cpf);
+        console.log(userExists)
 
         if (!userExists) {
             res.status(404).send("Usuário não encontrado");
@@ -448,6 +457,8 @@ app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
         res.status(500).send("Erro ao cadastrar equipamento");
     }
 });
+
+
 
 app.put("/atualizar-equipamento", async (req: Request, res: Response) => {
     const { id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, cpf_usuario } = req.body;
@@ -608,23 +619,28 @@ app.post('/deletar-faq', async (req, res) => {
     }
 });
 
-
-app.put("/editar-foto", upload.single('imagem'), async (req: Request, res: Response) => {
-    const foto = req.file ? req.file.buffer : null;
-    const { cpf } = req.body;
+app.get("/buscar-endereco/:cpf", async (req: Request, res: Response) => {
+    const { cpf } = req.params;
 
     try {
-        await usuario.atualizaFotoUsuario(dbName, foto, cpf);
-        const usuarioAtualizado = await usuario.buscarUsuarioPorCpf(dbName, cpf);
-        console.log("Foto atualizada com sucesso");
-        res.status(200).json({ message: "Foto atualizada com sucesso", foto: usuarioAtualizado.foto });
+        const user = await usuario.buscarUsuarioPorCpfComEndereco(dbName, cpf);
+        if (!user) {
+            res.status(404).send("Usuário não encontrado");
+            return;
+        }
+
+        res.status(200).json({
+            cep: user.cep,
+            estado: user.estado,
+            cidade: user.cidade,
+            rua: user.rua,
+            numero: user.numero,
+            complemento: user.complemento,
+        });
     } catch (error) {
-        console.error("Erro ao atualizar foto:", error);
-        res.status(500).send("Erro ao atualizar foto");
+        console.error("Erro ao buscar endereço:", error);
+        res.status(500).send("Erro ao buscar endereço");
     }
 });
-
-
-
 
 app.listen(PORT, () => {})

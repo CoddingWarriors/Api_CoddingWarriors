@@ -12,10 +12,9 @@ const [categoriaSelecionada, setCategoriaSelecionada] = useState('');
 const [categoriaPersonalizada, setCategoriaPersonalizada] = useState('');
 const [imagem, setImagem] = useState<File | null>(null);
 const [isLoggedIn, setIsLoggedIn] = useState(false);
-const [permissionDenied, setPermissionDenied] = useState(false);
+const [permissionDenied] = useState(false);
 const [nomeArquivo, setNomeArquivo] = useState('');
 const [tempo, setTempo] = useState<number | null>(null);
-const [dataFinalizacao, setDataFinalizacao] = useState<string | null>(null);
 
 
 const handleFileChange = (event: any) => {

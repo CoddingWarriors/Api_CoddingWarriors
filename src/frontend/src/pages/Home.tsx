@@ -19,8 +19,8 @@ function Home() {
 
             <div className={styles.containerImagemTexto}>
                 <img src={empresa} alt="Sobre empresa não carregou" />
-                    <div>
-                        <h1>Nossa empresa tem grande destaque no mercado!</h1>
+                    <div className={styles.sobreEmpresa}>
+                        <h1><strong>Nossa empresa tem grande destaque no mercado!</strong></h1>
                         <p>Com anos de experiência e uma equipe apaixonada, somos reconhecidos por  nossa inovação, confiabilidade e compromisso com a satisfação do  cliente</p>
                     </div>
             </div>

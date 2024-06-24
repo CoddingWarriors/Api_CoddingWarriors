@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from "react";
+import React, { useState, FormEvent, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 import { Toaster, toast } from 'react-hot-toast';
@@ -13,10 +13,9 @@ function Login() {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
 
-    // Verifica se o segundo caractere é um número
     if (value.length === 2 && /^[0-9]$/.test(value.charAt(1))) {
       setIsCpfMask(true);
-    } else if (value.length === 1) {
+    } else if (value.length === 0) {
       setIsCpfMask(false);
     }
 
@@ -43,10 +42,11 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("token", data.token);
         toast.success('Login realizado com sucesso');
-        navigate("/");
+        document.body.classList.add(styles.fadeOut);
         setTimeout(() => {
+          navigate("/");
           window.location.reload();
-        }, 1000); 
+        }, 500);
       } else {
         if (data.message === 'Você só pode acessar seu login no seu horário de trabalho') {
           toast.error(data.message);
@@ -75,6 +75,7 @@ function Login() {
               value={username}
               onChange={handleUsernameChange}
               placeholder="Insira seu CPF"
+              maskPlaceholder=""
             />
           ) : (
             <input

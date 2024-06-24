@@ -10,19 +10,12 @@ function Faq() {
     const [selecionado, setSelecionado] = useState<number | null>(null);
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            toast.error("Você precisa estar logado para visualizar o FAQ.");
-            return;
-        }
-
         async function fetchFaq() {
             try {
                 const response = await fetch("http://localhost:5000/get-faq", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
                     },
                 });
 

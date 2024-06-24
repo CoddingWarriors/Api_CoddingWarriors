@@ -10,38 +10,39 @@ export class Equipamento {
 
     async createTableEquipamento(dbName: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            this.connection.query(`Use ${dbName};`, (useErro, useResults) => {
+            this.connection.query(`USE ${dbName};`, (useErro, useResults) => {
                 if (useErro) {
-                    console.error("Erro ao selecionar o banco de dados:", useErro)
-                    reject(useErro)
+                    console.error("Erro ao selecionar o banco de dados:", useErro);
+                    reject(useErro);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `CREATE TABLE IF NOT EXISTS equipamento (
                             id_equipamento INT AUTO_INCREMENT PRIMARY KEY,
                             ip VARCHAR(15),
                             localizacao VARCHAR(50),
                             dt_instalacao DATE,
-                            notas VARCHAR(50),
-                            tipo VARCHAR(30),
-                            status VARCHAR(20),
+                            notas VARCHAR(250),
+                            tipo ENUM('modem', 'roteador', 'switch') NOT NULL,
+                            status ENUM('ativo', 'inativo') NOT NULL,
                             cpf_usuario VARCHAR(11),
                             FOREIGN KEY (cpf_usuario) REFERENCES usuario(cpf)
                         );`,
                         (createErro, createResults) => {
                             if (createErro) {
-                                console.error("Erro ao criar a tabela equipamento:", createErro)
-                                reject(createErro)
+                                console.error("Erro ao criar a tabela equipamento:", createErro);
+                                reject(createErro);
                             } else {
-                                console.log("Tabela equipamento criada com sucesso!")
-                                resolve()
+                                console.log("Tabela equipamento criada com sucesso!");
+                                resolve();
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
 
     async cadastrarEquipamento(
         dbName: string,

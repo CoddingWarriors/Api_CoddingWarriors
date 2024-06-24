@@ -1,7 +1,6 @@
 /* CadastroADM.module.css */
 
 /* Estilo para o grupo de botões */
-
 .botoes {
     width: 60%;
     margin-top: 20px; /* espaço maior entre a div dos botões e as divs acima */
@@ -43,7 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px  0;
+    margin: 15%;
 }
 
 .containerCadastro {
@@ -51,6 +50,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 5% 0;
     width: 700px;
     height: 900px;
     background-color: white;
@@ -102,4 +102,20 @@
 .inputGroup {
     display: flex;
     flex-direction: column;
+}
+
+.containerCadastro h1 {
+    color: #000469;
+    font-weight: bold;
+    margin-bottom: 4%;
+}
+
+.inputGroup input[readonly] {
+    color: gray;
+}
+
+.textAreaExpansivel {
+    overflow: hidden;
+    resize: none;
+    min-height: 40px;
 }

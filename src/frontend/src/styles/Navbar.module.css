@@ -1,7 +1,9 @@
 .links {
     display: flex;
     align-items: center;
-    gap: 20px;
+    justify-content: center;
+    gap: 2em;
+    margin: 0;
 }
 
 .item a {
@@ -11,13 +13,14 @@
 
 nav {
     background-color: #000469;
-    padding: 20px 70px 20px 70px;
+    padding: 1em 5em;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 img {
-    width: 70%;
+    width: 80%;
 }
 
 .usuarioPerfil {
@@ -34,11 +37,11 @@ img {
 
 .login {
     border: 2px solid white;
-    border-radius: 5px;
+    border-radius: 0.6em;
     background: none;
     color: white;
-    padding: 10px 20px;
-    font-size: 15px;
+    padding: 0.8em 1.5em;
+    font-size: 1em;
     cursor: pointer;
     font-weight: bold;
 }

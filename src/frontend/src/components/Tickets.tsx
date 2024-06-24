@@ -2,7 +2,7 @@ import styles from "../styles/Tickets.module.css";
 import image from '../img/viz.png';
 import AnswerButton from './AnswerButton';
 import AcceptAndDeleteButton from './AcceptAndDeleteButton';
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Tickets(props: any) {
     return (

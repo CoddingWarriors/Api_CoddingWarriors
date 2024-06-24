@@ -21,46 +21,7 @@ const Perfil: React.FC = () => {
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const [userAddress, setUserAddress] = useState<UserAddress | null>(null);
     const [activeTab, setActiveTab] = useState("dadosPessoais");
-    const navigate = useNavigate();
-    const [nomeArquivo, setNomeArquivo] = useState('');
-    const [imagem, setImagem] = useState<File | null>(null);
-
-    const handleFileChange = (event: any) => {
-        const file = event.target.files[0];
-        const fileName = file.name;
-        setNomeArquivo(fileName);
-    };
-
-    const handleEditPhoto = async () => {
-        try {
-        const formData = new FormData();
-        
-        if (imagem) {
-            formData.append("imagem", imagem);
-        }
-        const response = await fetch("http://localhost:5000/editar-foto", {
-            method: "POST",
-            body: formData,
-        });
-
-        if (response.ok) {
-            alert('Foto atualizada com sucesso!');
-            setTimeout(() => {
-                navigate("/perfil");
-            }, 1000);
-        } 
-            else {
-            
-    }
-}
-        catch (error) {
-        console.error("Erro ao atualizar foto:", error);
-        alert("Erro ao atualizar foto. Por favor, tente novamente.");
-}
-
-};
-    
-    
+    const navigate = useNavigate()
 
 const handleEditClick = () => {
     navigate('/editarperfil');
@@ -149,7 +110,6 @@ return (
                 className={styles.file}
                 type="file"
                 id="imagem"
-                onChange={handleFileChange} 
                 style={{ display: 'none' }}
             />
             <img className={styles.foto} src={perfil} alt="Foto de perfil" />

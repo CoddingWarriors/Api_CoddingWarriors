@@ -1,19 +1,26 @@
 .footer {
     display: flex;
     background-color: #000469;
-    padding: 50px;
+    padding: 1.5em 5em;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
 .footer img {
-    width: 10%;
+    width: 14%;
+    height: 14%;
 }
 
 .contatosFooter {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     color: white;
+}
+
+.contatosFooter h1 {
+    font-weight: bold;
+    text-align: center;
+}
+
+.contatosFooter p {
+    margin: 0;
 }

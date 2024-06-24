@@ -8,8 +8,8 @@ function Footer(){
                 <img src={logo} alt="" />
                 <div className={styles.contatosFooter}>
                     <h1>Contato</h1>
-                    <p>Email: josecarlos@skype.com</p>
-                    <p>Telefone: (12) 99129-4901</p>
+                    <p><strong>Email: </strong>josecarlos@skype.com</p>
+                    <p><strong>Telefone: </strong> (12) 99129-4901</p>
                 </div>
             </footer>
         </div>
