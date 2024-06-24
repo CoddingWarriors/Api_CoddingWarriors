@@ -83,7 +83,6 @@ function VisualizarEquipamento() {
                                         id_equipamento={equipamento.id_equipamento}
                                         Data={equipamento.dt_instalacao}
                                         IP={equipamento.ip}
-                                        Localizacao={equipamento.localizacao}
                                         Notas={equipamento.notas}
                                         Tipo={equipamento.tipo}
                                         Status={equipamento.status}

@@ -14,15 +14,14 @@ function Equipamento(props: any) {
                     <p className={styles.text}><strong>Notas:</strong> {props.Notas}</p>
                 </div>
                 <div className={styles.section}>
-                    <p className={styles.text}><strong>Tipo:</strong> {props.Tipo}</p>
-                    <p className={styles.text}><strong>Localização:</strong> {props.Localizacao}</p>
-                </div>
-                <div className={styles.section}>
                     <p className={styles.text}><strong>Endereço IP:</strong> {props.IP}</p>
+                    <p className={styles.text}><strong>Tipo:</strong> {props.Tipo}</p>
+                    <p className={`${styles.text} ${styles.statusText}`}><strong>Status:</strong> {props.Status}</p>
                 </div>
                 <div className={`${styles.section} ${styles.section4}`}>
-                    <p className={`${styles.text} ${styles.statusText}`}><strong>Status:</strong> {props.Status}</p>
-                    <AlterAndDeleteEquipamento id_equipamento={props.id_equipamento} />
+                    <div className={styles.buttonContainer}>
+                        <AlterAndDeleteEquipamento id_equipamento={props.id_equipamento} />
+                    </div>
                 </div>
             </div>
         </div>

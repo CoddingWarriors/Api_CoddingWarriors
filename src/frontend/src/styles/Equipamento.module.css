@@ -25,7 +25,7 @@
 .section4 {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-basis: 25%;
     height: 100%;
@@ -41,6 +41,8 @@
     margin-bottom: 10px;
     font-size: 16px;
     color: #000;
+    max-width: 25vw;
+    word-wrap: break-word;
 }
 
 .text strong {
@@ -49,37 +51,35 @@
 
 .buttonContainer {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    align-items: center;
     width: 100%;
+    gap: 2vw;
+}
+
+.editButton, .deleteButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: 2px solid;
+    padding: 1.5vh 1.5vw;
+    cursor: pointer;
+    border-radius: 17px;
+    width: 42%;
+    font-size: 1.2em;
 }
 
 .editButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
     color: orange;
-    border: 2px solid orange;
-    padding: 1.5vh 1.5vw;
-    cursor: pointer;
-    border-radius: 17px;
-    width: 42%;
-    font-size: 1.2em;
+    border-color: orange;
 }
 
 .deleteButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
     color: red;
-    border: 2px solid red;
-    padding: 1.5vh 1.5vw;
-    cursor: pointer;
-    border-radius: 17px;
-    width: 42%;
-    font-size: 1.2em;
+    border-color: red;
 }
+
 
 @media (max-width: 1000px) {
     .infoContainer {

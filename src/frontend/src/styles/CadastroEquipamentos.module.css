@@ -42,7 +42,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 15%;
+    margin: 10%;
 }
 
 .containerCadastro {
@@ -115,7 +115,7 @@
 }
 
 .textAreaExpansivel {
-    overflow: hidden;
+    max-height: 2%;
+    overflow-y: auto;
     resize: none;
-    min-height: 40px;
 }

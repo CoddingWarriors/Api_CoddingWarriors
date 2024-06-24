@@ -44,6 +44,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px  0;
+    margin: 15%;
 }
 
 .containerCadastro {
@@ -102,4 +103,21 @@
 .inputGroup {
     display: flex;
     flex-direction: column;
+}
+
+.inputGroup input[readonly] {
+    color: gray;
+}
+
+.containerCadastro h1 {
+    color: #000469;
+    font-weight: bold;
+    margin-bottom: 4%;
+    text-align: center;
+}
+
+.textAreaExpansivel {
+    max-height: 2%;
+    overflow-y: auto;
+    resize: none;
 }

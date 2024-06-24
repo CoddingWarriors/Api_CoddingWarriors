@@ -432,8 +432,8 @@ app.post("/buscar-equipamento", async (req: Request, res: Response) => {
 app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
     const { ip, localizacao, notas, tipo, status, cpf } = req.body;
 
-    const validTypes = ["modem", "roteador", "switch"];
-    const validStatus = ["ativo", "inativo"];
+    const validTypes = ["Modem", "Roteador", "Switch"];
+    const validStatus = ["Ativo", "Inativo"];
 
     if (!validTypes.includes(tipo) || !validStatus.includes(status)) {
         res.status(400).send("Tipo ou status inválido");
@@ -460,24 +460,42 @@ app.post("/cadastrar-equipamento", async (req: Request, res: Response) => {
 
 
 
-app.put("/atualizar-equipamento", async (req: Request, res: Response) => {
-    const { id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, cpf_usuario } = req.body;
+app.put("/atualizar-equipamento", async (req, res) => {
+    const { id_equipamento, ip, localizacao, notas, tipo, status, cpf_usuario } = req.body;
+
+    console.log("Recebendo dados para atualização:", req.body);
+
+    if (!id_equipamento || !ip || !tipo || !status || !cpf_usuario) {
+        return res.status(400).json({ message: "Dados insuficientes para atualizar o equipamento" });
+    }
+
+    const dt_instalacao = new Date().toISOString().slice(0, 19).replace('T', ' '); // Formatar para 'YYYY-MM-DD HH:MM:SS'
 
     try {
-        const userExists = await usuario.buscarUsuarioPorCpf(dbName, cpf_usuario);
+        const resultado = await equipamento.atualizarEquipamento(
+            "ocean",
+            id_equipamento,
+            ip,
+            localizacao,
+            dt_instalacao,
+            notas,
+            tipo,
+            status,
+            cpf_usuario
+        );
 
-        if (!userExists) {
-            return res.status(404).send("Usuário não encontrado");
+        if (resultado.affectedRows > 0) {
+            return res.status(200).json({ message: "Equipamento atualizado com sucesso" });
+        } else {
+            return res.status(404).json({ message: "Equipamento não encontrado" });
         }
-
-        await equipamento.atualizarEquipamento(dbName, id_equipamento, ip, localizacao, dt_instalacao, notas, tipo, status, cpf_usuario);
-        console.log("Equipamento atualizado com sucesso");
-        res.status(200).send("Equipamento atualizado com sucesso");
     } catch (error) {
-        console.error("Erro ao atualizar equipamento:", error);
-        res.status(500).send("Erro ao atualizar equipamento");
+        console.error("Erro ao atualizar o equipamento:", error);
+        return res.status(500).json({ message: "Erro ao atualizar o equipamento" });
     }
 });
+
+
 
 app.post("/cadastrosuporte", async (req, res) => {
     const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim } = req.body;

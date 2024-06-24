@@ -23,8 +23,8 @@ export class Equipamento {
                             localizacao VARCHAR(50),
                             dt_instalacao DATE,
                             notas VARCHAR(250),
-                            tipo ENUM('modem', 'roteador', 'switch') NOT NULL,
-                            status ENUM('ativo', 'inativo') NOT NULL,
+                            tipo ENUM('Modem', 'Roteador', 'Switch') NOT NULL,
+                            status ENUM('Ativo', 'Inativo') NOT NULL,
                             cpf_usuario VARCHAR(11),
                             FOREIGN KEY (cpf_usuario) REFERENCES usuario(cpf)
                         );`,
@@ -131,7 +131,7 @@ export class Equipamento {
             })
         })
     }
-
+    
     async atualizarEquipamento(
         dbName: string,
         id_equipamento: number,
@@ -142,14 +142,14 @@ export class Equipamento {
         tipo: string,
         status: string,
         cpf: string
-    ): Promise<void> {
+    ): Promise<{ affectedRows: number }> { // Atualize o tipo de retorno para incluir affectedRows
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
+                    console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `
                         UPDATE equipamento
@@ -159,18 +159,20 @@ export class Equipamento {
                         [ip, localizacao, dt_instalacao, notas, tipo, status, cpf, id_equipamento],
                         (error, results) => {
                             if (error) {
-                                console.error("Erro ao atualizar equipamento:", error)
-                                reject(error)
+                                console.error("Erro ao atualizar equipamento:", error);
+                                reject(error);
                             } else {
-                                console.log("Equipamento atualizado com sucesso!")
-                                resolve()
+                                console.log("Equipamento atualizado com sucesso!");
+                                resolve(results); // Resolva com o resultado da consulta, que inclui affectedRows
                             }
                         }
-                    )
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
+    
 
     async buscarEquipamentoPorId(dbName: string, id_equipamento: number): Promise<any> {
         return new Promise((resolve, reject) => {

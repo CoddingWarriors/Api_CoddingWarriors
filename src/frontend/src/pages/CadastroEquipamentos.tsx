@@ -1,7 +1,6 @@
 import React, { useState, FormEvent, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster, toast } from "react-hot-toast";
 import InputMask from "react-input-mask";
 import styles from "../styles/CadastroEquipamentos.module.css";
 
@@ -46,21 +45,21 @@ function CadastroEquipamentos() {
                         setComplemento(data.complemento);
                         setEndereco(data);
                         setShowEndereco(true); // Mostrar os campos de endereço
-                        setShowMessage(true); // Mostrar a mensagem "oiii"
+                        setShowMessage(true);
                     } else {
                         setEndereco(null);
                         setShowEndereco(false); // Esconder os campos de endereço se o usuário não for encontrado
-                        setShowMessage(false); // Esconder a mensagem "oiii"
+                        setShowMessage(false);
                     }
                 } catch (error) {
                     console.error("Erro ao buscar endereço:", error);
                     setEndereco(null);
                     setShowEndereco(false); // Esconder os campos de endereço em caso de erro
-                    setShowMessage(false); // Esconder a mensagem "oiii"
+                    setShowMessage(false);
                 }
             } else {
                 setShowEndereco(false); // Esconder os campos de endereço se o CPF não estiver completo
-                setShowMessage(false); // Esconder a mensagem "oiii"
+                setShowMessage(false);
             }
         };
 
@@ -78,16 +77,7 @@ function CadastroEquipamentos() {
         e.preventDefault();
 
         if (!tipo || !status) {
-            toast.error("Por favor, selecione o tipo e o status do equipamento.", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
+            toast.error("Por favor, selecione o tipo e o status do equipamento");
             return;
         }
 
@@ -117,51 +107,24 @@ function CadastroEquipamentos() {
             });
 
             if (response.ok) {
-                toast.success("Equipamento cadastrado com sucesso", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
+                toast.success("Equipamento cadastrado com sucesso");
                 setTimeout(() => {
                     navigate("/visualizarequipamento");
                 }, 1000);
             } else if (response.status === 404) {
-                toast.error("Usuário não encontrado", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                });
+                toast.error("Usuário não encontrado");
             } else {
                 throw new Error("Falha ao cadastrar equipamento");
             }
         } catch (error) {
             console.error("Erro ao cadastrar equipamento:", error);
-            toast.error("Erro ao cadastrar equipamento", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
+            toast.error("Erro ao cadastrar equipamento");
         }
     };
 
     return (
         <div className={styles.body}>
-            <ToastContainer />
+            <Toaster />
             <div className={styles.containerCadastro}>
                 <h1>Cadastro de Equipamento</h1>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -182,7 +145,6 @@ function CadastroEquipamentos() {
                                 className={`${styles.estilo2} ${styles.textAreaExpansivel}`}
                                 placeholder="Notas adicionais"
                                 value={notas}
-                                ref={notasRef}
                                 onChange={(e) => setNotas(e.target.value)}
                             />
                         </div>
@@ -196,9 +158,9 @@ function CadastroEquipamentos() {
                                 <option value="" disabled>
                                     Selecione o tipo do equipamento
                                 </option>
-                                <option value="modem">Modem</option>
-                                <option value="roteador">Roteador</option>
-                                <option value="switch">Switch</option>
+                                <option value="Modem">Modem</option>
+                                <option value="Roteador">Roteador</option>
+                                <option value="Switch">Switch</option>
                             </select>
                         </div>
                         <div className={styles.inputGroup}>
@@ -211,8 +173,8 @@ function CadastroEquipamentos() {
                                 <option value="" disabled>
                                     Selecione o status do equipamento
                                 </option>
-                                <option value="ativo">Ativo</option>
-                                <option value="inativo">Inativo</option>
+                                <option value="Ativo">Ativo</option>
+                                <option value="Inativo">Inativo</option>
                             </select>
                         </div>
                         <div className={styles.inputGroup}>
@@ -223,7 +185,7 @@ function CadastroEquipamentos() {
                                 placeholder="Por favor, informe o CPF"
                                 value={cpf}
                                 onChange={(e) => setCpf(e.target.value)}
-                                onBlur={() => setShowMessage(true)} // Mostrar a mensagem "oiii" quando o campo CPF for completado
+                                onBlur={() => setShowMessage(true)}
                             />
                         </div>
                         {showEndereco && (
