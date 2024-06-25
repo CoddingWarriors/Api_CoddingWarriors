@@ -109,7 +109,7 @@ function Navbar() {
             </li>
             <li className={styles.item}>
               <Link to="/cadastrosuporte" style={{ cursor: "pointer" }}>
-                Cadastro de usuário
+                Cadastro de funcionário
               </Link>
             </li>
             <li className={styles.item}>

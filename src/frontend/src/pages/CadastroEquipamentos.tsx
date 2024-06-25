@@ -42,7 +42,7 @@ function CadastroEquipamentos() {
                         setCidade(data.cidade);
                         setRua(data.rua);
                         setNumero(data.numero);
-                        setComplemento(data.complemento);
+                        setComplemento(data.complemento || "N/A");
                         setEndereco(data);
                         setShowEndereco(true); // Mostrar os campos de endereço
                         setShowMessage(true);
@@ -94,7 +94,7 @@ function CadastroEquipamentos() {
             cidade,
             rua,
             numero,
-            complemento,
+            complemento: complemento === "N/A" ? "" : complemento,
         };
 
         try {
@@ -146,6 +146,7 @@ function CadastroEquipamentos() {
                                 placeholder="Notas adicionais"
                                 value={notas}
                                 onChange={(e) => setNotas(e.target.value)}
+                                ref={notasRef}
                             />
                         </div>
                         <div className={styles.inputGroup}>

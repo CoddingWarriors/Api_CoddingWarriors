@@ -55,7 +55,22 @@ app.post("/login", async (req: Request, res: Response) => {
 });
 
 app.post("/cadastro", async (req, res) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim } = req.body; // Inclua 'foto' aqui
+    const {
+        cpf,
+        nome,
+        telefone,
+        email,
+        senha,
+        estado,
+        cidade,
+        rua,
+        numero,
+        complemento,
+        cep,
+        tipo,
+        horario_inicio,
+        horario_fim
+    } = req.body; // Inclua 'foto' aqui, se necessário
 
     try {
         const cpfExistente = await usuario.verificaCPF(cpf);
@@ -65,9 +80,9 @@ app.post("/cadastro", async (req, res) => {
             console.log("CPF já cadastrado"); // Log no servidor
             return res.status(400).json({ error: "CPF já cadastrado" }); // Enviar erro como resposta JSON
         }
-        
+
         const emailExistente = await usuario.verificaEmail(email);
-        
+
         // Se o email já estiver cadastrado, retornar um erro
         if (emailExistente) {
             console.log("Email já cadastrado"); // Log no servidor
@@ -82,17 +97,20 @@ app.post("/cadastro", async (req, res) => {
             telefone,
             email,
             senha,
-            endereco,
+            estado,
+            cidade,
+            rua,
             numero,
+            complemento,
             cep,
             tipo,
             horario_inicio,
-            horario_fim,
+            horario_fim
         );
 
         const token = gerarTokenTemporario(30);
-        const subject = 'confirmar email';
-        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token${token}</h3>`;
+        const subject = 'Confirmar email';
+        const html = `<h1>Clique abaixo para Confirmar seu email</h1><br><br><a href="http://localhost:3000/">Confirmar</a><br><br><h3>Seu token: ${token}</h3>`;
         await usuario.inserirToken(token, email); // Insere o token associado ao usuário no banco de dados
         enviarEmail(email, html, subject);
 
@@ -108,6 +126,7 @@ app.post("/cadastro", async (req, res) => {
         res.status(500).send("Erro ao cadastrar usuário");
     }
 });
+
 
 
 
@@ -498,7 +517,9 @@ app.put("/atualizar-equipamento", async (req, res) => {
 
 
 app.post("/cadastrosuporte", async (req, res) => {
-    const { cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim } = req.body;
+    const {
+        cpf, nome, telefone, email, senha, estado, cidade, rua, numero, complemento, cep, tipo, horario_inicio, horario_fim
+    } = req.body;
 
     // Verificação de CPF e Email existentes
     try {
@@ -522,8 +543,11 @@ app.post("/cadastrosuporte", async (req, res) => {
             telefone,
             email,
             senha,
-            endereco,
+            estado,
+            cidade,
+            rua,
             numero,
+            complemento,
             cep,
             tipo,
             horario_inicio,
@@ -542,6 +566,7 @@ app.post("/cadastrosuporte", async (req, res) => {
         res.status(500).send("Erro ao cadastrar usuário");
     }
 });
+
 
 app.post("/cadastrar-faq", async (req: Request, res: Response) => {
     const { pergunta, resposta } = req.body;

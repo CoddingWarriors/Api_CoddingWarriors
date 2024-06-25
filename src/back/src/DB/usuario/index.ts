@@ -117,15 +117,18 @@ export class Usuario {
         telefone: string,
         email: string,
         senha: string,
-        endereco: string,
+        estado: string,
+        cidade: string,
+        rua: string,
         numero: number,
+        complemento: string,
         cep: string,
         tipo: number,
         horario_inicio: string,
         horario_fim: string,
     ): Promise<boolean> {
         return new Promise((resolve, reject) => {
-            this.connection.query(`Use ${dbName};`, (useError, useResults) => {
+            this.connection.query(`USE ${dbName};`, (useError, useResults) => {
                 if (useError) {
                     console.error("Erro ao selecionar o banco de dados:", useError);
                     reject(useError);
@@ -133,9 +136,9 @@ export class Usuario {
                     console.log("Banco de dados selecionado com sucesso!");
                     this.connection.query(
                         `INSERT INTO usuario (
-                            cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
-                        [cpf, nome, telefone, email, senha, endereco, numero, cep, tipo, horario_inicio, horario_fim],
+                            cpf, nome, telefone, email, senha, estado, cidade, rua, numero, complemento, cep, tipo, horario_inicio, horario_fim
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`,
+                        [cpf, nome, telefone, email, senha, estado, cidade, rua, numero, complemento, cep, tipo, horario_inicio, horario_fim],
                         (error, results) => {
                             if (error) {
                                 console.error("Erro ao cadastrar usuário:", error);

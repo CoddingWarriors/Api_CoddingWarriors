@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify"
+import { toast, Toaster } from 'react-hot-toast';
 import styles from "../styles/CadastrarFaq.module.css";
 
 function CadastrarFaq() {
@@ -19,10 +19,18 @@ function CadastrarFaq() {
     const handleDescartar = () => {
         setPergunta("");
         setResposta("");
-        navigate("/visualizarfaq");
+        toast.success("Chamado descartado com sucesso");
+        setTimeout(() => {
+            navigate("/visualizarfaq");
+        }, 1000);
     };
 
     const handleSubmit = async () => {
+        if (!pergunta || !resposta) {
+            toast.error("Por favor, preencha todos os campos");
+            return;
+        }
+
         const data = {
             pergunta,
             resposta
@@ -38,45 +46,18 @@ function CadastrarFaq() {
             })
 
             if (response.ok) {
-                toast.success("Faq cadastrado com sucesso", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                })
+                toast.success("FAQ cadastrado com sucesso");
                 setTimeout(() => {
-                    navigate("/visualizarfaq")
-                }, 1000)
+                    navigate("/visualizarfaq");
+                }, 1000);
             } else if (response.status === 404) {
-                toast.error("Usuário não encontrado", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                })
+                toast.error("Usuário não encontrado");
             } else {
-                throw new Error("Falha ao cadastrar faq")
+                throw new Error("Falha ao cadastrar FAQ");
             }
         } catch (error) {
-            console.error("Erro ao cadastrar faq:", error)
-            toast.error("Erro ao cadastrar faq", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            })
+            console.error("Erro ao cadastrar FAQ:", error);
+            toast.error("Erro ao cadastrar FAQ");
         }
 
     };
@@ -119,7 +100,7 @@ function CadastrarFaq() {
 
     return (
         <div className={styles.containerEditarFaq}>
-            <ToastContainer/>
+            <Toaster />
             <h1 className={styles.tituloEditarFaq}>
                 Cadastrar FAQ
             </h1>

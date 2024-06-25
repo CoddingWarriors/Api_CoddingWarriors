@@ -3,10 +3,16 @@
 /* Estilo para o grupo de botões */
 
 .botoes {
-    width: 60%;
-    margin-top: 20px; /* espaço maior entre a div dos botões e as divs acima */
+    width: 100%;
+    margin-top: 20px;
     display: flex;
-    justify-content: space-around; /* espaço entre os botões */
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.botoes button {
+    width: 10vw;
 }
 
 /* Estilo para o botão Cadastrar */
@@ -44,6 +50,7 @@
     justify-content: center;
     align-items: center;
     padding: 20px  0;
+    margin: 35%;
 }
 
 .containerCadastro {
@@ -61,7 +68,6 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .estilo2{
@@ -132,4 +138,3 @@
     padding-top: 15px;
     width: 19%;
 }
-
