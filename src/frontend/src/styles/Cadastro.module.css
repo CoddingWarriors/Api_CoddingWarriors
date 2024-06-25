@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     width: 700px;
-    height: 1200px;
+    height: 1650px;
     background-color: white;
     border-radius: 10px;
 }
@@ -61,4 +61,12 @@
 .containerCadastrar {
     display: flex;
     justify-content: center;
+}
+
+.newInput {
+    color: #606894;
+}
+
+.readOnly {
+    color: #4c5274;
 }
