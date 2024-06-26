@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/EditarPerfil.module.css";
 import perfil from "../img/FotoUsuarioPerfil.png";
-import  {toast,  ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import InputMask from 'react-input-mask';
 
 interface UserInfo {
     nome: string;
@@ -14,8 +15,11 @@ interface UserInfo {
 
 interface UserAddress {
     cep: string;
-    endereco: string;
+    estado: string;
+    cidade: string;
+    rua: string;
     numero: string;
+    complemento: string;
 }
 
 const EditarPerfil: React.FC = () => {
@@ -30,14 +34,16 @@ const EditarPerfil: React.FC = () => {
     });
     const [editUserAddress, setEditUserAddress] = useState<UserAddress>({
         cep: "",
-        endereco: "",
+        estado: "",
+        cidade: "",
+        rua: "",
         numero: "",
+        complemento: "",
     });
     const [activeTab, setActiveTab] = useState("dadosPessoais");
     const navigate = useNavigate();
 
     const handleEditPhoto = () => {
-        
         console.log("Botão Editar Foto clicado");
     };
 
@@ -51,22 +57,57 @@ const EditarPerfil: React.FC = () => {
         setEditUserAddress({ ...editUserAddress, [name]: value });
     };
 
+    const handleCepChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const cep = e.target.value;
+        setEditUserAddress({ ...editUserAddress, cep });
+
+        if (cep.replace(/[^\d]/g, "").length === 8) {
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep.replace('-', '')}/json/`);
+                const data = await response.json();
+                if (data.erro) {
+                    toast.error("Erro ao buscar o CEP");
+                    return;
+                }
+                setEditUserAddress({
+                    ...editUserAddress,
+                    estado: data.uf,
+                    cidade: data.localidade,
+                    rua: data.logradouro,
+                    complemento: data.complemento,
+                    cep,
+                });
+            } catch (error) {
+                toast.error("Erro ao buscar o CEP");
+            }
+        }
+    };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-    
+
         const token = localStorage.getItem("token");
-    
+
         if (!token) {
             console.error("Token de autenticação não encontrado.");
             navigate("/login");
             return;
         }
-    
+
         const updatedData = {
-            ...editUserInfo,
-            ...editUserAddress,
+            nome: editUserInfo.nome,
+            email: editUserInfo.email,
+            senha: editUserInfo.senha,
+            telefone: editUserInfo.telefone ? editUserInfo.telefone.replace(/[^\d]/g, "") : "",
+            cpf: editUserInfo.cpf,
+            cep: editUserAddress.cep ? editUserAddress.cep.replace(/[^\d]/g, "") : "",
+            estado: editUserAddress.estado,
+            cidade: editUserAddress.cidade,
+            rua: editUserAddress.rua,
+            numero: editUserAddress.numero,
+            complemento: editUserAddress.complemento,
         };
-    
+
         try {
             const response = await fetch("http://localhost:5000/editarperfil", {
                 method: "PUT",
@@ -76,16 +117,18 @@ const EditarPerfil: React.FC = () => {
                 },
                 body: JSON.stringify(updatedData),
             });
-    
+
             if (response.ok) {
                 console.log("Informações atualizadas com sucesso");
-                alert("Dados cadastrais alterados com sucesso");
-                navigate("/perfil")
+                toast.success("Dados cadastrais alterados com sucesso");
+                navigate("/perfil");
             } else {
                 console.error("Erro ao atualizar informações do usuário:", response.statusText);
+                toast.error("Erro ao atualizar informações do usuário");
             }
         } catch (error) {
             console.error("Erro ao atualizar informações do usuário:", error);
+            toast.error("Erro ao atualizar informações do usuário");
         }
     };
 
@@ -123,7 +166,10 @@ const EditarPerfil: React.FC = () => {
                         telefone: data.telefone,
                     });
                     setUserAddress({
-                        endereco: data.endereco,
+                        estado: data.estado,
+                        cidade: data.cidade,
+                        rua: data.rua,
+                        complemento: data.complemento,
                         cep: data.cep,
                         numero: data.numero,
                     });
@@ -135,7 +181,10 @@ const EditarPerfil: React.FC = () => {
                         telefone: data.telefone,
                     });
                     setEditUserAddress({
-                        endereco: data.endereco,
+                        estado: data.estado,
+                        cidade: data.cidade,
+                        rua: data.rua,
+                        complemento: data.complemento,
                         cep: data.cep,
                         numero: data.numero,
                     });
@@ -155,38 +204,60 @@ const EditarPerfil: React.FC = () => {
     const renderPersonalData = () => (
         <>
             <label className={styles.labell}>Nome</label>
-            <input className={styles.inputt} type="text" name="nome" value={editUserInfo.nome} onChange={handleChangeUserInfo} />
+            <input className={styles.inputt} type="text" name="nome" value={editUserInfo.nome} onChange={handleChangeUserInfo} style={{ color: 'black' }} />
 
             <label className={styles.labell}>Email</label>
-            <input className={styles.inputt} type="text" name="email" value={editUserInfo.email} onChange={handleChangeUserInfo} />
+            <input className={styles.inputt} type="text" name="email" value={editUserInfo.email} onChange={handleChangeUserInfo} style={{ color: 'black' }} />
 
             <label className={styles.labell}>Senha</label>
-            <input className={styles.inputt} type="text" name="senha" value={editUserInfo.senha} onChange={handleChangeUserInfo} />
+            <input className={styles.inputt} type="password" name="senha" value={editUserInfo.senha} onChange={handleChangeUserInfo} style={{ color: 'black' }} />
 
             <label className={styles.labell}>CPF</label>
-            <input className={styles.inputt} type="text" name="cpf" value={editUserInfo.cpf} onChange={handleChangeUserInfo} />
+            <input className={styles.inputt} type="text" name="cpf" value={editUserInfo.cpf} onChange={handleChangeUserInfo} style={{ color: 'black' }} />
 
             <label className={styles.labell}>Telefone</label>
-            <input className={styles.inputt} type="text" name="telefone" value={editUserInfo.telefone} onChange={handleChangeUserInfo} />
+            <InputMask
+                className={styles.inputt}
+                mask="(99) 99999-9999"
+                name="telefone"
+                value={editUserInfo.telefone}
+                onChange={handleChangeUserInfo}
+                style={{ color: 'black' }}
+            />
         </>
     );
 
     const renderAddressData = () => (
         <>
-            <label className={styles.labell}>Endereço</label>
-            <input className={styles.inputt} type="text" name="endereco" value={editUserAddress.endereco} onChange={handleChangeUserAddress} />
+            <label className={styles.labell}>CEP</label>
+            <InputMask
+                className={styles.inputt}
+                mask="99999-999"
+                name="cep"
+                value={editUserAddress.cep}
+                onChange={handleCepChange}
+                style={{ color: 'black' }}
+            />
+
+            <label className={styles.labell}>Estado</label>
+            <input className={styles.inputt} type="text" name="estado" value={editUserAddress.estado} readOnly style={{ color: 'black' }} />
+
+            <label className={styles.labell}>Cidade</label>
+            <input className={styles.inputt} type="text" name="cidade" value={editUserAddress.cidade} readOnly style={{ color: 'black' }} />
+
+            <label className={styles.labell}>Rua</label>
+            <input className={styles.inputt} type="text" name="rua" value={editUserAddress.rua} readOnly style={{ color: 'black' }} />
 
             <label className={styles.labell}>Número</label>
-            <input className={styles.inputt} type="text" name="numero" value={editUserAddress.numero} onChange={handleChangeUserAddress} />
+            <input className={styles.inputt} type="text" name="numero" value={editUserAddress.numero} onChange={handleChangeUserAddress} style={{ color: 'black' }} />
 
-            <label className={styles.labell}>CEP</label>
-            <input className={styles.inputt} type="text" name="cep" value={editUserAddress.cep} onChange={handleChangeUserAddress} />
+            <label className={styles.labell}>Complemento</label>
+            <input className={styles.inputt} type="text" name="complemento" value={editUserAddress.complemento} onChange={handleChangeUserAddress} style={{ color: 'black' }} />
         </>
     );
 
     return (
         <div className={styles.perfil}>
-            
             <div className={styles.fotoperfil}>
                 <img className={styles.foto} src={perfil} alt="Foto de perfil" />
                 <button className={styles.editButton} onClick={handleEditPhoto}>Editar foto</button>

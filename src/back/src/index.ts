@@ -634,10 +634,10 @@ app.put('/editarfaq', async (req, res) => {
 
 
 app.put("/editarperfil", async (req: Request, res: Response) => {
-    const { cpf, nome, email, senha, telefone, endereco, numero, cep } = req.body;
+    const { cpf, nome, email, senha, telefone, cep, rua, cidade, estado, complemento, numero } = req.body;
 
     try {
-        await usuario.atualizarUsuario(dbName, cpf, nome, email, senha, telefone, cep, endereco, numero);
+        await usuario.atualizarUsuario(dbName, cpf, nome, email, senha, telefone, cep, rua, cidade, estado, complemento, numero);
         console.log("Usuário atualizado com sucesso");
         res.status(200).send("Usuário atualizado com sucesso");
     } catch (error) {
@@ -645,6 +645,7 @@ app.put("/editarperfil", async (req: Request, res: Response) => {
         res.status(500).send("Erro ao atualizar usuário");
     }
 });
+
 
 app.post('/deletar-faq', async (req, res) => {
     const { faqId } = req.body;

@@ -396,26 +396,31 @@ export class Usuario {
     }
 
 
-    async atualizarUsuario(dbName: string, cpf: string, nome: string, email: string, senha: string, telefone: string, cep: string, endereco: string, numero: string) {
+    async atualizarUsuario(dbName: string, cpf: string, nome: string, email: string, senha: string, telefone: string, cep: string, rua: string, cidade: string, estado: string, complemento: string, numero: string) {
         return new Promise((resolve, reject) => {
             this.connection.query(`USE ${dbName};`, (useError, _) => {
                 if (useError) {
-                    console.error("Erro ao selecionar o banco de dados:", useError)
-                    reject(useError)
+                    console.error("Erro ao selecionar o banco de dados:", useError);
+                    reject(useError);
                 } else {
-                    console.log("Banco de dados selecionado com sucesso!")
-                    this.connection.query(`UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ?, cep = ?, endereco = ?, numero = ? WHERE cpf = ?`, [nome, email, senha, telefone, cep, endereco, numero, cpf], (error, results) => {
-                        if (error) {
-                            console.error("Erro ao atualizar usuário", error)
-                            reject(error)
-                        } else {
-                            resolve(results[0])
+                    console.log("Banco de dados selecionado com sucesso!");
+                    this.connection.query(
+                        `UPDATE usuario SET nome = ?, email = ?, senha = ?, telefone = ?, cep = ?, rua = ?, cidade = ?, estado = ?, complemento = ?, numero = ? WHERE cpf = ?`, 
+                        [nome, email, senha, telefone, cep, rua, cidade, estado, complemento, numero, cpf], 
+                        (error, results) => {
+                            if (error) {
+                                console.error("Erro ao atualizar usuário", error);
+                                reject(error);
+                            } else {
+                                resolve(results[0]);
+                            }
                         }
-                    })
+                    );
                 }
-            })
-        })
+            });
+        });
     }
+    
 
     async atualizaFotoUsuario(dbName: string, foto: Buffer | null, cpf: string): Promise<void> {
         return new Promise((resolve, reject) => {
