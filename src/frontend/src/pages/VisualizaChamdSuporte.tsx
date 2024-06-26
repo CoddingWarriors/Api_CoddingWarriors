@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import ChamadosArea from "../components/ChamadosArea"
-import Tickets from "../components/Tickets"
-import styleChamado from "../styles/Chamados.module.css"
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ChamadosArea from "../components/ChamadosArea";
+import Tickets from "../components/Tickets";
+import styleChamado from "../styles/Chamados.module.css";
 
 function AtendimentoSuporte() {
-    const [pendentes, setPendentes] = useState<any[]>([])
-    const [emAndamento, setEmAndamento] = useState<any[]>([])
-    const [concluidos, setConcluidos] = useState<any[]>([])
-    const navigate = useNavigate()
+    const [pendentes, setPendentes] = useState<any[]>([]);
+    const [emAndamento, setEmAndamento] = useState<any[]>([]);
+    const [concluidos, setConcluidos] = useState<any[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem("token")
+        const token = localStorage.getItem("token");
         if (!token) {
-            navigate("/")
-            return
+            navigate("/");
+            return;
         }
 
         async function fetchUserType() {
@@ -26,26 +26,23 @@ function AtendimentoSuporte() {
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ token })
-                })
-        
-                const data = await response.json()
-        
+                });
+
+                const data = await response.json();
+
                 if (!response.ok) {
-                    throw new Error(data.message)
+                    throw new Error(data.message);
                 }
-        
-                console.log(data.tipoUsuario)
-        
+
                 if (data.tipoUsuario !== '2' && data.tipoUsuario !== '3') {
-                    navigate("/")
-                    return
+                    navigate("/");
+                    return;
                 }
             } catch (error) {
-                console.error("Error verifying user type:", error)
-                navigate("/")
+                console.error("Error verifying user type:", error);
+                navigate("/");
             }
         }
-        
 
         async function fetchChamados(status: string) {
             try {
@@ -56,36 +53,69 @@ function AtendimentoSuporte() {
                         Authorization: `Bearer ${token}`,
                     },
                     body: JSON.stringify({ status }),
-                })
+                });
 
-                const data = await response.json()
+                const data = await response.json();
                 if (response.ok) {
-                    return data
+                    return data;
                 } else {
-                    throw new Error(data.message)
+                    throw new Error(data.message);
                 }
             } catch (error) {
-                console.error("Error fetching chamados:", error)
-                return []
+                console.error("Error fetching chamados:", error);
+                return [];
             }
         }
 
         async function fetchAllChamados() {
             try {
-                const pendentesData = await fetchChamados("Aberto")
-                const emAndamentoData = await fetchChamados("Em andamento")
-                const concluidosData = await fetchChamados("Concluido")
+                const pendentesData = await fetchChamados("Aberto");
+                const emAndamentoData = await fetchChamados("Em andamento");
+                const concluidosData = await fetchChamados("Concluido");
 
-                setPendentes(pendentesData)
-                setEmAndamento(emAndamentoData)
-                setConcluidos(concluidosData)
+                setPendentes(pendentesData);
+                setEmAndamento(emAndamentoData);
+                setConcluidos(concluidosData);
             } catch (error) {
-                console.error("Error fetching all chamados:", error)
+                console.error("Error fetching all chamados:", error);
             }
         }
 
-        fetchUserType().then(fetchAllChamados)
-    }, [navigate])
+        fetchUserType().then(fetchAllChamados);
+    }, [navigate]);
+
+    const calcularTempoRestante = (dataFinalizacao: string | number | Date) => {
+        if (!dataFinalizacao) {
+            return "Tempo desconhecido";
+        }
+
+        const dataFinal = new Date(dataFinalizacao);
+        const agora = new Date();
+
+        if (dataFinal < agora) {
+            return "Tempo expirado";
+        }
+
+        const diffMs = dataFinal.getTime() - agora.getTime();
+        const diffSeconds = Math.floor(diffMs / 1000);
+
+        const hours = Math.floor(diffSeconds / 3600);
+        const minutes = Math.floor((diffSeconds % 3600) / 60);
+        const seconds = diffSeconds % 60;
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    const formatarData = (dataString: string | number | Date) => {
+        const data = new Date(dataString);
+        const dia = String(data.getDate()).padStart(2, "0");
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const ano = data.getFullYear();
+        const horas = String(data.getHours()).padStart(2, "0");
+        const minutos = String(data.getMinutes()).padStart(2, "0");
+        const segundos = String(data.getSeconds()).padStart(2, "0");
+        return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
+    };
 
     return (
         <div className={styleChamado.body}>
@@ -102,6 +132,7 @@ function AtendimentoSuporte() {
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
+                        TempoRestante={calcularTempoRestante(chamado.dataFinalizacao)}
                     />
                 ))}
             </ChamadosArea>
@@ -118,6 +149,7 @@ function AtendimentoSuporte() {
                         ID={chamado.id_chamado}
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
+                        TempoRestante={calcularTempoRestante(chamado.dataFinalizacao)}
                     />
                 ))}
             </ChamadosArea>
@@ -135,11 +167,12 @@ function AtendimentoSuporte() {
                         Assunto={chamado.titulo}
                         Descricao={chamado.descricao}
                         Resposta={chamado.respostas}
+                        DataFinalizacao={formatarData(chamado.dataFinalizacao)}
                     />
                 ))}
             </ChamadosArea>
         </div>
-    )
+    );
 }
 
-export default AtendimentoSuporte
+export default AtendimentoSuporte;

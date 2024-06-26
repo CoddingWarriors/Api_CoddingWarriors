@@ -1,3 +1,8 @@
+/* Footer.module.css */
+.containerFooter {
+    width: 100%; /* Garante que o footer ocupe 100% da largura */
+}
+
 .footer {
     display: flex;
     background-color: #000469;

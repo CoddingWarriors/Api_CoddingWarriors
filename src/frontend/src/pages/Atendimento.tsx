@@ -1,21 +1,21 @@
-import card from "../img/card-atendimento.png"
-import atendente from "../img/atendente.png"
-import Card from "../components/Card"
-import ChamadosArea from "../components/ChamadosArea"
-import styles from "../styles/Atendimento.module.css"
-import styleChamado from "../styles/Chamados.module.css"
-import { useState, useEffect } from "react"
-import Modal from "../components/Modal"
-import { useNavigate } from "react-router-dom"
-import realizarLogin from "../img/realizarLogin.png"
-import Tickets from "../components/Tickets"
+import card from "../img/card-atendimento.png";
+import atendente from "../img/atendente.png";
+import Card from "../components/Card";
+import ChamadosArea from "../components/ChamadosArea";
+import styles from "../styles/Atendimento.module.css";
+import styleChamado from "../styles/Chamados.module.css";
+import { useState, useEffect } from "react";
+import Modal from "../components/Modal";
+import { useNavigate } from "react-router-dom";
+import realizarLogin from "../img/realizarLogin.png";
+import Tickets from "../components/Tickets";
 
 function Atendimento() {
-    const [pendentes, setPendentes] = useState<any[]>([])
-    const [emAndamento, setEmAndamento] = useState<any[]>([])
-    const [concluidos, setConcluidos] = useState<any[]>([])
-    const navigate = useNavigate()
-    const [openModal, setOpenModal] = useState(false)
+    const [pendentes, setPendentes] = useState<any[]>([]);
+    const [emAndamento, setEmAndamento] = useState<any[]>([]);
+    const [concluidos, setConcluidos] = useState<any[]>([]);
+    const navigate = useNavigate();
+    const [openModal, setOpenModal] = useState(false);
 
     const handleClick = async () => {
         const response = await fetch("http://localhost:5000/verificar-token", {
@@ -24,20 +24,19 @@ function Atendimento() {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-        })
-        console.log(localStorage.getItem("token"))
+        });
 
         if (response.ok) {
-            navigate("/abrirchamado")
+            navigate("/abrirchamado");
         } else {
-            setOpenModal(true)
+            setOpenModal(true);
         }
-    }
+    };
 
     useEffect(() => {
         async function fetchChamados(status: string) {
             try {
-                const token = localStorage.getItem("token")
+                const token = localStorage.getItem("token");
 
                 if (token) {
                     const response = await fetch("http://localhost:5000/buscar-chamados", {
@@ -47,41 +46,73 @@ function Atendimento() {
                             Authorization: `Bearer ${token}`,
                         },
                         body: JSON.stringify({ token, status }),
-                    })
+                    });
 
-                    const data = await response.json()
-                    console.log(data)
+                    const data = await response.json();
 
                     if (response.ok) {
-                        return data
+                        return data;
                     } else {
-                        throw new Error(data.message)
+                        throw new Error(data.message);
                     }
                 } else {
-                    throw new Error("Token not found")
+                    throw new Error("Token not found");
                 }
             } catch (error) {
-                console.error("Error fetching chamados:", error)
-                return []
+                console.error("Error fetching chamados:", error);
+                return [];
             }
         }
 
         async function fetchAllChamados() {
             try {
-                const pendentesData = await fetchChamados("Aberto")
-                const emAndamentoData = await fetchChamados("Em andamento")
-                const concluidosData = await fetchChamados("Concluido")
+                const pendentesData = await fetchChamados("Aberto");
+                const emAndamentoData = await fetchChamados("Em andamento");
+                const concluidosData = await fetchChamados("Concluído");
 
-                setPendentes(pendentesData)
-                setEmAndamento(emAndamentoData)
-                setConcluidos(concluidosData)
+                setPendentes(pendentesData);
+                setEmAndamento(emAndamentoData);
+                setConcluidos(concluidosData);
             } catch (error) {
-                console.error("Error fetching all chamados:", error)
+                console.error("Error fetching all chamados:", error);
             }
         }
 
-        fetchAllChamados()
-    }, [])
+        fetchAllChamados();
+    }, []);
+
+    const calcularTempoRestante = (dataFinalizacao: string | number | Date) => {
+        if (!dataFinalizacao) {
+            return "Tempo desconhecido";
+        }
+
+        const dataFinal = new Date(dataFinalizacao);
+        const agora = new Date();
+
+        if (dataFinal < agora) {
+            return "Tempo expirado";
+        }
+
+        const diffMs = dataFinal.getTime() - agora.getTime();
+        const diffSeconds = Math.floor(diffMs / 1000);
+
+        const hours = Math.floor(diffSeconds / 3600);
+        const minutes = Math.floor((diffSeconds % 3600) / 60);
+        const seconds = diffSeconds % 60;
+
+        return `${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    const formatarData = (dataString: string | number | Date) => {
+        const data = new Date(dataString);
+        const dia = String(data.getDate()).padStart(2, "0");
+        const mes = String(data.getMonth() + 1).padStart(2, "0");
+        const ano = data.getFullYear();
+        const horas = String(data.getHours()).padStart(2, "0");
+        const minutos = String(data.getMinutes()).padStart(2, "0");
+        const segundos = String(data.getSeconds()).padStart(2, "0");
+        return `${dia}/${mes}/${ano} ${horas}:${minutos}:${segundos}`;
+    };
 
     return (
         <div>
@@ -118,14 +149,14 @@ function Atendimento() {
                     <h1 className={styles.titulo}>Já abriu o seu chamado?</h1>
                     <p className={styles.conteudo}>
                         Caso você já tenha aberto um chamado conosco, saiba que a nossa equipe de suporte está
-                        dedicada a atender suas necessidades e resolver sua solicitação da melhor maneira possível{" "}
+                        dedicada a atender suas necessidades e resolver sua solicitação da melhor maneira possível. 
                         <br />
                         Para verificar o status atual da sua solicitação, confira abaixo o seu status. Agradecemos sua
                         paciência e confiança em nossos serviços.
                     </p>
 
                     <ChamadosArea className={styleChamado.tituloAzul} conteudoShow={styleChamado.conteudoShowAzul} titulo="Chamados pendentes">
-                    {pendentes.length === 0 &&
+                        {pendentes.length === 0 &&
                             <div className={styleChamado.semChamado}>
                                 <p>No momento não existem chamados pendentes</p>
                             </div>
@@ -136,9 +167,11 @@ function Atendimento() {
                                 ID={chamado.id_chamado}
                                 Assunto={chamado.titulo}
                                 Descricao={chamado.descricao}
+                                TempoRestante={calcularTempoRestante(chamado.dataFinalizacao)}
                             />
                         ))}
                     </ChamadosArea>
+
                     <ChamadosArea className={styleChamado.tituloLaranja} conteudoShow={styleChamado.conteudoShowLaranja} titulo="Chamados em andamento">
                         {emAndamento.length === 0 &&
                             <div className={styleChamado.semChamado}>
@@ -151,6 +184,7 @@ function Atendimento() {
                                 ID={chamado.id_chamado}
                                 Assunto={chamado.titulo}
                                 Descricao={chamado.descricao}
+                                TempoRestante={calcularTempoRestante(chamado.dataFinalizacao)}
                             />
                         ))}
                     </ChamadosArea>
@@ -168,13 +202,15 @@ function Atendimento() {
                                 Assunto={chamado.titulo}
                                 Descricao={chamado.descricao}
                                 Resposta={chamado.respostas}
+                                DataFinalizacao={formatarData(chamado.dataFinalizacao)}
+                                tipo="Concluído"
                             />
                         ))}
                     </ChamadosArea>
                 </>
-                )}
+            )}
         </div>
-    )
+    );
 }
 
-export default Atendimento
+export default Atendimento;

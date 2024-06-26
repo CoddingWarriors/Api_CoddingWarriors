@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Atendimento from "./pages/Atendimento";
 import AtendimentoSuporte from "./pages/VisualizaChamdSuporte";
@@ -37,11 +37,6 @@ export default App;
 
 // Componente para gerenciar as rotas com o Footer
 function RoutesWithFooter() {
-    const location = useLocation();
-
-    // Verifica se está na página Dashboard
-    const isDashboardPage = location.pathname === "/dashboard";
-
     return (
         <>
             <Routes>
@@ -67,7 +62,7 @@ function RoutesWithFooter() {
                 <Route path="/editar-equipamento/:equipamentoId" element={<EditarEquipamento />} />
                 <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
-            {!isDashboardPage && <Footer />}
+            <Footer />
         </>
     );
 }

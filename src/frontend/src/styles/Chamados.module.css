@@ -85,10 +85,12 @@
 
 .semChamado {
     background-color: white;
-    padding: 2%;
+    padding: 4%;
     border-radius: 10px;
+    margin: 0;
 }
 
 .semChamado p {
     font-size: 110%;
+    margin: 0;
 }
