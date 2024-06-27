@@ -94,6 +94,7 @@ function VisualizarChamado() {
 
             if (response.ok) {
                 const data = await response.json()
+                console.log(data.tipoUsuario)
                 setUserType(data.tipoUsuario)
             } else {
                 console.error("Erro ao obter o tipo de usuário")
@@ -217,7 +218,7 @@ function VisualizarChamado() {
                 </div>
             )}
 
-            {(userType == 2 || chamado.status !== "Concluído") && (
+            {(userType == 2 && chamado.status !== "Concluído") && (
                 <div className={styles.editDataContainer}>
                     {isEditingDataFinalizacao ? (
                         <div className={styles.editableData}>
